@@ -1,17 +1,7 @@
 import { Link } from 'react-router-dom';
 import { LOCAL_STORAGE_TOKEN_NAME } from '../../common/constants';
-import {
-    FaBell,
-    FaList,
-    FaLock,
-    FaRegBell,
-    FaRing,
-    FaSearch,
-    FaSignOutAlt,
-    FaUser,
-    FaUserCircle,
-} from 'react-icons/fa';
-import { useContext, useEffect, useState } from 'react';
+import { FaList, FaLock, FaRegBell, FaSearch, FaSignOutAlt, FaUser, FaUserCircle } from 'react-icons/fa';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
 function Header() {

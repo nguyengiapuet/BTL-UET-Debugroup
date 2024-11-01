@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import { useContext, useEffect, useRef, useState } from 'react';
 import SplitPane from 'react-split-pane';
-import logo from '../asset/Logo.png';
+import logo from '../../../asset/Logo.png';
 import { FaChevronDown, FaCog, FaCss3, FaEdit, FaHtml5, FaJs, FaSave, FaShare, FaUserCircle } from 'react-icons/fa';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import axios from 'axios';
 import SummaryApi from '../../../common';
@@ -14,7 +14,7 @@ function Pen() {
     const ed = useRef();
     const params = useParams();
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     console.log('params.id', params.id);
 

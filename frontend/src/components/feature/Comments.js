@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import axios from 'axios';
-import { FaComment, FaPaperPlane, FaShare, FaUserCircle, FaXingSquare } from 'react-icons/fa';
+import { FaComment, FaPaperPlane, FaShare, FaUserCircle } from 'react-icons/fa';
 import SummaryApi from '../../common';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';

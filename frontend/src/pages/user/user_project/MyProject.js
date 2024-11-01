@@ -2,18 +2,7 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import {
-    FaBicycle,
-    FaComment,
-    FaEdit,
-    FaHeart,
-    FaRecycle,
-    FaRegHeart,
-    FaRemoveFormat,
-    FaStar,
-    FaTrash,
-    FaUserCircle,
-} from 'react-icons/fa';
+import { FaComment, FaEdit, FaHeart, FaRegHeart, FaTrash, FaUserCircle } from 'react-icons/fa';
 import SummaryApi from '../../../common';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { toast } from 'react-toastify';

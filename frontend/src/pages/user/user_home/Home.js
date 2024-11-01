@@ -1,13 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import {
-    FaArrowCircleUp,
-    FaCodeBranch,
-    FaFire,
-    FaRegArrowAltCircleUp,
-    FaSortAlphaDown,
-    FaStar,
-    FaUserCircle,
-} from 'react-icons/fa';
+import { FaCodeBranch, FaFire, FaRegArrowAltCircleUp, FaSortAlphaDown } from 'react-icons/fa';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 

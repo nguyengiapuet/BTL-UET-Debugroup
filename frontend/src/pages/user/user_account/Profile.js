@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { FaCog, FaEdit, FaRegTrashAlt, FaTrash, FaUserCircle } from 'react-icons/fa';
+import { FaCog, FaEdit, FaRegTrashAlt, FaUserCircle } from 'react-icons/fa';
 import { AuthContext } from '../../../context/AuthContext';
 import axios from 'axios';
 import SummaryApi from '../../../common';

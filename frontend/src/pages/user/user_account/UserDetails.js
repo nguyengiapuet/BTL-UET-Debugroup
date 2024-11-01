@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import SummaryApi from '../../../common';
 import { useEffect, useState } from 'react';
-import { MdAdd, MdWork } from 'react-icons/md';
-import { FaComment, FaEdit, FaEye, FaHeart, FaRegHeart, FaTrash, FaUserCircle } from 'react-icons/fa';
+import { MdAdd } from 'react-icons/md';
+import { FaComment, FaEye, FaHeart, FaRegHeart, FaUserCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import Comments from '../../../components/feature/Comments';
 

@@ -1,8 +1,6 @@
 import { FaBox, FaClipboardList, FaHome, FaSearch, FaStar } from 'react-icons/fa';
-import logo from '../asset/Logo.png';
 import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
-import Dashboard from '../pages/Dashboard';
 import { AuthContext } from '../../context/AuthContext';
 
 function Navbar() {
