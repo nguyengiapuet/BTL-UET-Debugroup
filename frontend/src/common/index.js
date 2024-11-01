@@ -1,68 +1,66 @@
-const backendDomain = 'http://localhost:8080'
+const backendDomain = 'http://localhost:8080';
 
 const SummaryApi = {
     signUp: {
-        url: `${backendDomain}/api/signup`
+        url: `${backendDomain}/api/signup`,
     },
     logIn: {
-        url: `${backendDomain}/api/signin`
+        url: `${backendDomain}/api/signin`,
     },
     getDetailsUser: {
-        url: `${backendDomain}/api/user-details`
+        url: `${backendDomain}/api/user-details`,
     },
     getAllUsers: {
-        url: `${backendDomain}/api/getall`
+        url: `${backendDomain}/api/getall`,
     },
     deletedUser: {
-        url: `${backendDomain}/api`
+        url: `${backendDomain}/api`,
     },
     createPens: {
-        url: `${backendDomain}/api/create-pens`
+        url: `${backendDomain}/api/create-pens`,
     },
     getAllPens: {
-        url: `${backendDomain}/api/getall-pens`
+        url: `${backendDomain}/api/getall-pens`,
     },
     getPens: {
-        url: `${backendDomain}/api/get-pens`
+        url: `${backendDomain}/api/get-pens`,
     },
     deletePens: {
-        url: `${backendDomain}/api/delete-pens`
+        url: `${backendDomain}/api/delete-pens`,
     },
     updatePens: {
-        url: `${backendDomain}/api/update-pens`
+        url: `${backendDomain}/api/update-pens`,
     },
     allPens: {
-        url: `${backendDomain}/api/all-pens`
+        url: `${backendDomain}/api/all-pens`,
     },
     addLike: {
-        url: `${backendDomain}/api/add-like`
+        url: `${backendDomain}/api/add-like`,
     },
     deleteLike: {
-        url: `${backendDomain}/api/delete-like`
+        url: `${backendDomain}/api/delete-like`,
     },
     getAllLikeByUser: {
-        url: `${backendDomain}/api/all-like`
+        url: `${backendDomain}/api/all-like`,
     },
     totalLike: {
-        url: `${backendDomain}/api/total-like`
+        url: `${backendDomain}/api/total-like`,
     },
     sendComments: {
-        url: `${backendDomain}/api/send-comments`
+        url: `${backendDomain}/api/send-comments`,
     },
     allComments: {
-        url: `${backendDomain}/api/all-comments`
+        url: `${backendDomain}/api/all-comments`,
     },
     totalComments: {
-        url: `${backendDomain}/api/total-comments`
+        url: `${backendDomain}/api/total-comments`,
     },
     updateProfile: {
-        url: `${backendDomain}/api/update-profile`
+        url: `${backendDomain}/api/update-profile`,
     },
     detailUserOther: {
-        url: `${backendDomain}/api/info`
+        url: `${backendDomain}/api/info`,
     },
-    
-}
+};
 
-
-export default SummaryApi
+export default SummaryApi;
