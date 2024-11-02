@@ -1,15 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import SummaryApi from '../../../common';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { MdAdd } from 'react-icons/md';
-import { FaComment, FaEye, FaHeart, FaRegHeart, FaUserCircle } from 'react-icons/fa';
+import { FaComment, FaEdit, FaEye, FaHeart, FaRegHeart, FaTrash, FaUserCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../../context/AuthContext';
 import Comments from '../../../components/feature/Comments';
 
 function UserDetails() {
     const params = useParams();
     const [dataUser, setDataUser] = useState({
+        id: null,
         username: '',
         avatar: '',
         email: '',
@@ -17,13 +20,10 @@ function UserDetails() {
         followers: 0,
         following: 0,
         projects: 0,
-        totalLikes: 0,
-        totalComments: 0,
-        totalFollowers: 0,
-        totalFollowing: 0,
         totalProjects: 0,
     });
 
+    const { userData } = useContext(AuthContext);
     const [projectsUser, setProjectsUser] = useState([]);
 
     const [totalLike, setTotalLike] = useState({});
@@ -31,6 +31,11 @@ function UserDetails() {
     const [totalComment, setTotalComment] = useState({});
     const [openComment, setOpenComment] = useState(false);
     const [project, setProject] = useState('');
+    const [isFollowing, setIsFollowing] = useState();
+    const [follow, setFollow] = useState({
+        followerCount: 0,
+        followingCount: 0,
+    });
 
     const navigate = useNavigate();
 
@@ -60,7 +65,10 @@ function UserDetails() {
             if (response.data.success) {
                 toast.success('Like added successfully!');
                 getAllLikeByUser();
-                setTotalLike((prev) => ({ ...prev, [pen.id]: prev[pen.id] ? prev[pen.id] + 1 : 1 }));
+                setTotalLike((prev) => ({
+                    ...prev,
+                    [pen.id]: prev[pen.id] ? prev[pen.id] + 1 : 1,
+                }));
             }
         } catch (err) {
             console.log(err.message);
@@ -77,7 +85,10 @@ function UserDetails() {
             if (response.data.success) {
                 toast.success('Like removed successfully!');
                 getAllLikeByUser();
-                setTotalLike((prev) => ({ ...prev, [pen.id]: prev[pen.id] ? prev[pen.id] - 1 : 0 }));
+                setTotalLike((prev) => ({
+                    ...prev,
+                    [pen.id]: prev[pen.id] ? prev[pen.id] - 1 : 0,
+                }));
             }
         } catch (err) {
             console.log(err.message);
@@ -119,9 +130,50 @@ function UserDetails() {
         }
     };
 
+    const handleRemove = async (pen) => {
+        try {
+            const response = await axios.delete(`${SummaryApi.deletePens.url}/${pen.id}`);
+
+            if (response.data.success) {
+                toast.success(response.data.message);
+                fetchUserProjects();
+            }
+        } catch (err) {
+            console.log(err.message);
+        }
+    };
+
     const handleOpenComment = (pen) => {
         setOpenComment(true);
         setProject(pen);
+    };
+
+    const handleFollower = async () => {
+        try {
+            const response = await axios.post(SummaryApi.createFollower.url, {
+                followingId: dataUser.id,
+            });
+
+            if (response.data.success) {
+                toast.success(response.data.message);
+                setIsFollowing(true);
+            }
+        } catch (err) {
+            console.log(err.message);
+        }
+    };
+
+    const handleUnFollower = async () => {
+        try {
+            const response = await axios.delete(`${SummaryApi.deleteFollower.url}/${dataUser.id}`);
+
+            if (response.data.success) {
+                toast.success(response.data.message);
+                setIsFollowing(false);
+            }
+        } catch (err) {
+            console.log(err.message);
+        }
     };
 
     const fetchUserProjects = async () => {
@@ -151,13 +203,47 @@ function UserDetails() {
         }
     };
 
+    const fetchGetFollowUser = async () => {
+        try {
+            const response = await axios.get(`${SummaryApi.getFollower.url}/${dataUser.id}`);
+
+            if (response.data.success) {
+                setIsFollowing(response.data.isFollowing);
+            }
+        } catch (err) {
+            console.log(err.message);
+        }
+    };
+
+    const fetchCountFollower = async () => {
+        try {
+            const response = await axios.get(`${SummaryApi.countFollower.url}/${dataUser.id}`);
+
+            if (response.data.success) {
+                console.log('response.data.message', response.data.data);
+
+                setFollow(response.data.data);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
     useEffect(() => {
         fetchUserDetails();
         fetchUserProjects();
         totalLikes();
         totalComments();
         getAllLikeByUser();
-    }, []);
+        if (dataUser.id) {
+            fetchGetFollowUser();
+            // fetchCountFollower();
+        }
+    }, [dataUser.id]);
+
+    useEffect(() => {
+        fetchCountFollower();
+    }, [isFollowing]);
 
     return (
         <div className="bg-slate-200 w-full h-[100vh] overflow-y-scroll pb-20">
@@ -181,17 +267,30 @@ function UserDetails() {
 
                 <div className="flex gap-6 items-center mt-2">
                     <span className="font-medium text-lg flex gap-1 items-center">
-                        {dataUser.followers}
+                        {follow.followingCount}
                         <span className="text-gray-500 text-lg font-normal">Followers</span>
                     </span>
                     <span className="font-medium text-lg flex gap-1 items-center">
-                        {dataUser.following}
+                        {follow.followerCount}
                         <span className="text-gray-500 text-lg font-normal">Following</span>
                     </span>
-                    <button className="px-2 py-1 bg-green-500 rounded-md hover:bg-green-600 hover:text-white flex items-center gap-1">
-                        <MdAdd />
-                        Follow
-                    </button>
+                    {userData.id !== dataUser.id &&
+                        (!isFollowing ? (
+                            <button
+                                onClick={handleFollower}
+                                className="px-2 py-1 bg-green-500 rounded-md hover:bg-green-600 hover:text-white flex items-center gap-1"
+                            >
+                                <MdAdd />
+                                Follow
+                            </button>
+                        ) : (
+                            <button
+                                onClick={handleUnFollower}
+                                className="px-2 py-1 bg-green-500 rounded-md hover:bg-green-600 hover:text-white flex items-center gap-1"
+                            >
+                                Following
+                            </button>
+                        ))}
                 </div>
 
                 {/* List project */}
@@ -215,9 +314,21 @@ function UserDetails() {
                                     <h1 className="text-2xl text-[#9C6317] font-semibold">{pen.title}</h1>
 
                                     <div className="flex gap-2">
-                                        <div onClick={() => handleClickPens(pen)}>
-                                            <FaEye className="text-[32px] cursor-pointer text-[#E9B500]" />
-                                        </div>
+                                        {userData.id === dataUser.id ? (
+                                            <>
+                                                <div onClick={() => handleClickPens(pen)}>
+                                                    <FaEdit className="text-[32px] cursor-pointer text-[#E9B500]" />
+                                                </div>
+
+                                                <div onClick={() => handleRemove(pen)}>
+                                                    <FaTrash className="text-[32px] cursor-pointer text-[#E9B500]" />
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <div onClick={() => handleClickPens(pen)}>
+                                                <FaEye className="text-[32px] cursor-pointer text-[#E9B500]" />
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                                 <iframe

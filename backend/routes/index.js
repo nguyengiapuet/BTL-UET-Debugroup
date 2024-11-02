@@ -20,6 +20,10 @@ const getAllCommentsByProject = require('../controllers/comment/getALlCommentsBy
 const totalComments = require('../controllers/comment/totalComments')
 const updateInfoUser = require('../controllers/users/updateInfoUser')
 const findUserByUsername = require('../controllers/users/findUserByUsername')
+const createFollower = require('../controllers/follower/createFollower')
+const deleteFollower = require('../controllers/follower/deleteFollower')
+const getFollower = require('../controllers/follower/getFollower')
+const countFollower = require('../controllers/follower/countFollower')
 
 const router = express.Router()
 
@@ -52,5 +56,10 @@ router.post('/send-comments', verifyToken, sendComments)
 router.get('/all-comments/:id', getAllCommentsByProject)
 router.get('/total-comments' , totalComments)
 
+// Follower
+router.post('/create-follower',verifyToken , createFollower)
+router.delete('/delete-follower/:followingId',verifyToken , deleteFollower)
+router.get('/follower/:followingId',verifyToken , getFollower)
+router.get('/follower-count/:userId' , countFollower)
 
 module.exports = router

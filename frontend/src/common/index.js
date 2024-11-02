@@ -61,6 +61,18 @@ const SummaryApi = {
     detailUserOther: {
         url: `${backendDomain}/api/info`,
     },
+    createFollower: {
+        url: `${backendDomain}/api/create-follower`,
+    },
+    deleteFollower: {
+        url: `${backendDomain}/api/delete-follower`,
+    },
+    getFollower: {
+        url: `${backendDomain}/api/follower`,
+    },
+    countFollower: {
+        url: `${backendDomain}/api/follower-count`,
+    },
 };
 
 export default SummaryApi;
