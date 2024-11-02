@@ -26,7 +26,7 @@ function LogIn() {
 
             if(response.data.success) {
                 localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.accessToken)
-                await loadUser()
+                await loadUser()    
                 toast.success(response.data.message)
                 navigate('/')
 
