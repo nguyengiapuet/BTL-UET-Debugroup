@@ -1,87 +1,84 @@
-import { FaBox, FaClipboardList, FaHome, FaSearch, FaStar } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { FaSearch } from 'react-icons/fa';
+import { AiFillAppstore, AiFillStar } from 'react-icons/ai';
+import jsLogo from '../../asset/image.png';
+import { useState } from 'react';
+import SidebarTreeView from './LayerTree';
+import { AiFillGithub } from 'react-icons/ai';
 
+// Left Navbar Page
 function Navbar() {
-    const [active, setActive] = useState('home');
-    const { setTitle } = useContext(AuthContext);
-
-    const handleClickActive = async (e) => {
-        await setActive(e.target.value);
-    };
-
-    console.log(active);
+    const [activeButton, setActiveButton] = useState('Category');
+    const [isFocused, setIsFocused] = useState(false);
 
     return (
-        <div className="coding-box bg-[#ffffff] w-[320px] min-h-screen flex flex-col items-center gap-8 px-6">
-            <div className=" w-full h-28 flex items-center justify-center">
-                <p className="text-[#9C6317] text-4xl shadow-xl font-semibold">Debugroup</p>
+        <div className="coding-box bg-[#ffffff] w-[300px] min-h-screen max-h-screen flex flex-col items-center gap-7 px-6 py-5">
+            {/* Main logo app */}
+            <div className=" w-full h-11 flex items-center justify-center">
+                <img src={jsLogo} />
+            </div>
+            {/* Social button link */}
+            <div className="flex flex-row items-center justify-center gap-3">
+                <button className="hover:bg-gray-200 flex flex-row items-center gap-1 border-[1px] border-[#D9D9D9] rounded-md px-3 py-1 text-sm">
+                    <AiFillGithub />
+                    Code
+                </button>
+                <button className="hover:bg-gray-200 flex flex-row items-center gap-1 border-[1px] border-[#D9D9D9] rounded-md px-3 py-1 text-sm">
+                    <AiFillStar className="text-yellow-400" />
+                    Review
+                </button>
             </div>
 
-            <div className="h-14 bg-[#D9D9D9] rounded-full w-full flex p-2">
-                <div className="bg-[#9C6317] cursor-pointer rounded-full px-4 flex text-white items-center justify-center gap-1">
-                    <FaBox className="text-white" />
+            <div className="relative bg-[#EDEDED] rounded-full w-full flex py-[5px] items-center justify-between">
+                {/* Slider background */}
+                <div
+                    className={`absolute top-[4px] bottom-[4px] left-[3px] right-[3px] w-[calc(50%-6px)] bg-white rounded-full shadow-xl transition-transform duration-300 ${
+                        activeButton === 'Following' ? 'translate-x-full' : 'translate-x-[3px]'
+                    }`}
+                ></div>
+
+                {/* Category Button */}
+                <button
+                    className={`relative z-10 px-4 py-2 left-[3px] flex items-center justify-start gap-1 text-sm font-bold rounded-full ${
+                        activeButton === 'Category' ? 'text-gray-700' : 'text-gray-500'
+                    }`}
+                    onClick={() => setActiveButton('Category')}
+                >
+                    <AiFillAppstore
+                        className={`${activeButton === 'Category' ? 'text-[#9C6317]' : 'text-[#6262629e]'}`}
+                    />
                     Category
-                </div>
-                <div className="rounded-full cursor-pointer text-[#626262] px-2 font-medium flex items-center justify-center gap-1">
-                    <FaStar className="text-[#6262629e]" />
+                </button>
+
+                {/* Following Button */}
+                <button
+                    className={`relative z-10 px-4 py-2 right-[3px] flex items-center justify-center gap-1 text-sm font-bold rounded-full ${
+                        activeButton === 'Following' ? 'text-gray-700' : 'text-gray-500'
+                    }`}
+                    onClick={() => setActiveButton('Following')}
+                >
+                    <AiFillStar className={`${activeButton === 'Following' ? 'text-[#9C6317]' : 'text-[#6262629e]'}`} />
                     Following
-                </div>
+                </button>
             </div>
 
-            <div className="w-full border-[#D9D9D9] border-2 rounded-full flex items-center px-4">
-                <FaSearch className="text-[#b6b5b5] text-xl" />
+            {/* Search button */}
+            <div
+                className={`w-full border-2 rounded-3xl flex items-center px-4 transition-colors duration-300 ${
+                    isFocused ? 'border-[#D68E2F] boder-1' : 'border-[#D9D9D9]'
+                }`}
+            >
+                <FaSearch className={`${isFocused ? 'text-sky-600' : 'text-[#D9D9D9]'}`} />
                 <input
                     type="text"
                     placeholder="Enter your text"
-                    className="w-full rounded-full font-normal py-2 px-2 outline-none"
+                    className="w-full rounded-full font-normal text-sm py-2 px-2 outline-none"
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
                 />
             </div>
 
-            <Link to={'/pen'} className="coding-btn animated-button1" href="#">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Start Coding
-            </Link>
-            {/* <a className='coding-btn'>start coding</a> */}
-
-            <div className=" h-full w-full flex flex-col gap-2">
-                <button
-                    value={'home'}
-                    className="flex gap-4 items-center rounded-md px-2 py-1 hover:bg-slate-200"
-                    onClick={handleClickActive}
-                >
-                    <FaHome
-                        className={`${active === 'home' ? 'text-[#9c6317] text-3xl' : 'text-[#7a7a7a] text-3xl'}`}
-                    />
-                    <Link
-                        to={'/'}
-                        onClick={() => setTitle('Home')}
-                        className={`${active === 'home' ? 'text-[#9c6317]' : 'text-[#7a7a7a] font-normal'}`}
-                    >
-                        <button value={'home'}>Home</button>
-                    </Link>
-                </button>
-                <button
-                    value={'dashboard'}
-                    className="flex gap-4 items-center rounded-md px-2 py-1 hover:bg-slate-200"
-                    onClick={handleClickActive}
-                >
-                    <FaClipboardList
-                        className={`${active === 'dashboard' ? 'text-[#9c6317] text-3xl' : 'text-[#7a7a7a] text-3xl'}`}
-                    />
-                    <Link
-                        to={'/dashboard'}
-                        onClick={() => setTitle('Dashboard')}
-                        className={`${active === 'dashboard' ? 'text-[#9c6317]' : 'text-[#7a7a7a] font-normal'}`}
-                    >
-                        <button value={'dashboard'}>Dashboard</button>
-                    </Link>
-                </button>
-            </div>
+            {/* Layer tree view */}
+            <SidebarTreeView />
         </div>
     );
 }
