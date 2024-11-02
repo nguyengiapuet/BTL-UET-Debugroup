@@ -1,87 +1,84 @@
-import { createBrowserRouter } from "react-router-dom"
-import App from "../App"
-import Pen from "../pages/Pen"
-import Home from "../pages/Home"
-import LogIn from "../pages/LogIn"
-import SignUp from "../pages/SignUp"
-import Dashboard from "../pages/Dashboard"
-import Popular from "../pages/Popular"
-import Upvoted from "../pages/Upvoted"
-import MyProject from "../pages/MyProject"
-import Profile from "../pages/Profile"
-import ChangePassword from "../pages/ChangePassword"
-import UserDetails from "../pages/UserDetails"
-
+import { createBrowserRouter } from 'react-router-dom';
+import Home from '../pages/user/user_home/Home';
+import Upvoted from '../pages/user/user_project/Upvoted';
+import MyProject from '../pages/user/user_project/MyProject';
+import LogIn from '../pages/user/user_account/LogIn';
+import SignUp from '../pages/user/user_account/SignUp';
+import Popular from '../pages/user/user_project/Popular';
+import Dashboard from '../pages/admin/admin_project/Dashboard';
+import Profile from '../pages/user/user_account/Profile';
+import ChangePassword from '../pages//user/user_account/ChangePassword';
+import Pen from '../pages/user/user_project/Pen';
+import App from '../App';
+import UserDetails from '../pages/user/user_account/UserDetails';
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: '/',
         element: <App />,
         children: [
-            
             {
                 path: '/',
                 element: <Home />,
-                children:[
+                children: [
                     {
                         path: '/popular',
                         element: <Popular />,
-                        children:[]
+                        children: [],
                     },
                     {
                         path: '/upvoted',
                         element: <Upvoted />,
-                        children:[]
+                        children: [],
                     },
                     {
                         path: '/myproject',
                         element: <MyProject />,
-                        children:[]
+                        children: [],
                     },
-                ]
+                ],
             },
             {
                 path: '/login',
                 element: <LogIn />,
-                children:[]
+                children: [],
             },
             {
                 path: '/signup',
                 element: <SignUp />,
-                children:[]
+                children: [],
             },
             {
                 path: '/dashboard',
                 element: <Dashboard />,
-                children:[]
+                children: [],
             },
             {
                 path: '/profile',
                 element: <Profile />,
-                children:[]
+                children: [],
             },
             {
                 path: '/privacy',
                 element: <ChangePassword />,
-                children:[]
-            }
-            ,
+                children: [],
+            },
             {
                 path: '/info/:username',
                 element: <UserDetails />,
-                children:[]
-            }
-        ]
+                children: [],
+            },
+        ],
     },
     {
         path: '/pen/:id',
         element: <Pen />,
-        children:[]
+        children: [],
     },
     {
         path: '/pen',
         element: <Pen />,
-        children:[]
+        children: [],
     },
-])
+]);
 
-export default router
+export default router;
