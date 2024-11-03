@@ -5,12 +5,12 @@ import MyProject from '../pages/user/user_project/MyProject';
 import LogIn from '../pages/user/user_account/LogIn';
 import SignUp from '../pages/user/user_account/SignUp';
 import Popular from '../pages/user/user_project/Popular';
-import Dashboard from '../pages/admin/admin_project/Dashboard';
 import Profile from '../pages/user/user_account/Profile';
 import ChangePassword from '../pages//user/user_account/ChangePassword';
 import Pen from '../pages/user/user_project/Pen';
 import App from '../App';
 import UserDetails from '../pages/user/user_account/UserDetails';
+import ProjectDashboard from '../pages/admin/admin_project/ProjectDB';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -48,8 +48,8 @@ const router = createBrowserRouter([
                 children: [],
             },
             {
-                path: '/dashboard',
-                element: <Dashboard />,
+                path: '/admin/project-dashboard',
+                element: <ProjectDashboard />,
                 children: [],
             },
             {
