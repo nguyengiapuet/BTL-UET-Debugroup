@@ -1,4 +1,5 @@
 import { FaHome } from 'react-icons/fa';
+import { MdDashboard } from 'react-icons/md';
 
 // Should check if user is not admin, disable Dashboard section
 function SidebarTreeView() {
@@ -45,7 +46,7 @@ function SidebarTreeView() {
                 {/* Dashboard parent */}
                 <div className="pl-4 mb-4">
                     <div className="hover:bg-gray-200 rounded-lg px-3 py-2 flex items-center mb-2 cursor-pointer">
-                        <FaHome className="text-[#9C6317] mr-4" />
+                        <MdDashboard className="text-[#9C6317] mr-4" />
                         <span className="text-lg font-bold text-[#9C6317]">Dashboard</span>
                     </div>
                     {/* Dashboard childrens */}
