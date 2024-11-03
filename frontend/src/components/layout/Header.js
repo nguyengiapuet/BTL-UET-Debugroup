@@ -4,7 +4,6 @@ import { FaLock, FaRegBell, FaSearch, FaSignOutAlt, FaUser, FaUserCircle } from 
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { AiOutlineBell } from 'react-icons/ai';
 
 function Header() {
     const { userData, setUserData } = useContext(AuthContext);
@@ -24,23 +23,20 @@ function Header() {
     };
 
     return (
-        <div className="w-full bg-[#EFF2F7] px-4 py-4">
-            <div className="h-6 w-full flex items-center container mx-auto gap-5 ">
-                <div className="flex items-center gap-2 w-1/3">
+        <div className="w-full bg-[#f4f8ff] shadow-md px-4 py-4">
+            <div className="h-6 w-full flex items-center container mx-auto gap-5 justify-between">
+                <div className="hidden md:flex items-center gap-2 min-w-[200px] w-fit">
                     <AiOutlineMenu className="text-gray-700 text-xl font-bold" />
-                    {/* <p className="text-2xl font-medium text-[#545454]">{title}</p> */}
+                    <p className="text-2xl font-medium text-[#545454]">{title}</p>
                 </div>
 
-                <div className="flex items-center bg-[#D9E2EF] rounded-full py-[2px] px-4 grow">
+                <div className="flex items-center bg-[#D9E2EF] rounded-full py-[2px] px-4">
                     <FaSearch className="text-gray-500 text-sm" />
                     <input
                         type="text"
-                        className="h-8 w-72 rounded-r-full bg-[#D9E2EF] px-4 outline-none text-sm"
+                        className="h-8 w-[400px] rounded-r-full bg-[#D9E2EF] px-4 outline-none text-sm"
                         placeholder="Search"
                     />
-                </div>
-                <div>
-                    <AiOutlineBell className="text-xl font-bold" />
                 </div>
 
                 <div className="">

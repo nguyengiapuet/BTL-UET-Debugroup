@@ -1,7 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Pagination from '../admin_component/pagination/Pagination';
 import '../admin_component/style/ProjectDB.scss';
 import mockData from '../admin_mockdata/projects.json';
+import axios from 'axios';
+import SummaryApi from '../../../common';
 
 let PageSize = 10;
 
@@ -9,17 +11,36 @@ function ProjectDashboard() {
     const [currentPage, setCurrentPage] = useState(1);
     // 1 is active, 2 is deleted
     const [stateOfInfo, setStateOfInfo] = useState(1);
+    const [getAllPens, setGetAllPens] = useState([]);
+
+    const fetchGetAllPens = async () => {
+        try {
+            const response = await axios.get(SummaryApi.allPens.url);
+
+            if (response.data.success) {
+                console.log(response.data.data);
+                setGetAllPens(response.data.data);
+            }
+        } catch (err) {
+            console.log(err.message);
+            return;
+        }
+    };
 
     const currentTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
-        return mockData.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage]);
+        return getAllPens.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, getAllPens]);
 
     const handleOnchangeType = () => {
         var e = document.getElementById('status');
         setStateOfInfo(e.value);
     };
+
+    useEffect(() => {
+        fetchGetAllPens();
+    }, []);
 
     return (
         <div>
@@ -82,18 +103,18 @@ function ProjectDashboard() {
                                                         <span>{index + (currentPage - 1) * PageSize + 1}</span>
                                                     </div>
                                                     <div className="body-row-data1">
-                                                        <span>{item.projectName}</span>
+                                                        <span>{item.title}</span>
                                                     </div>
 
                                                     <div className="body-row-data1">
-                                                        <span>{item.status}</span>
+                                                        <span>{item.status || null}</span>
                                                     </div>
 
                                                     <div className="body-row-data2">
-                                                        <span>{item.createdAt}</span>
+                                                        <span>{item.created_at}</span>
                                                     </div>
                                                     <div className="body-row-data2">
-                                                        <span>{item.updatedAt} </span>
+                                                        <span>{item.updated_at} </span>
                                                     </div>
                                                     {stateOfInfo === '2' ? (
                                                         <div className="body-button">
@@ -114,7 +135,7 @@ function ProjectDashboard() {
                                 <Pagination
                                     className="pagination-bar"
                                     currentPage={currentPage}
-                                    totalCount={mockData.length}
+                                    totalCount={getAllPens.length}
                                     pageSize={PageSize}
                                     onPageChange={(page) => setCurrentPage(page)}
                                 />

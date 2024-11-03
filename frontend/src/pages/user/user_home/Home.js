@@ -26,7 +26,7 @@ function Home() {
     }, []);
 
     return (
-        <div className="w-full h-screen bg-[#ECECEC] overflow-auto overflow-y-scroll">
+        <div className="w-full h-screen bg-[#eff2f7] overflow-auto overflow-y-scroll">
             <div className=" w-full h-full flex items-center flex-col bg-[#eff2f7]">
                 <div className="flex h-full w-[1080px] mt-24 flex-col gap-6">
                     <div className="flex justify-between w-full border-b border-[#aaa] pb-4">

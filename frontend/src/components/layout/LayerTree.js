@@ -1,10 +1,9 @@
-import { FaHome, FaClipboardList } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { FaHome } from 'react-icons/fa';
+import { MdDashboard } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 // Should check if user is not admin, disable Dashboard section
 function SidebarTreeView() {
-    const location = useLocation();
-
     return (
         <div>
             <div className="w-64 pt-3 rounded-r-lg">
@@ -19,9 +18,12 @@ function SidebarTreeView() {
                         <div className="absolute top-0 h-full border-l-2 border-gray-300"></div>
                         <div className="flex items-center mb-4">
                             <div className="w-10 border-t-2 border-gray-300 mr-3"></div>
-                            <span className="hover:bg-gray-100 hover:text-[#000000] cursor-pointer py-1 px-2 rounded-lg w-full text-gray-500 font-medium">
+                            <Link
+                                to={'/popular'}
+                                className="hover:bg-gray-100 hover:text-[#000000] cursor-pointer py-1 px-2 rounded-lg w-full text-gray-500 font-medium"
+                            >
                                 Trending
-                            </span>
+                            </Link>
                         </div>
                         <div className="flex items-center mb-4">
                             <div className="w-10 border-t-2 border-gray-300 mr-3"></div>
@@ -48,7 +50,7 @@ function SidebarTreeView() {
                 {/* Dashboard parent */}
                 <div className="pl-4 mb-4">
                     <div className="hover:bg-gray-200 rounded-lg px-3 py-2 flex items-center mb-2 cursor-pointer">
-                        <FaClipboardList className="text-[#9C6317] mr-4" />
+                        <MdDashboard className="text-[#9C6317] mr-4" />
                         <span className="text-lg font-bold text-[#9C6317]">Dashboard</span>
                     </div>
                     {/* Dashboard childrens */}
@@ -56,16 +58,12 @@ function SidebarTreeView() {
                         <div className="absolute top-0 h-full border-l-2 border-gray-300"></div>
                         <div className="flex items-center mb-4">
                             <div className="w-10 border-t-2 border-gray-300 mr-3"></div>
-                            <span
-                                className={`hover:bg-gray-100 hover:text-[#000000] cursor-pointer py-1 px-2 rounded-lg w-full text-gray-500 font-medium
-                                ${
-                                    location.pathname === '/admin/project-dashboard'
-                                        ? 'bg-[#F0E6D9] hover:bg-[#F0E6D9] text-[#000000] font-bold'
-                                        : ''
-                                }`}
+                            <Link
+                                to={'/admin/project-dashboard'}
+                                className="hover:bg-gray-100 hover:text-[#000000] cursor-pointer py-1 px-2 rounded-lg w-full text-gray-500 font-medium"
                             >
-                                <Link to={'/admin/project-dashboard'}>Projects</Link>
-                            </span>
+                                Projects
+                            </Link>
                         </div>
                         <div className="flex items-center mb-4">
                             <div className="w-10 border-t-2 border-gray-300 mr-3"></div>
