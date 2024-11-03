@@ -1,5 +1,6 @@
 import { FaHome } from 'react-icons/fa';
 import { MdDashboard } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 // Should check if user is not admin, disable Dashboard section
 function SidebarTreeView() {
@@ -17,9 +18,12 @@ function SidebarTreeView() {
                         <div className="absolute top-0 h-full border-l-2 border-gray-300"></div>
                         <div className="flex items-center mb-4">
                             <div className="w-10 border-t-2 border-gray-300 mr-3"></div>
-                            <span className="hover:bg-gray-100 hover:text-[#000000] cursor-pointer py-1 px-2 rounded-lg w-full text-gray-500 font-medium">
+                            <Link
+                                to={'/popular'}
+                                className="hover:bg-gray-100 hover:text-[#000000] cursor-pointer py-1 px-2 rounded-lg w-full text-gray-500 font-medium"
+                            >
                                 Trending
-                            </span>
+                            </Link>
                         </div>
                         <div className="flex items-center mb-4">
                             <div className="w-10 border-t-2 border-gray-300 mr-3"></div>
@@ -54,9 +58,12 @@ function SidebarTreeView() {
                         <div className="absolute top-0 h-full border-l-2 border-gray-300"></div>
                         <div className="flex items-center mb-4">
                             <div className="w-10 border-t-2 border-gray-300 mr-3"></div>
-                            <span className="hover:bg-gray-100 hover:text-[#000000] cursor-pointer py-1 px-2 rounded-lg w-full text-gray-500 font-medium">
+                            <Link
+                                to={'/admin/project-dashboard'}
+                                className="hover:bg-gray-100 hover:text-[#000000] cursor-pointer py-1 px-2 rounded-lg w-full text-gray-500 font-medium"
+                            >
                                 Projects
-                            </span>
+                            </Link>
                         </div>
                         <div className="flex items-center mb-4">
                             <div className="w-10 border-t-2 border-gray-300 mr-3"></div>

@@ -8,10 +8,9 @@ import Header from './components/layout/Header';
 function App() {
     return (
         <>
-            <div className="flex">
+            <div className="flex max-h-screen overflow-hidden">
                 <Navbar />
-
-                <div className="w-full h-screen overflow-hidden">
+                <div className="w-full max-h-screen overflow-hidden bg-[#EFF2F7]">
                     <Header />
 
                     <main>

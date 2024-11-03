@@ -39,7 +39,7 @@ function LogIn() {
         <div className=" bg-slate-200">
             <div className="flex w-full h-screen justify-center items-center">
                 <form
-                    className="h-[400px] w-[400px] bg-white flex flex-col gap-4 px-4 py-2 rounded"
+                    className="h-[300px] w-[400px] bg-white flex flex-col gap-4 px-4 py-2 rounded"
                     onSubmit={handleOnSubmit}
                 >
                     <div className="flex justify-center w-full">
