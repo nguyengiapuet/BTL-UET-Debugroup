@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { LOCAL_STORAGE_TOKEN_NAME } from '../../common/constants';
-import { FaList, FaLock, FaRegBell, FaSearch, FaSignOutAlt, FaUser, FaUserCircle } from 'react-icons/fa';
+import { FaLock, FaRegBell, FaSearch, FaSignOutAlt, FaUser, FaUserCircle } from 'react-icons/fa';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { AiOutlineBell } from 'react-icons/ai';
 
 function Header() {
     const { userData, setUserData } = useContext(AuthContext);
@@ -22,20 +24,23 @@ function Header() {
     };
 
     return (
-        <div className="w-full bg-[#ECECEC] border-b-2 border-[#9c621785] px-4">
-            <div className="h-16 w-full flex items-center container mx-auto justify-between ">
-                <div className="flex items-center gap-2">
-                    <FaList className="text-[#9C6317] text-2xl" />
-                    <p className="text-2xl font-medium text-[#545454]">{title}</p>
+        <div className="w-full bg-[#EFF2F7] px-4 py-4">
+            <div className="h-6 w-full flex items-center container mx-auto gap-5 ">
+                <div className="flex items-center gap-2 w-1/3">
+                    <AiOutlineMenu className="text-gray-700 text-xl font-bold" />
+                    {/* <p className="text-2xl font-medium text-[#545454]">{title}</p> */}
                 </div>
 
-                <div className="flex items-center bg-[#D9D9D9] rounded-full py-1 px-4">
-                    <FaSearch className="text-gray-500 text-xl" />
+                <div className="flex items-center bg-[#D9E2EF] rounded-full py-[2px] px-4 grow">
+                    <FaSearch className="text-gray-500 text-sm" />
                     <input
                         type="text"
-                        className="h-8 w-72 rounded-r-full bg-[#D9D9D9] p-4 outline-none text-lg"
+                        className="h-8 w-72 rounded-r-full bg-[#D9E2EF] px-4 outline-none text-sm"
                         placeholder="Search"
                     />
+                </div>
+                <div>
+                    <AiOutlineBell className="text-xl font-bold" />
                 </div>
 
                 <div className="">
@@ -101,18 +106,18 @@ function Header() {
                             </div>
                         </div>
                     ) : (
-                        <div className="flex gap-2">
+                        <div className="flex flex-row justify-center items-center gap-5">
                             <Link
                                 to={'login'}
-                                className=" border-[#9C6317] border-2 py-1 px-6 hover:bg-[#9C6317] hover:text-white rounded-full text-lg font-medium text-[#9C6317]"
+                                className="hover:bg-gray-200 px-5 py-1 border-[1px] border-gray-400 rounded-md hover:text-[#0d6efd] font-bold text-sm text-[#9C6317]"
                             >
-                                Log In
+                                Login
                             </Link>
                             <Link
                                 to={'signup'}
-                                className="bg-[#9C6317] border-[#9C6317] border-2 text-lg py-1 px-6 hover:bg-opacity-0 hover:text-[#9C6317] rounded-full font-medium text-white"
+                                className="bg-[#9C6317] flex items-center justify-center px-4 py-1 rounded-md text-sm font-medium text-white"
                             >
-                                Sign Up
+                                Signup
                             </Link>
                         </div>
                     )}

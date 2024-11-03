@@ -11,7 +11,7 @@ function App() {
             <div className="flex">
                 <Navbar />
 
-                <div className="w-full h-screen overflow-hidden">
+                <div className="w-full h-screen overflow-hidden bg-[#EFF2F7]">
                     <Header />
 
                     <main>
