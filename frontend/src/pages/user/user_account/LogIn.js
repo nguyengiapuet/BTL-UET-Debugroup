@@ -34,7 +34,6 @@ function LogIn() {
             console.log(err.message);
         }
     };
-
     return (
         <div className=" bg-slate-200">
             <div className="flex w-full h-screen justify-center items-center">

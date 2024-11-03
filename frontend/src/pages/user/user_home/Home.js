@@ -17,7 +17,6 @@ function Home() {
 
     const sortLike = (listProject) => {
         const a = listProject.sort((a, b) => b.total_likes - a.total_likes);
-
         return a;
     };
 
