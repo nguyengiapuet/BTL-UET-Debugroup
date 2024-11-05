@@ -38,7 +38,7 @@ function Search() {
 	}, [searchParams]);
 
 	return (
-		<div className="relative" onBlur={() => setShowResult(false)}>
+		<div className="relative">
 			<div className="flex items-center bg-[#D9E2EF] rounded-full py-[2px] px-4">
 				<FaSearch className="text-gray-500 text-sm" />
 				<input
@@ -51,7 +51,10 @@ function Search() {
 				/>
 			</div>
 			{showResult && searchResult.length > 0 && (
-				<div className="flex flex-col bg-white shadow-md rounded-xl absolute top-12 w-full items-start p-2 max-h-[250px] overflow-y-scroll">
+				<div
+					onBlur={() => setShowResult(false)}
+					className="flex flex-col bg-white shadow-md rounded-xl absolute top-12 w-full items-start p-2 max-h-[250px] overflow-y-scroll"
+				>
 					{searchResult.length > 0 &&
 						searchResult.map((user) => (
 							<UserItem key={user.id} data={user} />
