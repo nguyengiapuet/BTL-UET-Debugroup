@@ -11,6 +11,7 @@ import Pen from '../pages/user/user_project/Pen';
 import App from '../App';
 import UserDetails from '../pages/user/user_account/UserDetails';
 import ProjectDashboard from '../pages/admin/admin_project/ProjectDB';
+import AccountDashboard from '../pages/admin/admin_user/AccountDb';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -50,6 +51,11 @@ const router = createBrowserRouter([
             {
                 path: '/admin/project-dashboard',
                 element: <ProjectDashboard />,
+                children: [],
+            },
+            {
+                path: '/admin/account-dashboard',
+                element: <AccountDashboard />,
                 children: [],
             },
             {

@@ -80,9 +80,13 @@ function Home() {
 
             <Link
                 to={'/pen'}
-                className="fixed h-12 w-48 font-semibold cursor-pointer hover:bg-opacity-80 shadow-md flex items-center justify-center bg-[#9C6317] text-xl rounded-full text-white bottom-10 right-[680px]"
+                className="coding-btn animated-button1 fixed h-12 w-48 font-semibold cursor-pointer flex items-center justify-center text-xl text-white bottom-8 right-[45%]"
             >
-                Start coding
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Start Coding
             </Link>
         </div>
     );

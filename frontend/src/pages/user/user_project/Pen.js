@@ -167,20 +167,21 @@ function Pen() {
                 <div className="flex gap-2 px-2">
                     <Link
                         to={'/'}
-                        onClick={handleSavePens}
                         className="flex gap-1 items-center bg-[#9C6317] px-4 py-2 rounded text-white hover:bg-opacity-75"
                     >
                         <FaShare />
                         <button>Share</button>
                     </Link>
-                    <Link
-                        to={'/'}
-                        onClick={handleSavePens}
-                        className="flex gap-1 items-center bg-[#9C6317] px-4 py-2 rounded text-white hover:bg-opacity-75"
-                    >
-                        <FaSave />
-                        <button>Save</button>
-                    </Link>
+                    {(!params.id || dataPen.email === userData.email) && (
+                        <Link
+                            to={'/'}
+                            onClick={handleSavePens}
+                            className="flex gap-1 items-center bg-[#9C6317] px-4 py-2 rounded text-white hover:bg-opacity-75"
+                        >
+                            <FaSave />
+                            <button>Save</button>
+                        </Link>
+                    )}
                     {userData.id ? (
                         <div className="flex gap-2 items-center">
                             <p className="text-lg text-white font-semibold">{userData.username}</p>

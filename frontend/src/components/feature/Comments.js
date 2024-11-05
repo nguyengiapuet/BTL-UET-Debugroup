@@ -100,7 +100,7 @@ function Comments({ project, setOpen }) {
                             ) : (
                                 <FaUserCircle className="text-5xl" />
                             )}
-                            <div className="bg-slate-300 px-2 py-1 w-full rounded-md">
+                            <div className="bg-[#cad4d5] px-2 py-1 w-full rounded-md">
                                 <p className="text-lg font-medium">{comment.username}</p>
                                 <p>{comment.content}</p>
                             </div>
@@ -116,7 +116,7 @@ function Comments({ project, setOpen }) {
                         value={comment}
                         type="text"
                         placeholder="Comments"
-                        className="h-full text-lg  bg-[#cad2de] w-full outline-none rounded-xl p-4"
+                        className="h-full text-lg shadow-md bg-[#cad4d57] w-full outline-none rounded-xl p-4"
                     />
                     <FaPaperPlane
                         className="absolute right-4 top-5 text-xl cursor-pointer"
