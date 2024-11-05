@@ -73,6 +73,9 @@ const SummaryApi = {
     countFollower: {
         url: `${backendDomain}/api/follower-count`,
     },
+    searchUser: {
+        url: `${backendDomain}/api/search`,
+    },
 };
 
 export default SummaryApi;

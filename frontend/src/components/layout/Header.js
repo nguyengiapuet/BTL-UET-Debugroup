@@ -4,6 +4,7 @@ import { FaLock, FaRegBell, FaSearch, FaSignOutAlt, FaUser, FaUserCircle } from 
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { AiOutlineMenu } from 'react-icons/ai';
+import Search from '../search/Search';
 
 function Header() {
     const { userData, setUserData } = useContext(AuthContext);
@@ -30,14 +31,7 @@ function Header() {
                     <p className="text-2xl font-medium text-[#545454]">{title}</p>
                 </div>
 
-                <div className="flex items-center bg-[#D9E2EF] rounded-full py-[2px] px-4">
-                    <FaSearch className="text-gray-500 text-sm" />
-                    <input
-                        type="text"
-                        className="h-8 w-[400px] rounded-r-full bg-[#D9E2EF] px-4 outline-none text-sm"
-                        placeholder="Search"
-                    />
-                </div>
+                <Search />
 
                 <div className="">
                     {userData.id ? (
