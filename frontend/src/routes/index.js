@@ -13,8 +13,13 @@ import UserDetails from "../pages/user/user_account/UserDetails";
 import ProjectDashboard from "../pages/admin/admin_project/ProjectDB";
 import UserDashboard from "../pages/admin/admin_user/UserDB";
 import CommentDashboard from "../pages/admin/admin_comment/CommentDB";
+import StartPage from "../pages/app/StartPage";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <StartPage />,
+  },
   {
     path: "/",
     element: <App />,
