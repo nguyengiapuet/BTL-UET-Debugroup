@@ -18,7 +18,7 @@ function StartPage() {
               1000,
               "You want to practice with HTML?",
               1000,
-              "We provide an applcation that satify all of them!\nWith Debug Group",
+              "We provide an application that satify all of them!\nWith Debug Group...",
               1000,
             ]}
             speed={50}
@@ -33,12 +33,19 @@ function StartPage() {
       <div className="w-2/5 bg-white flex flex-col justify-center items-center gap-10 mx-20">
         <div className="font-bold text-3xl">Get started</div>
         <div className="flex flex-row w-full gap-6">
-          <button className="border min-h-[46px] w-1/2 rounded-3xl bg-[#1c4ed8] text-white">
+          <Link
+            to={"/login"}
+            className="border min-h-[46px] w-1/2 rounded-3xl bg-[#1c4ed8] text-white text-center flex justify-center items-center"
+          >
             Login
-          </button>
-          <button className="border min-h-[46px] w-1/2 rounded-3xl bg-[#1c4ed8] text-white">
+          </Link>
+
+          <Link
+            to={"/login"}
+            className="border min-h-[46px] w-1/2 rounded-3xl bg-[#1c4ed8] text-white text-center flex justify-center items-center"
+          >
             Signup
-          </button>
+          </Link>
         </div>
         <div className="flex flex-row gap-1">
           <div>Or</div>
