@@ -6,12 +6,14 @@ import SidebarTreeView from './LayerTree';
 import { AiFillGithub } from 'react-icons/ai';
 
 // Left Navbar Page
-function Navbar() {
+function Navbar({isNavOpen}) {
     const [activeButton, setActiveButton] = useState('Category');
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-        <div className="coding-box bg-[#ffffff] w-[300px] min-h-screen max-h-screen flex flex-col items-center gap-7 px-6 py-5">
+      <div>
+      {isNavOpen &&
+        <div className="coding-box bg-[#ffffff] w-[300px] min-h-screen max-h-screen overflow-y-scroll flex flex-col items-center gap-7 px-6 py-5">
             {/* Main logo app */}
             <div className=" w-full h-11 flex items-center justify-center">
                 <img src={jsLogo} />
@@ -80,6 +82,8 @@ function Navbar() {
             {/* Layer tree view */}
             <SidebarTreeView />
         </div>
+      }
+      </div>
     );
 }
 
