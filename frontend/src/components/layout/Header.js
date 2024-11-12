@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { LOCAL_STORAGE_TOKEN_NAME } from '../../common/constants';
-import { FaLock, FaRegBell, FaSearch, FaSignOutAlt, FaUser, FaUserCircle } from 'react-icons/fa';
+import { FaLock, FaRegBell, FaSignOutAlt, FaUser, FaUserCircle } from 'react-icons/fa';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { AiOutlineMenu } from 'react-icons/ai';
 import Search from '../search/Search';
 
-function Header() {
+function Header({isNavOpen, toggleNav}) {
     const { userData, setUserData } = useContext(AuthContext);
     const [openPop, setOpenPop] = useState(false);
     const { title, setTitle } = useContext(AuthContext);
@@ -27,7 +27,9 @@ function Header() {
         <div className="w-full bg-[#f4f8ff] shadow-md px-4 py-4">
             <div className="h-6 w-full flex items-center container mx-auto gap-5 justify-between">
                 <div className="hidden md:flex items-center gap-2 min-w-[200px] w-fit">
-                    <AiOutlineMenu className="text-gray-700 text-xl font-bold" />
+                  <button onClick={() => toggleNav()} className="p-3 text-xl text-white rounded-md hover:bg-gray-400 focus:outline-none transition duration-300">
+                    <AiOutlineMenu  className="text-gray-700 text-xl font-bold" />
+                  </button>
                     <p className="text-2xl font-medium text-[#545454]">{title}</p>
                 </div>
 
