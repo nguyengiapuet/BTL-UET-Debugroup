@@ -32,7 +32,7 @@ function Pen() {
 
     const editCode = () => {
         const content = `
-            <html><head><style>${dataPen.css}</style></head><body>${dataPen.html}<script>${dataPen.js}</script></body></html>
+            <html><head><style>body{color:white}${dataPen.css}</style></head><body>${dataPen.html}<script>${dataPen.js}</script></body></html>
             `;
         setDataPen({
             ...dataPen,

@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/user/user_home/Home";
 import Upvoted from "../pages/user/user_project/Upvoted";
 import MyProject from "../pages/user/user_project/MyProject";
-import SignUp from "../pages/user/user_account/SignUp";
 import Popular from "../pages/user/user_project/Popular";
 import Profile from "../pages/user/user_account/Profile";
 import ChangePassword from "../pages//user/user_account/ChangePassword";
@@ -14,6 +13,7 @@ import UserDashboard from "../pages/admin/admin_user/UserDB";
 import CommentDashboard from "../pages/admin/admin_comment/CommentDB";
 import StartPage from "../pages/app/StartPage";
 import LoginPage from "../pages/user/user_account/LogIn";
+import SignUp from "../pages/user/user_account/SignUp";
 
 const router = createBrowserRouter([
   {
@@ -21,18 +21,17 @@ const router = createBrowserRouter([
     element: <StartPage />,
   },
   {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/signup",
-    element: <SignUp />,
-  },
-
-  {
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "/signup",
+        element: <SignUp />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
       {
         path: "/",
         element: <Home />,

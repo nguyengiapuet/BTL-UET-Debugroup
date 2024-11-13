@@ -6,7 +6,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { AiOutlineMenu } from 'react-icons/ai';
 import Search from '../search/Search';
 
-function Header({isNavOpen, toggleNav}) {
+function Header({ isNavOpen, toggleNav }) {
     const { userData, setUserData } = useContext(AuthContext);
     const [openPop, setOpenPop] = useState(false);
     const { title, setTitle } = useContext(AuthContext);
@@ -27,9 +27,9 @@ function Header({isNavOpen, toggleNav}) {
         <div className="w-full bg-[#f4f8ff] shadow-md px-4 py-4">
             <div className="h-6 w-full flex items-center container mx-auto gap-5 justify-between">
                 <div className="hidden md:flex items-center gap-2 min-w-[200px] w-fit">
-                  <button onClick={() => toggleNav()} className="p-3 text-xl text-white rounded-md hover:bg-gray-400 focus:outline-none transition duration-300">
-                    <AiOutlineMenu  className="text-gray-700 text-xl font-bold" />
-                  </button>
+                    <button onClick={() => toggleNav()} className="p-3 text-xl text-white rounded-md hover:bg-gray-400 focus:outline-none transition duration-300">
+                        <AiOutlineMenu className="text-gray-700 text-xl font-bold" />
+                    </button>
                     <p className="text-2xl font-medium text-[#545454]">{title}</p>
                 </div>
 
@@ -90,12 +90,13 @@ function Header({isNavOpen, toggleNav}) {
                                     </div>
                                 )}
                             </div>
-                            <div
+                            <Link
+                                to={'/login'}
                                 className="border-[#9C6317] border-2 py-1 px-3 hover:bg-grenn-600 hover:text-white rounded text-lg font-medium text-[#9C6317] hover:bg-[#9C6317]"
                                 onClick={handleLogout}
                             >
                                 Logout
-                            </div>
+                            </Link>
                         </div>
                     ) : (
                         <div className="flex flex-row justify-center items-center gap-5">

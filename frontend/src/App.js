@@ -7,14 +7,14 @@ import Navbar from './components/layout/Navbar';
 import Header from './components/layout/Header';
 
 function App() {
-  const [isNavOpen, setIsOpen] = useState(false);
-  const toggleNav = () => setIsOpen(prevState => !prevState);
+    const [isNavOpen, setIsOpen] = useState(true);
+    const toggleNav = () => setIsOpen(prevState => !prevState);
     return (
         <>
             <div className="flex max-h-screen overflow-hidden">
-                <Navbar isNavOpen={isNavOpen}/>
+                <Navbar isNavOpen={isNavOpen} />
                 <div className="w-full max-h-screen overflow-hidden bg-[#EFF2F7]">
-                    <Header isNavbarOpen={isNavOpen} toggleNav={toggleNav}/>
+                    <Header isNavbarOpen={isNavOpen} toggleNav={toggleNav} />
 
                     <main>
                         <Outlet />
