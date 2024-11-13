@@ -1,12 +1,14 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
 import appLogo from "../../../asset/image.png";
+import { AuthContext } from "../../../context/AuthContext";
 
 function SignUp() {
   const navigate = useNavigate();
+  const { userData } = useContext(AuthContext)
   const [data, setData] = useState({
     username: "",
     email: "",
@@ -14,6 +16,9 @@ function SignUp() {
     confirmPassword: "",
   });
 
+  if (userData.id) {
+    navigate("/popular");
+  }
   const handleOnChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -36,8 +41,9 @@ function SignUp() {
       console.log(err.message);
     }
   };
+
   return (
-    <div className="bg-gray-200 backdrop-opacity-5	 flex w-full h-screen justify-center items-center">
+    <div className="bg-gray-200 backdrop-opacity-5 z-[999] fixed top-0 bottom-0 right-0 left-0 flex w-full h-screen justify-center items-center">
       <form
         className="w-[500px] bg-white flex flex-col gap-4 px-4 py-2 rounded-xl items-center drop-shadow-md"
         onSubmit={handleOnSubmit}

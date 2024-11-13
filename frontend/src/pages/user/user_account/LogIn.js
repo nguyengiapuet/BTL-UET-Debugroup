@@ -8,12 +8,16 @@ import { toast } from "react-toastify";
 import appLogo from "../../../asset/image.png";
 
 function LoginPage() {
-  const { loadUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+
+  const { loadUser, userData } = useContext(AuthContext);
+  if (userData.id) {
+    return navigate("/popular");
+  }
 
   const handleOnChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -40,7 +44,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="bg-gray-200 backdrop-opacity-5	 flex w-full h-screen justify-center items-center">
+    <div className="bg-gray-200 z-[999] fixed backdrop-opacity-5 flex w-full h-screen justify-center items-center top-0 bottom-0 right-0 left-0">
       <form
         className="w-[500px] bg-white flex flex-col gap-4 px-4 py-2 rounded-xl items-center drop-shadow-md"
         onSubmit={handleOnSubmit}

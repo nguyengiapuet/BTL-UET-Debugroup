@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 import { AuthContext } from "../../context/AuthContext";
@@ -7,10 +7,11 @@ function StartPage() {
   const { userData } = useContext(AuthContext)
   const navigate = useNavigate()
 
-  if (userData.id) {
-    navigate('/popular')
-  }
-
+  useEffect(() => {
+    if (userData.id) {
+      navigate('/popular')
+    }
+  }, [userData.id])
   return (
     <div className="h-screen w-screen flex flex-row">
       <div className="w-3/5 bg-[#ffffdb] flex flex-col justify-center">
