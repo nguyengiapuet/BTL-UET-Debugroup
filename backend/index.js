@@ -13,9 +13,6 @@ app.use(
         credentials: true,
     }),
 );
-app.get('/', function (req, res) {
-    res.send('Hello World');
-});
 
 app.use('/api', router);
 

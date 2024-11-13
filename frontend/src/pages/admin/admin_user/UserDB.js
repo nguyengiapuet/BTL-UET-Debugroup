@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
-import Pagination from "../admin_component/pagination/Pagination";
-import "../admin_component/style/ProjectDB.scss";
-import axios from "axios";
-import SummaryApi from "../../../common";
-import { toast } from "react-toastify";
+import { useEffect, useMemo, useState } from 'react';
+import Pagination from '../admin_component/pagination/Pagination';
+import '../admin_component/style/ProjectDB.scss';
+import mockData from '../admin_mockdata/projects.json';
+import axios from 'axios';
+import SummaryApi from '../../../common';
+import { toast } from 'react-toastify';
 
 let PageSize = 10;
 
@@ -35,19 +36,17 @@ function UserDashboard() {
 
   const deleteUser = async (id) => {
     try {
-      const response = await axios.delete(
-        `${SummaryApi.deletedUser.url}/${id}`
-      );
+      const response = await axios.delete(`${SummaryApi.deletedUser.url}/${id}`);
 
       if (response.data.success) {
         toast.success(response.data.message);
         setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const handleOnchangeType = () => {
-    var e = document.getElementById("status");
+    var e = document.getElementById('status');
     setStateOfInfo(e.value);
   };
 
@@ -59,17 +58,13 @@ function UserDashboard() {
     <div>
       <div className="request-container">
         <div className="request-content">
-          <div className="request-title">List of users</div>
+          <div className="request-title">List of projects</div>
           <div className="request-table">
             <div className="section">
               <div className="filter">
                 <div className="filter-form">
                   <div className="col1">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Search by name"
-                    />
+                    <input className="form-control" type="text" placeholder="Search by name" />
                   </div>
                   <div className="col1">
                     <select
@@ -117,9 +112,7 @@ function UserDashboard() {
                       return (
                         <div className="body-row">
                           <div className="body-row-data">
-                            <span>
-                              {index + (currentPage - 1) * PageSize + 1}
-                            </span>
+                            <span>{index + (currentPage - 1) * PageSize + 1}</span>
                           </div>
                           <div className="body-row-data1">
                             <span>{item.username}</span>
@@ -135,7 +128,7 @@ function UserDashboard() {
                           <div className="body-row-data2">
                             <span>{item.updated_at} </span>
                           </div>
-                          {stateOfInfo === "2" ? (
+                          {stateOfInfo === '2' ? (
                             <div className="body-button">
                               <button className="ok-button">Restore</button>
                             </div>

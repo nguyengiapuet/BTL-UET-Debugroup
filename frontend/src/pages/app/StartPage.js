@@ -1,7 +1,16 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
+import { AuthContext } from "../../context/AuthContext";
 
 function StartPage() {
+  const { userData } = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  if (userData.id) {
+    navigate('/popular')
+  }
+
   return (
     <div className="h-screen w-screen flex flex-row">
       <div className="w-3/5 bg-[#ffffdb] flex flex-col justify-center">
@@ -39,7 +48,6 @@ function StartPage() {
           >
             Login
           </Link>
-
           <Link
             to={"/login"}
             className="border min-h-[46px] w-1/2 rounded-3xl bg-[#1c4ed8] text-white text-center flex justify-center items-center"

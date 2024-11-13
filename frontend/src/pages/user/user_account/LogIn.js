@@ -32,7 +32,7 @@ function LoginPage() {
         );
         await loadUser();
         toast.success(response.data.message);
-        navigate("/");
+        navigate("/popular");
       }
     } catch (err) {
       console.log(err.message);
@@ -82,7 +82,7 @@ function LoginPage() {
             Forgot password?
           </div>
           <div className="flex justify-center gap-2 py-4 mx-5">
-            <button className="bg-[#9C6317] w-full text-white p-[10px] rounded-xl w-full hover:bg-opacity-80">
+            <button className="bg-[#9C6317] w-full text-white p-[10px] rounded-xl hover:bg-opacity-80">
               Login
             </button>
           </div>

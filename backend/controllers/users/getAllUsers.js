@@ -1,8 +1,4 @@
-try {
-    const db = require('../../config/db');
-} catch (e) {
-    console.log(e);
-}
+const db = require('../../config/db');
 
 async function getAllUsers(req, res) {
     try {
