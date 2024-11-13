@@ -16,85 +16,85 @@ import LoginPage from "../pages/user/user_account/LogIn";
 import SignUp from "../pages/user/user_account/SignUp";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <StartPage />,
-  },
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      {
-        path: "/signup",
-        element: <SignUp />,
-      },
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
-      {
-        path: "/",
-        element: <Home />,
-        children: [
-          {
-            path: "/popular",
-            element: <Popular />,
-            children: [],
-          },
-          {
-            path: "/upvoted",
-            element: <Upvoted />,
-            children: [],
-          },
-          {
-            path: "/myproject",
-            element: <MyProject />,
-            children: [],
-          },
-        ],
-      },
-      {
-        path: "/admin/project-dashboard",
-        element: <ProjectDashboard />,
-        children: [],
-      },
-      {
-        path: "/admin/user-dashboard",
-        element: <UserDashboard />,
-        children: [],
-      },
-      {
-        path: "/admin/comment-dashboard",
-        element: <CommentDashboard />,
-        children: [],
-      },
-      {
-        path: "/profile",
-        element: <Profile />,
-        children: [],
-      },
-      {
-        path: "/privacy",
-        element: <ChangePassword />,
-        children: [],
-      },
-      {
-        path: "/info/:username",
-        element: <UserDetails />,
-        children: [],
-      },
-    ],
-  },
-  {
-    path: "/pen/:id",
-    element: <Pen />,
-    children: [],
-  },
-  {
-    path: "/pen",
-    element: <Pen />,
-    children: [],
-  },
+	{
+		path: "/",
+		element: <StartPage />,
+	},
+	{
+		path: "/",
+		element: <App />,
+		children: [
+			{
+				path: "/signup",
+				element: <SignUp />,
+			},
+			{
+				path: "/login",
+				element: <LoginPage />,
+			},
+			{
+				path: "/",
+				element: <Home />,
+				children: [
+					{
+						path: "/popular",
+						element: <Popular />,
+						children: [],
+					},
+					{
+						path: "/upvoted",
+						element: <Upvoted />,
+						children: [],
+					},
+					{
+						path: "/myproject",
+						element: <MyProject />,
+						children: [],
+					},
+				],
+			},
+			{
+				path: "/admin/project-dashboard",
+				element: <ProjectDashboard />,
+				children: [],
+			},
+			{
+				path: "/admin/user-dashboard",
+				element: <UserDashboard />,
+				children: [],
+			},
+			{
+				path: "/admin/comment-dashboard",
+				element: <CommentDashboard />,
+				children: [],
+			},
+			{
+				path: "/profile",
+				element: <Profile />,
+				children: [],
+			},
+			{
+				path: "/privacy",
+				element: <ChangePassword />,
+				children: [],
+			},
+			{
+				path: "/info/:username",
+				element: <UserDetails />,
+				children: [],
+			},
+		],
+	},
+	{
+		path: "/pen/:id",
+		element: <Pen />,
+		children: [],
+	},
+	{
+		path: "/pen",
+		element: <Pen />,
+		children: [],
+	},
 ]);
 
 export default router;
