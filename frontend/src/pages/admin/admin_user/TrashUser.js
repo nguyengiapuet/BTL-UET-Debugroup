@@ -9,15 +9,15 @@ import { Link } from "react-router-dom";
 
 let PageSize = 10;
 
-function UserDashboard() {
+function TrashUser() {
 	const [currentPage, setCurrentPage] = useState(1);
 	// 1 is active, 2 is deleted
 	const [stateOfInfo, setStateOfInfo] = useState(1);
 	const [getAllUsers, setGetAllUsers] = useState([]);
 
-	const fetchGetAllUsers = async () => {
+	const fetchGetAllUsersDeleted = async () => {
 		try {
-			const response = await axios.get(SummaryApi.getAllUsers.url);
+			const response = await axios.get(SummaryApi.trashAllUsers.url);
 
 			if (response.data.success) {
 				console.log(response.data.data);
@@ -37,28 +37,23 @@ function UserDashboard() {
 			: [];
 	}, [currentPage, getAllUsers]);
 
-	// const deleteUser = async (id) => {
-	// 	try {
-	// 		const response = await axios.delete(
-	// 			`${SummaryApi.deletedUser.url}/${id}`
-	// 		);
-
-	// 		if (response.data.success) {
-	// 			toast.success(response.data.message);
-	// 			setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
-	// 		}
-	// 	} catch (err) {}
-	// };
 	const deleteUser = async (id) => {
 		try {
 			const response = await axios.post(
-				`${SummaryApi.deleteUserSmooth.url}/${id}`,
-				{
-					timeNow: new Date()
-						.toISOString()
-						.slice(0, 19)
-						.replace("T", " "),
-				}
+				`${SummaryApi.deletedUser.url}/${id}`
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
+			}
+		} catch (err) {}
+	};
+
+	const restoreUser = async (id) => {
+		try {
+			const response = await axios.post(
+				`${SummaryApi.restoreUser.url}/${id}`
 			);
 
 			if (response.data.success) {
@@ -74,7 +69,7 @@ function UserDashboard() {
 	};
 
 	useEffect(() => {
-		fetchGetAllUsers();
+		fetchGetAllUsersDeleted();
 	}, []);
 
 	return (
@@ -82,12 +77,12 @@ function UserDashboard() {
 			<div className="request-container">
 				<div className="request-content">
 					<div>
-						<div className="request-title">List of Users</div>
+						<div className="request-title">Users Trash</div>
 						<Link
-							to={"/users/trash"}
-							className="text-blue-500 underline text-lg "
+							className="text-blue-500 underline text-lg"
+							to={"/admin/user-dashboard"}
 						>
-							Trash
+							Back to User Dashboard
 						</Link>
 					</div>
 					<div className="request-table">
@@ -155,7 +150,7 @@ function UserDashboard() {
 												Created At
 											</div>
 											<div className="row-data2">
-												Updated At
+												Deleted At
 											</div>
 											<div className="row-data2">
 												Action
@@ -204,7 +199,7 @@ function UserDashboard() {
 															<div className="body-row-data2">
 																<span>
 																	{
-																		item.updated_at
+																		item.deletedAt
 																	}{" "}
 																</span>
 															</div>
@@ -216,7 +211,7 @@ function UserDashboard() {
 																	</button>
 																</div>
 															) : (
-																<div className="body-button">
+																<div className="body-button flex gap-2">
 																	<button
 																		className="reject-button"
 																		onClick={() =>
@@ -226,6 +221,16 @@ function UserDashboard() {
 																		}
 																	>
 																		Delete
+																	</button>
+																	<button
+																		onClick={() =>
+																			restoreUser(
+																				item.id
+																			)
+																		}
+																		className="ok-button"
+																	>
+																		Restore
 																	</button>
 																</div>
 															)}
@@ -255,4 +260,4 @@ function UserDashboard() {
 	);
 }
 
-export default UserDashboard;
+export default TrashUser;

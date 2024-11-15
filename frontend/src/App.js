@@ -3,18 +3,21 @@ import { useState } from "react";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import Navbar from "./components/layout/Navbar";
 import Header from "./components/layout/Header";
+import Sidebar from "./components/layout/Sidebar";
 
 function App() {
-	const [isNavOpen, setIsOpen] = useState(true);
-	const toggleNav = () => setIsOpen((prevState) => !prevState);
+	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+	const toggleNav = () => setIsSidebarOpen((prevState) => !prevState);
 	return (
 		<>
 			<div className="flex max-h-screen overflow-hidden">
-				<Navbar isNavOpen={isNavOpen} />
+				<Sidebar isSidebarOpen={isSidebarOpen} />
 				<div className="w-full max-h-screen overflow-hidden bg-[#EFF2F7]">
-					<Header isNavbarOpen={isNavOpen} toggleNav={toggleNav} />
+					<Header
+						isSidebarOpen={isSidebarOpen}
+						toggleNav={toggleNav}
+					/>
 
 					<main>
 						<Outlet />

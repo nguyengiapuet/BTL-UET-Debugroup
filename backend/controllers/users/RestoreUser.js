@@ -1,15 +1,17 @@
 const db = require("../../config/db");
 
-async function deletedUser(req, res) {
+async function RestoreUser(req, res) {
+	console.log("(req.body)", req.body);
+
 	try {
 		db.query(
-			"DELETE FROM account WHERE id = ?",
-			[req.params.id],
+			"UPDATE account SET deleted=?, deletedAt=? WHERE id = ?",
+			[0, null, req.params.id],
 			function (err, result) {
 				if (err) throw err;
 				return res.status(200).json({
 					success: true,
-					message: "User deleted successfully",
+					message: "User restore successfully",
 				});
 			}
 		);
@@ -21,4 +23,4 @@ async function deletedUser(req, res) {
 	}
 }
 
-module.exports = deletedUser;
+module.exports = RestoreUser;
