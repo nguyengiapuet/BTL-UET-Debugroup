@@ -63,7 +63,7 @@ function SignUp() {
 						</label>
 						<input
 							name="username"
-							value={data.email}
+							value={data.username}
 							onChange={handleOnChange}
 							type="text"
 							placeholder="Enter your username"
@@ -101,11 +101,11 @@ function SignUp() {
 							Confirm password:
 						</label>
 						<input
-							name="password"
-							value={data.password}
+							name="confirmPassword"
+							value={data.confirmPassword}
 							onChange={handleOnChange}
 							type="password"
-							placeholder="Enter your password"
+							placeholder="Confirm your password"
 							className="rounded-lg py-5 px-3 h-8 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
 						/>
 					</div>

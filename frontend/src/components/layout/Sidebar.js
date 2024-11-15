@@ -5,14 +5,14 @@ import { useState } from "react";
 import SidebarTreeView from "./LayerTree";
 import { AiFillGithub } from "react-icons/ai";
 
-// Left Navbar Page
-function Navbar({ isNavOpen }) {
+// Left Sidebar Page
+function Sidebar({ isSidebarOpen }) {
 	const [activeButton, setActiveButton] = useState("Category");
 	const [isFocused, setIsFocused] = useState(false);
 
 	return (
 		<div>
-			{isNavOpen && (
+			{isSidebarOpen && (
 				<div className="overflow-hidden coding-box bg-[#ffffff] w-[300px] min-h-screen max-h-screen flex flex-col items-center gap-7 px-6 py-5">
 					{/* Main logo app */}
 					<div className=" w-full h-11 flex items-center justify-center">
@@ -109,4 +109,4 @@ function Navbar({ isNavOpen }) {
 	);
 }
 
-export default Navbar;
+export default Sidebar;

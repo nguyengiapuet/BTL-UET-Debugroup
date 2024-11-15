@@ -1,10 +1,12 @@
 const db = require("../../config/db");
 
-async function deletedUser(req, res) {
+async function deleteUserSmooth(req, res) {
+	console.log("(req.body)", req.body);
+
 	try {
 		db.query(
-			"DELETE FROM account WHERE id = ?",
-			[req.params.id],
+			"UPDATE account SET deleted=?, deletedAt=? WHERE id = ?",
+			[1, req.body.timeNow, req.params.id],
 			function (err, result) {
 				if (err) throw err;
 				return res.status(200).json({
@@ -21,4 +23,4 @@ async function deletedUser(req, res) {
 	}
 }
 
-module.exports = deletedUser;
+module.exports = deleteUserSmooth;

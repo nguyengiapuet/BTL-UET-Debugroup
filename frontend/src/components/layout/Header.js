@@ -12,7 +12,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { AiOutlineMenu } from "react-icons/ai";
 import Search from "../search/Search";
 
-function Header({ isNavOpen, toggleNav }) {
+function Header({ isSidebarOpen, toggleNav }) {
 	const { userData, setUserData } = useContext(AuthContext);
 	const [openPop, setOpenPop] = useState(false);
 	const { title, setTitle } = useContext(AuthContext);
@@ -62,7 +62,7 @@ function Header({ isNavOpen, toggleNav }) {
 										<img
 											src={userData.avatar}
 											alt="avatar"
-											className="cursor-pointer w-full h-full rounded-full border-[#9C6317] border-2 "
+											className="cursor-pointer size-10 rounded-full border-[#9C6317] border-2 "
 										/>
 									) : (
 										<FaUserCircle className="cursor-pointer w-full h-full rounded-full border-[#9C6317] border-2 " />

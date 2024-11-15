@@ -1,10 +1,10 @@
 const db = require("../../config/db");
 
-async function getAllUsers(req, res) {
+async function getAllUsersDeleted(req, res) {
 	try {
 		db.query(
 			"SELECT * FROM account WHERE deleted = ?",
-			[0],
+			[1],
 			function (err, result) {
 				console.log(result);
 				res.status(200).json({
@@ -22,4 +22,4 @@ async function getAllUsers(req, res) {
 	}
 }
 
-module.exports = getAllUsers;
+module.exports = getAllUsersDeleted;

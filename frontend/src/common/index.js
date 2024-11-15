@@ -14,7 +14,7 @@ const SummaryApi = {
 		url: `${backendDomain}/api/getall`,
 	},
 	deletedUser: {
-		url: `${backendDomain}/api`,
+		url: `${backendDomain}/api/delete-user`,
 	},
 	createPens: {
 		url: `${backendDomain}/api/create-pens`,
@@ -75,6 +75,15 @@ const SummaryApi = {
 	},
 	searchUser: {
 		url: `${backendDomain}/api/search`,
+	},
+	deleteUserSmooth: {
+		url: `${backendDomain}/api/delete-user-smooth`,
+	},
+	trashAllUsers: {
+		url: `${backendDomain}/api/trash/allUser`,
+	},
+	restoreUser: {
+		url: `${backendDomain}/api/restore-user`,
 	},
 };
 

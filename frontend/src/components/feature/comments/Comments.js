@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import axios from "axios";
 import { FaComment, FaPaperPlane, FaShare, FaUserCircle } from "react-icons/fa";
-import SummaryApi from "../../common";
+import SummaryApi from "../../../common";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { MdClose } from "react-icons/md";
 
-function Comments({ project, setOpen }) {
+function Comments({ project, setOpen, refresh }) {
 	const [comment, setComment] = useState("");
 	const [allComments, setAllComments] = useState([]);
 	const handleSendComments = async () => {
@@ -44,6 +44,7 @@ function Comments({ project, setOpen }) {
 	const handleEnter = async (e) => {
 		if (e.key === "Enter") {
 			await handleSendComments();
+			refresh((prev) => !prev);
 		}
 	};
 

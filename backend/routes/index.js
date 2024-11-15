@@ -25,18 +25,24 @@ const deleteFollower = require("../controllers/follower/deleteFollower");
 const getFollower = require("../controllers/follower/getFollower");
 const countFollower = require("../controllers/follower/countFollower");
 const searchUser = require("../controllers/users/searchUser");
+const deleteUserSmooth = require("../controllers/users/deleteUserSmooth");
+const getAllUsersDeleted = require("../controllers/users/getAllUsersDeleted");
+const RestoreUser = require("../controllers/users/RestoreUser");
 
 const router = express.Router();
 
 // Account
 router.get("/getall", getAllUsers);
+router.get("/trash/allUser", getAllUsersDeleted);
 router.post("/signup", signUpAccount);
 router.post("/signin", signInAccount);
 router.get("/info/:username", findUserByUsername);
 router.get("/user-details", verifyToken, getDetailsUser);
-router.delete("/:id", verifyToken, deletedUser);
+router.post("/delete-user/:id", verifyToken, deletedUser);
 router.put("/update-profile/:id", verifyToken, updateInfoUser);
 router.get("/search/:username", searchUser);
+router.post("/delete-user-smooth/:id", deleteUserSmooth);
+router.post("/restore-user/:id", RestoreUser);
 
 // Pens
 router.post("/create-pens", verifyToken, createPens);

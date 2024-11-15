@@ -4,18 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import SummaryApi from "../../../common";
 import { useContext, useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
-import {
-	FaComment,
-	FaEdit,
-	FaEye,
-	FaHeart,
-	FaRegHeart,
-	FaTrash,
-	FaUserCircle,
-} from "react-icons/fa";
+import { FaEdit, FaEye, FaTrash, FaUserCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
-import Comments from "../../../components/feature/Comments";
+import ButtonLike from "../../../components/feature/likes/ButtonLike";
+import ButtonComment from "../../../components/feature/comments/ButtonComment";
 
 function UserDetails() {
 	const params = useParams();
@@ -34,11 +27,6 @@ function UserDetails() {
 	const { userData } = useContext(AuthContext);
 	const [projectsUser, setProjectsUser] = useState([]);
 
-	const [totalLike, setTotalLike] = useState({});
-	const [allLike, setAllLike] = useState([]);
-	const [totalComment, setTotalComment] = useState({});
-	const [openComment, setOpenComment] = useState(false);
-	const [project, setProject] = useState("");
 	const [isFollowing, setIsFollowing] = useState();
 	const [follow, setFollow] = useState({
 		followerCount: 0,
@@ -47,97 +35,8 @@ function UserDetails() {
 
 	const navigate = useNavigate();
 
-	const totalLikes = async () => {
-		try {
-			const response = await axios.get(SummaryApi.totalLike.url);
-
-			if (response.data.success) {
-				for (let i = 0; i < response.data.data.length; i++) {
-					setTotalLike((prev) => ({
-						...prev,
-						[response.data.data[i].id_project]:
-							response.data.data[i].total_likes,
-					}));
-				}
-			}
-		} catch (err) {
-			console.log(err.message);
-		}
-	};
-
-	const handleLike = async (pen) => {
-		try {
-			const response = await axios.post(SummaryApi.addLike.url, {
-				idProject: pen.id,
-			});
-
-			if (response.data.success) {
-				toast.success("Like added successfully!");
-				getAllLikeByUser();
-				setTotalLike((prev) => ({
-					...prev,
-					[pen.id]: prev[pen.id] ? prev[pen.id] + 1 : 1,
-				}));
-			}
-		} catch (err) {
-			console.log(err.message);
-			return;
-		}
-	};
-
-	const handleUnlike = async (pen) => {
-		try {
-			const response = await axios.post(SummaryApi.deleteLike.url, {
-				idProject: pen.id,
-			});
-
-			if (response.data.success) {
-				toast.success("Like removed successfully!");
-				getAllLikeByUser();
-				setTotalLike((prev) => ({
-					...prev,
-					[pen.id]: prev[pen.id] ? prev[pen.id] - 1 : 0,
-				}));
-			}
-		} catch (err) {
-			console.log(err.message);
-			return;
-		}
-	};
-
-	const getAllLikeByUser = async () => {
-		try {
-			const response = await axios.get(SummaryApi.getAllLikeByUser.url);
-			if (response.data.success) {
-				setAllLike(response.data.data);
-				console.log("response.data.data", response.data.data);
-			}
-		} catch (err) {
-			console.log(err.message);
-			return;
-		}
-	};
-
 	const handleClickPens = (pen) => {
 		navigate(`/pen/${pen.id}`);
-	};
-
-	const totalComments = async () => {
-		try {
-			const response = await axios.get(SummaryApi.totalComments.url);
-			if (response.data.success) {
-				console.log("response.data.data????", response.data.data);
-				for (let i = 0; i < response.data.data.length; i++) {
-					setTotalComment((prev) => ({
-						...prev,
-						[response.data.data[i].id_project]:
-							response.data.data[i].total_comments,
-					}));
-				}
-			}
-		} catch (err) {
-			console.log(err.message);
-		}
 	};
 
 	const handleRemove = async (pen) => {
@@ -153,11 +52,6 @@ function UserDetails() {
 		} catch (err) {
 			console.log(err.message);
 		}
-	};
-
-	const handleOpenComment = (pen) => {
-		setOpenComment(true);
-		setProject(pen);
 	};
 
 	const handleFollower = async () => {
@@ -252,12 +146,8 @@ function UserDetails() {
 	useEffect(() => {
 		fetchUserDetails();
 		fetchUserProjects();
-		totalLikes();
-		totalComments();
-		getAllLikeByUser();
 		if (dataUser.id) {
 			fetchGetFollowUser();
-			// fetchCountFollower();
 		}
 	}, [dataUser.id]);
 
@@ -378,49 +268,11 @@ function UserDetails() {
 								/>
 
 								<div className="w-full flex pt-4">
-									<div className="px-3 py-1 ml-2 bg-[#cfcfcf] w-fit rounded-xl flex gap-1 items-center justify-center">
-										<p className="text-[#545454] text-xl">
-											{totalLike[pen.id]
-												? totalLike[pen.id]
-												: 0}
-										</p>
-										{allLike.find(
-											(project) =>
-												project.id_project === pen.id
-										) ? (
-											<FaHeart
-												onClick={() =>
-													handleUnlike(pen)
-												}
-												className="text-[24px] cursor-pointer text-[#ff3434]"
-											/>
-										) : (
-											<FaRegHeart
-												onClick={() => handleLike(pen)}
-												className="text-[24px] cursor-pointer text-[#545454]"
-											/>
-										)}
-									</div>
-									<div className="px-3 py-1 ml-2 bg-[#cfcfcf] w-fit rounded-xl flex gap-1 items-center justify-center">
-										<p className="text-[#545454] text-xl">
-											{totalComment[pen.id]
-												? totalComment[pen.id]
-												: 0}
-										</p>
-
-										<FaComment
-											onClick={() =>
-												handleOpenComment(pen)
-											}
-											className="text-[24px] cursor-pointer text-[#545454] hover:opacity-80"
-										/>
-									</div>
+									<ButtonLike pen={pen} />
+									<ButtonComment pen={pen} />
 								</div>
 							</div>
 						))}
-					{openComment && (
-						<Comments setOpen={setOpenComment} project={project} />
-					)}
 				</div>
 			</div>
 		</div>

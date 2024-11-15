@@ -37,9 +37,10 @@ function LoginPage() {
 				await loadUser();
 				toast.success(response.data.message);
 				navigate("/popular");
-			}
+			} else toast.error(response.data.message);
 		} catch (err) {
 			console.log(err.message);
+			toast.error(err.message);
 		}
 	};
 
