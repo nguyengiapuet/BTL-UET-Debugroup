@@ -2,13 +2,19 @@
 import axios from "axios";
 import { FaComment, FaPaperPlane, FaShare, FaUserCircle } from "react-icons/fa";
 import SummaryApi from "../../../common";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { MdClose } from "react-icons/md";
+import ActionButtonComment from "./ActionButtonComment";
+import Comment from "./Comment";
 
 function Comments({ project, setOpen, refresh }) {
 	const [comment, setComment] = useState("");
 	const [allComments, setAllComments] = useState([]);
+	const [refreshComment, setRefreshComment] = useState(false);
+	const [edit, setEdit] = useState(false);
+	const ref = useRef();
+
 	const handleSendComments = async () => {
 		try {
 			const response = await axios.post(SummaryApi.sendComments.url, {
@@ -18,7 +24,9 @@ function Comments({ project, setOpen, refresh }) {
 
 			if (response.data.success) {
 				toast.success(response.data.message);
-				getAllCommentsByProject();
+
+				// getAllCommentsByProject();
+				setRefreshComment((prev) => !prev);
 				setComment("");
 			}
 		} catch (err) {
@@ -34,6 +42,7 @@ function Comments({ project, setOpen, refresh }) {
 
 			if (response.data.success) {
 				console.log("response.data.data>>>>", response.data.data);
+				refresh((prev) => !prev);
 				setAllComments(response.data.data);
 			}
 		} catch (err) {
@@ -44,13 +53,12 @@ function Comments({ project, setOpen, refresh }) {
 	const handleEnter = async (e) => {
 		if (e.key === "Enter") {
 			await handleSendComments();
-			refresh((prev) => !prev);
 		}
 	};
 
 	useEffect(() => {
 		getAllCommentsByProject();
-	}, []);
+	}, [refreshComment]);
 
 	return (
 		<div className=" bg-[#9797977a] fixed top-0 left-0 right-0 bottom-0 z-10">
@@ -105,23 +113,48 @@ function Comments({ project, setOpen, refresh }) {
 
 				<div className="w-full flex flex-col mb-16 gap-2 pb-2">
 					{allComments.map((comment, index) => (
-						<div className="px-4 w-full text-lg py-2 flex  gap-2">
-							{comment.avatar ? (
-								<img
-									src={comment.avatar}
-									alt="avt"
-									className="h-[48px] w-[48px] rounded-full border border-[#4f4f4f]"
-								/>
-							) : (
-								<FaUserCircle className="text-5xl" />
-							)}
-							<div className="bg-[#cad4d5] px-2 py-1 w-full rounded-md">
-								<p className="text-lg font-medium">
-									{comment.username}
-								</p>
-								<p>{comment.content}</p>
-							</div>
-						</div>
+						// <div className="px-4 w-full text-lg py-2 flex  gap-2">
+						// 	{comment.avatar ? (
+						// 		<img
+						// 			src={comment.avatar}
+						// 			alt="avt"
+						// 			className="h-[48px] w-[48px] rounded-full border border-[#4f4f4f]"
+						// 		/>
+						// 	) : (
+						// 		<FaUserCircle className="text-5xl" />
+						// 	)}
+						// 	<div className="bg-[#cad4d5] px-2 py-1 w-fit rounded-md">
+						// 		<p className="text-lg font-medium">
+						// 			{comment.username}
+						// 		</p>
+						// 		{edit ? (
+						// 			<input
+						// 				size={comment.content.length}
+						// 				type="text"
+						// 				value={comment.content}
+						// 				className="bg-transparent"
+						// 			/>
+						// 		) : (
+						// 			<input
+						// 				size={comment.content.length}
+						// 				type="text"
+						// 				value={comment.content}
+						// 				className="bg-transparent"
+						// 				disabled
+						// 			/>
+						// 		)}
+						// 	</div>
+						// 	<ActionButtonComment
+						// 		comment={comment}
+						// 		setComment={setRefreshComment}
+						// 		setEdit={setEdit}
+						// 	/>
+						// </div>
+						<Comment
+							key={comment.id}
+							comment={comment}
+							setRefreshComment={setRefreshComment}
+						/>
 					))}
 				</div>
 

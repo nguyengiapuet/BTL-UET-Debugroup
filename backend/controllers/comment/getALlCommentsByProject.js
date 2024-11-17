@@ -1,10 +1,11 @@
 const db = require("../../config/db");
 
 async function getAllCommentsByProject(req, res) {
-    try {
-        db.query(
-            `
+	try {
+		db.query(
+			`
                 SELECT 
+                    comments.id,
                     comments.content, 
                     comments.id_user, 
                     account.username, 
@@ -17,24 +18,24 @@ async function getAllCommentsByProject(req, res) {
                 WHERE 
                     comments.id_project = ?;
             `,
-            [req.params.id],
-            function (err, result) {
-                if (err) {
-                    throw err;
-                }
-                res.status(200).json({
-                    success: true,
-                    message: "get all comments successfully",
-                    data: result,
-                });
-            }
-        );
-    } catch (err) {
-        res.status(500).json({
-            message: err.message,
-            success: false,
-        });
-    }
+			[req.params.id],
+			function (err, result) {
+				if (err) {
+					throw err;
+				}
+				res.status(200).json({
+					success: true,
+					message: "get all comments successfully",
+					data: result,
+				});
+			}
+		);
+	} catch (err) {
+		res.status(500).json({
+			message: err.message,
+			success: false,
+		});
+	}
 }
 
 module.exports = getAllCommentsByProject;
