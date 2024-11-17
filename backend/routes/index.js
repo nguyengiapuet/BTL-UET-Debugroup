@@ -30,6 +30,8 @@ const getAllUsersDeleted = require("../controllers/users/getAllUsersDeleted");
 const RestoreUser = require("../controllers/users/RestoreUser");
 const deleteCommentByUser = require("../controllers/comment/deleteCommentByUser");
 const editCommentByUser = require("../controllers/comment/editCommentByUser");
+const getAllComments = require("../controllers/comment/getAllComments");
+const deleteCommentByAdmin = require("../controllers/comment/deleteCommentByAdmin");
 
 const router = express.Router();
 
@@ -65,7 +67,9 @@ router.post("/send-comments", verifyToken, sendComments);
 router.get("/all-comments/:id", getAllCommentsByProject);
 router.get("/total-comments", totalComments);
 router.post("/delete-comments", verifyToken, deleteCommentByUser);
+router.post("/admin/delete-comments", verifyToken, deleteCommentByAdmin);
 router.post("/edit-comments", verifyToken, editCommentByUser);
+router.get("/admin/all-comments", getAllComments);
 
 // Follower
 router.post("/create-follower", verifyToken, createFollower);

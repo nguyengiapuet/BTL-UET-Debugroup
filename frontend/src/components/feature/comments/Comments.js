@@ -12,8 +12,6 @@ function Comments({ project, setOpen, refresh }) {
 	const [comment, setComment] = useState("");
 	const [allComments, setAllComments] = useState([]);
 	const [refreshComment, setRefreshComment] = useState(false);
-	const [edit, setEdit] = useState(false);
-	const ref = useRef();
 
 	const handleSendComments = async () => {
 		try {
@@ -113,43 +111,6 @@ function Comments({ project, setOpen, refresh }) {
 
 				<div className="w-full flex flex-col mb-16 gap-2 pb-2">
 					{allComments.map((comment, index) => (
-						// <div className="px-4 w-full text-lg py-2 flex  gap-2">
-						// 	{comment.avatar ? (
-						// 		<img
-						// 			src={comment.avatar}
-						// 			alt="avt"
-						// 			className="h-[48px] w-[48px] rounded-full border border-[#4f4f4f]"
-						// 		/>
-						// 	) : (
-						// 		<FaUserCircle className="text-5xl" />
-						// 	)}
-						// 	<div className="bg-[#cad4d5] px-2 py-1 w-fit rounded-md">
-						// 		<p className="text-lg font-medium">
-						// 			{comment.username}
-						// 		</p>
-						// 		{edit ? (
-						// 			<input
-						// 				size={comment.content.length}
-						// 				type="text"
-						// 				value={comment.content}
-						// 				className="bg-transparent"
-						// 			/>
-						// 		) : (
-						// 			<input
-						// 				size={comment.content.length}
-						// 				type="text"
-						// 				value={comment.content}
-						// 				className="bg-transparent"
-						// 				disabled
-						// 			/>
-						// 		)}
-						// 	</div>
-						// 	<ActionButtonComment
-						// 		comment={comment}
-						// 		setComment={setRefreshComment}
-						// 		setEdit={setEdit}
-						// 	/>
-						// </div>
 						<Comment
 							key={comment.id}
 							comment={comment}

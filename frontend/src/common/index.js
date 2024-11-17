@@ -91,6 +91,12 @@ const SummaryApi = {
 	editCommentByUser: {
 		url: `${backendDomain}/api/edit-comments`,
 	},
+	getAllCommentsByAdmin: {
+		url: `${backendDomain}/api/admin/all-comments`,
+	},
+	deleteCommentByAdmin: {
+		url: `${backendDomain}/api/admin/delete-comments`,
+	},
 };
 
 export default SummaryApi;

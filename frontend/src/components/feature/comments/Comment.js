@@ -38,7 +38,7 @@ function Comment({ comment, setRefreshComment }) {
 
 	return (
 		<>
-			<div className="px-4 w-full text-lg py-2 flex  gap-2">
+			<div className="px-4 w-full text-lg py-2 flex gap-2">
 				{comment.avatar ? (
 					<img
 						src={comment.avatar}
@@ -48,24 +48,20 @@ function Comment({ comment, setRefreshComment }) {
 				) : (
 					<FaUserCircle className="text-5xl" />
 				)}
-				<div className="bg-[#cad4d5] px-2 py-1 w-fit rounded-md">
+				<div className="bg-[#cad4d5] px-2 py-1 w-fit rounded-md overflow-hidden">
 					<p className="text-lg font-medium">{comment.username}</p>
 					{edit ? (
-						<input
-							size={content.length || 1}
-							type="text"
+						<textarea
 							value={content}
-							className="bg-transparent outline outline-1 px-2 rounded-sm"
+							className="bg-transparent outline outline-1 px-2 rounded-sm w-full overflow-y"
 							onChange={handleOnChange}
+							cols={content.length}
+							rows={2}
 						/>
 					) : (
-						<input
-							size={content.length}
-							type="text"
-							value={content}
-							className="bg-transparent"
-							disabled
-						/>
+						<div className="bg-transparent rounded-sm break-words">
+							{content}
+						</div>
 					)}
 				</div>
 				<ActionButtonComment

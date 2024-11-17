@@ -4,8 +4,6 @@ async function deleteCommentByUser(req, res) {
 	try {
 		const { idComment } = req.body;
 
-		console.log(idComment, req.userId);
-
 		db.query(
 			"DELETE FROM comments WHERE id = ? AND id_user = ?",
 			[idComment, req.userId],

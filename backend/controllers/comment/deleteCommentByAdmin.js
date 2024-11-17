@@ -1,20 +1,19 @@
 const db = require("../../config/db");
 
-async function deleteLikes(req, res) {
+async function deleteCommentByAdmin(req, res) {
 	try {
-		console.log("idProject>>>>>>>>>>>>>>", req.body);
-		const { idProject } = req.body;
+		const { idComment } = req.body;
 
 		db.query(
-			"DELETE FROM likes WHERE id_user = ? AND id_project = ?",
-			[req.userId, idProject],
+			"DELETE FROM comments WHERE id = ?",
+			[idComment],
 			function (err, result) {
 				if (err) {
 					throw err;
 				}
 				res.status(200).json({
 					success: true,
-					message: "Unlike successfully",
+					message: "Remove comment successfully",
 				});
 			}
 		);
@@ -26,4 +25,4 @@ async function deleteLikes(req, res) {
 	}
 }
 
-module.exports = deleteLikes;
+module.exports = deleteCommentByAdmin;
