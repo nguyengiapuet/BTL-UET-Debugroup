@@ -18,7 +18,7 @@ function ButtonComment({ pen }) {
 				for (let i = 0; i < response.data.data.length; i++) {
 					setTotalComment((prev) => ({
 						...prev,
-						[response.data.data[i].id_project]:
+						[response.data.data[i].id]:
 							response.data.data[i].total_comments,
 					}));
 				}

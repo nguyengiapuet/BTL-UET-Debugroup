@@ -85,6 +85,12 @@ const SummaryApi = {
 	restoreUser: {
 		url: `${backendDomain}/api/restore-user`,
 	},
+	deleteCommentByUser: {
+		url: `${backendDomain}/api/delete-comments`,
+	},
+	editCommentByUser: {
+		url: `${backendDomain}/api/edit-comments`,
+	},
 };
 
 export default SummaryApi;
