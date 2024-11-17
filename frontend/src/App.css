@@ -49,8 +49,8 @@
 }
 
 .SplitPane.horizontal {
-	top: 64px !important;
-	height: calc(100% - 64px) !important;
+	top: 60px !important;
+	height: calc(100% - 60px) !important;
 	min-height: 0px !important;
 }
 
