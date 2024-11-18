@@ -1,14 +1,15 @@
-const mysql = require('mysql2')
+const mysql = require('mysql2');
+require('dotenv').config();
 
 const mySqlPool = mysql.createPool({
     host: 'localhost',
     port: 3307,
     user: 'root',
     password: process.env.PASSWORD_SQL,
-    database:'btlweb',
+    database: 'btlweb',
     connectionLimit: 10,
     queueLimit: 0,
-    waitForConnections: true
-})
+    waitForConnections: true,
+});
 
-module.exports = mySqlPool
+module.exports = mySqlPool;

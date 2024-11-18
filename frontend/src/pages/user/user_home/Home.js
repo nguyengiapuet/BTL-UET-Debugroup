@@ -25,8 +25,8 @@ function Home() {
     }, []);
 
     return (
-        <div className="w-full h-screen bg-[#ECECEC] overflow-auto overflow-y-scroll">
-            <div className=" w-full h-full flex items-center flex-col bg-[#ECECEC]">
+        <div className="w-full h-screen bg-[#eff2f7] overflow-auto overflow-y-scroll">
+            <div className=" w-full h-full flex items-center flex-col bg-[#eff2f7]">
                 <div className="flex h-full w-[1080px] mt-24 flex-col gap-6">
                     <div className="flex justify-between w-full border-b border-[#aaa] pb-4">
                         <div className="flex gap-4 items-center">
@@ -79,9 +79,13 @@ function Home() {
 
             <Link
                 to={'/pen'}
-                className="fixed h-12 w-48 font-semibold cursor-pointer hover:bg-opacity-80 shadow-md flex items-center justify-center bg-[#9C6317] text-xl rounded-full text-white bottom-10 right-[680px]"
+                className="coding-btn animated-button1 fixed h-12 w-48 font-semibold cursor-pointer flex items-center justify-center text-xl text-white bottom-8 right-[45%]"
             >
-                Start coding
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Start Coding
             </Link>
         </div>
     );

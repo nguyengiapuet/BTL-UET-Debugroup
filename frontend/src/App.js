@@ -1,28 +1,37 @@
-import { Outlet } from 'react-router-dom';
-import './App.css';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
-import Navbar from './components/layout/Navbar';
-import Header from './components/layout/Header';
+import { Outlet } from "react-router-dom";
+import { useState } from "react";
+import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import Header from "./components/layout/Header";
+import Sidebar from "./components/layout/Sidebar";
 
 function App() {
-    return (
-        <>
-            <div className="flex">
-                <Navbar />
+	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+	const toggleNav = () => setIsSidebarOpen((prevState) => !prevState);
+	return (
+		<>
+			<div className="flex max-h-screen overflow-hidden">
+				<Sidebar isSidebarOpen={isSidebarOpen} />
+				<div className="w-full max-h-screen overflow-hidden bg-[#EFF2F7]">
+					<Header
+						isSidebarOpen={isSidebarOpen}
+						toggleNav={toggleNav}
+					/>
 
-                <div className="w-full h-screen overflow-hidden">
-                    <Header />
+					<main>
+						<Outlet />
+					</main>
+				</div>
 
-                    <main>
-                        <Outlet />
-                    </main>
-                </div>
-
-                <ToastContainer className="mt-10" position="top-right" autoClose={2000} />
-            </div>
-        </>
-    );
+				<ToastContainer
+					className="mt-10"
+					position="top-right"
+					autoClose={2000}
+				/>
+			</div>
+		</>
+	);
 }
 
 export default App;
