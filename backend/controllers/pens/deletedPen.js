@@ -15,7 +15,7 @@ async function deletedPen(req, res) {
 
 				res.json({
 					success: true,
-					message: "Delete successfully",
+					message: "Deleted successfully",
 				});
 			}
 		);
