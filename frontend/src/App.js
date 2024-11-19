@@ -12,8 +12,14 @@ function App() {
 	return (
 		<>
 			<div className="flex max-h-screen overflow-hidden">
-				<Sidebar isSidebarOpen={isSidebarOpen} />
-				<div className="w-full max-h-screen overflow-hidden bg-[#EFF2F7]">
+				<div
+					className={`transition-all duration-300 ease-in-out ${
+						isSidebarOpen ? "w-[300px]" : "w-0"
+					}`}
+				>
+					<Sidebar isSidebarOpen={isSidebarOpen} />
+				</div>
+				<div className="w-full max-h-screen overflow-hidden bg-[#EFF2F7] transition-all duration-300 ease-in-out">
 					<Header
 						isSidebarOpen={isSidebarOpen}
 						toggleNav={toggleNav}
