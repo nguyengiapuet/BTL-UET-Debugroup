@@ -18,7 +18,7 @@ export function usePenData() {
       <!DOCTYPE html>
       <html>
         <head>
-          <style>${dataPen.css}</style>
+          <style>body{color: white}${dataPen.css}</style>
         </head>
         <body>
           ${dataPen.html}
