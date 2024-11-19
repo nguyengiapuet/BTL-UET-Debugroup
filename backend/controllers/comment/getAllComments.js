@@ -9,6 +9,7 @@ async function getAllComments(req, res) {
                     comments.content, 
                     comments.id_user,
 					comments.comments_at,
+					comments.update_at,
                     account.username, 
                     account.email,
                     account.avatar,

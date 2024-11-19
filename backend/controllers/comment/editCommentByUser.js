@@ -2,13 +2,13 @@ const db = require("../../config/db");
 
 async function editCommentByUser(req, res) {
 	try {
-		const { idComment, content } = req.body;
+		const { idComment, content, timeNow } = req.body;
 
 		console.log(idComment, req.userId);
 
 		db.query(
-			"UPDATE comments SET content = ? WHERE id = ? AND id_user = ?",
-			[content, idComment, req.userId],
+			"UPDATE comments SET content = ?, update_at = ? WHERE id = ? AND id_user = ?",
+			[content, timeNow, idComment, req.userId],
 			function (err, result) {
 				if (err) {
 					throw err;

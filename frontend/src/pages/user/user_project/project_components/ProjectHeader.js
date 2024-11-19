@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { FaEdit, FaSave, FaShare } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AiFillCode } from "react-icons/ai";
 
 function ProjectHeader({
@@ -12,15 +11,10 @@ function ProjectHeader({
 	handleOnchanePen,
 	userData,
 	inputRef,
+	dataPen,
 }) {
-	const [title, setTitle] = useState("Untitled");
+	const params = useParams();
 
-	const handleTitleChange = (e) => {
-		handleOnchanePen(e);
-		if (e.target.name === "title") {
-			setTitle(e.target.value);
-		}
-	};
 	return (
 		<div className="h-[60px] bg-[#15222e] flex items-center justify-between border-b border-gray-400">
 			<div className="h-[60px] flex items-center gap-3 flex-row pl-2 ">
@@ -28,15 +22,17 @@ function ProjectHeader({
 				<div>
 					<div className="flex items-center gap-3">
 						<input
-							style={{ width: `${title.length}ch` }}
+							style={{ width: `${dataPen.title.length}ch` }}
 							ref={inputRef}
 							onBlur={handleBlur}
 							onKeyDown={handleKey}
-							value={title}
+							value={dataPen.title}
 							name="title"
 							type="text"
 							className="text-white text-md font-medium bg-transparent outline-none"
-							onChange={handleTitleChange}
+							onChange={(e) =>
+								handleOnchanePen(e.target.value, e.target.name)
+							}
 						/>
 						{editTitle && (
 							<FaEdit
@@ -60,15 +56,16 @@ function ProjectHeader({
 						<FaShare className="text-sm" />
 						<button>Share</button>
 					</Link>
-
-					<Link
-						to="/"
-						onClick={handleSavePens}
-						className="text-sm flex gap-1 items-center bg-[#9C6317] px-4 py-[3px] rounded text-white hover:bg-opacity-75"
-					>
-						<FaSave />
-						<button>Save</button>
-					</Link>
+					{(!params.id || dataPen.email === userData.email) && (
+						<Link
+							to="/"
+							onClick={handleSavePens}
+							className="text-sm flex gap-1 items-center bg-[#9C6317] px-4 py-[3px] rounded text-white hover:bg-opacity-75"
+						>
+							<FaSave />
+							<button>Save</button>
+						</Link>
+					)}
 				</div>
 				<div className="py-[3px] w-[1px] bg-white"></div>
 
