@@ -179,7 +179,7 @@ function CommentDashboard() {
 													</div>
 													<div className="body-row-data2">
 														<span>
-															{item.updated_at}{" "}
+															{item.update_at}{" "}
 														</span>
 													</div>
 													{stateOfInfo === "2" ? (
