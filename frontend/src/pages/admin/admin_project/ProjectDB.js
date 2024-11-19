@@ -156,8 +156,18 @@ function ProjectDashboard() {
 
 													<div className="body-row-data1">
 														<span>
-															{item.status ||
-																null}
+															<span className="font-semibold">
+																{
+																	item.total_likes
+																}{" "}
+															</span>
+															likes,{" "}
+															<span className="font-semibold">
+																{
+																	item.total_comments
+																}{" "}
+															</span>
+															comments
 														</span>
 													</div>
 

@@ -4,10 +4,11 @@ async function getAllPensPublic(req, res) {
 	try {
 		db.query(
 			`
-            SELECT p.*, a.avatar, a.username, COUNT(l.id_project) AS total_likes
+           SELECT p.*, a.avatar, a.username, COUNT(distinct l.id) AS total_likes, COUNT(distinct c.id) AS total_comments
             FROM pens p
             JOIN account a ON p.email = a.email
             LEFT JOIN likes l ON p.id = l.id_project
+            LEFT JOIN comments c ON p.id = c.id_project
             GROUP BY p.id
         `,
 			function (err, result) {
