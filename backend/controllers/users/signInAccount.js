@@ -9,10 +9,7 @@ async function signInAccount(req, res) {
 
 		const user = await db
 			.promise()
-			.query("SELECT * FROM account WHERE email = ? AND deleted=?", [
-				email,
-				0,
-			]);
+			.query("SELECT * FROM account WHERE email = ?", [email]);
 		console.log("user[0]", user[0]);
 
 		if (user[0].length === 0) {
@@ -52,7 +49,7 @@ async function signInAccount(req, res) {
 	} catch (err) {
 		res.status(404).json({
 			success: false,
-			message: "err.message",
+			message: err.message,
 		});
 	}
 }

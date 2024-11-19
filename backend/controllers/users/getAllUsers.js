@@ -2,22 +2,37 @@ const db = require("../../config/db");
 
 async function getAllUsers(req, res) {
 	try {
-		db.query(
-			"SELECT * FROM account WHERE deleted = ?",
-			[0],
-			function (err, result) {
-				console.log(result);
-				res.status(200).json({
-					success: true,
-					message: "Users fetched successfully",
-					data: result,
+		const query = () => {
+			return new Promise((resolve, reject) => {
+				db.query("SELECT * FROM account", (err, result) => {
+					if (err) reject(err);
+					resolve(result);
 				});
-			}
-		);
+			});
+		};
+
+		const result = await query();
+
+		const safeResult = result.map((row) => ({
+			...row,
+			id: row.id?.toString(),
+			created_at:
+				row.created_at instanceof Date
+					? row.created_at.toISOString()
+					: row.created_at,
+		}));
+
+		return res.status(200).json({
+			success: true,
+			message: "Users fetched successfully",
+			data: safeResult,
+		});
 	} catch (err) {
-		res.json({
-			message: err.message,
+		console.error("Error:", err);
+		return res.status(500).json({
 			success: false,
+			message: "Error fetching users",
+			error: err.message,
 		});
 	}
 }
