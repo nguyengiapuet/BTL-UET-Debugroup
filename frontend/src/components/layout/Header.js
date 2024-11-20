@@ -12,8 +12,10 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { AiOutlineMenu } from "react-icons/ai";
 import Search from "../search/Search";
+import ProfileModal from "../../pages/user/user_account/Profile";
+import ChangePasswordModal from "../../pages/user/user_account/ChangePassword";
 
-function Header({ isSidebarOpen, toggleNav }) {
+function Header({ toggleNav }) {
 	const { userData, setUserData, title, setTitle } = useContext(AuthContext);
 	const [openPop, setOpenPop] = useState(false);
 
@@ -29,6 +31,14 @@ function Header({ isSidebarOpen, toggleNav }) {
 		});
 	};
 
+	const [isProfileOpen, setIsProfileOpen] = useState(false);
+	const handleCloseProfile = () => {
+		setIsProfileOpen(false);
+	};
+	const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+	const handleClosePassword = () => {
+		setIsPasswordOpen(false);
+	};
 	return (
 		<div className="w-full bg-[#f4f8ff] shadow-md py-2 flex flex-row justify-between items-center">
 			<MenuSection title={title} toggleNav={toggleNav} />
@@ -39,6 +49,13 @@ function Header({ isSidebarOpen, toggleNav }) {
 				setOpenPop={setOpenPop}
 				setTitle={setTitle}
 				handleLogout={handleLogout}
+				setIsProfileOpen={setIsProfileOpen}
+				setIsPasswordOpen={setIsPasswordOpen}
+			/>
+			<ProfileModal isOpen={isProfileOpen} onClose={handleCloseProfile} />
+			<ChangePasswordModal
+				isOpen={isPasswordOpen}
+				onClose={handleClosePassword}
 			/>
 		</div>
 	);
@@ -68,8 +85,7 @@ const UserAvatar = ({ avatar, size = "size-10" }) =>
 	);
 
 const PopupMenuItem = ({ to, onClick, icon: Icon, children }) => (
-	<Link
-		to={to}
+	<div
 		onClick={onClick}
 		className="text-sm flex gap-2 items-center text-[#454545] bg-white px-1 py-2 cursor-pointer 
 			transition-all duration-200 ease-in-out
@@ -78,10 +94,16 @@ const PopupMenuItem = ({ to, onClick, icon: Icon, children }) => (
 	>
 		<Icon className="size-3 transition-colors duration-200 group-hover:text-[#9C6317]" />
 		{children}
-	</Link>
+	</div>
 );
 
-const UserPopup = ({ userData, setOpenPop, setTitle }) => (
+const UserPopup = ({
+	userData,
+	setOpenPop,
+	setTitle,
+	setIsProfileOpen,
+	setIsPasswordOpen,
+}) => (
 	<div
 		className="absolute flex flex-col w-[250px] px-4 py-1 bg-white h-fit rounded-md top-8 -left-3
 		transform transition-all duration-200 origin-top opacity-100 scale-100 translate-y-0"
@@ -95,10 +117,10 @@ const UserPopup = ({ userData, setOpenPop, setTitle }) => (
 		</div>
 
 		<PopupMenuItem
-			to="/profile"
 			onClick={() => {
 				setTitle("Quản lý tài khoản");
 				setOpenPop(false);
+				setIsProfileOpen(true);
 			}}
 			icon={FaUser}
 		>
@@ -106,10 +128,10 @@ const UserPopup = ({ userData, setOpenPop, setTitle }) => (
 		</PopupMenuItem>
 
 		<PopupMenuItem
-			to="/privacy"
 			onClick={() => {
 				setTitle("Quản lý tài khoản");
 				setOpenPop(false);
+				setIsPasswordOpen(true);
 			}}
 			icon={FaLock}
 		>
@@ -117,7 +139,6 @@ const UserPopup = ({ userData, setOpenPop, setTitle }) => (
 		</PopupMenuItem>
 
 		<PopupMenuItem
-			to="/login"
 			onClick={() => {
 				setTitle("Quản lý tài khoản");
 				setOpenPop(false);
@@ -129,17 +150,24 @@ const UserPopup = ({ userData, setOpenPop, setTitle }) => (
 	</div>
 );
 
-const AuthSection = ({ userData, openPop, setOpenPop, setTitle }) => (
+const AuthSection = ({
+	userData,
+	openPop,
+	setOpenPop,
+	setTitle,
+	setIsProfileOpen,
+	setIsPasswordOpen,
+}) => (
 	<div className="flex flex-row items-center justify-center">
 		{userData.id ? (
-			<div
-				className="flex flex-row gap-6 items-center justify-center"
-				onClick={() => setOpenPop(!openPop)}
-				onBlur={() => setOpenPop(false)}
-			>
+			<div className="flex flex-row gap-6 items-center justify-center">
 				<FaRegBell className="text-lg font-bold text-[#9C6317]" />
 				<div className="h-6 w-[2px] bg-gray-400" />
-				<div className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative">
+				<div
+					className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative"
+					onClick={() => setOpenPop(!openPop)}
+					onBlur={() => setOpenPop(false)}
+				>
 					<UserAvatar avatar={userData.avatar} size="size-5" />
 					<div className="text-sm font-medium flex flex-row justify-center items-center gap-1 cursor-pointer">
 						<span className="font-medium">Xin chào,</span>
@@ -155,12 +183,14 @@ const AuthSection = ({ userData, openPop, setOpenPop, setTitle }) => (
 							userData={userData}
 							setOpenPop={setOpenPop}
 							setTitle={setTitle}
+							setIsPasswordOpen={setIsPasswordOpen}
+							setIsProfileOpen={setIsProfileOpen}
 						/>
 					)}
 				</div>
 			</div>
 		) : (
-			<div className="flex flex-row justify-center items-center gap-5">
+			<div className="flex flex-row justify-center items-center gap-5 px-4">
 				<Link
 					to="login"
 					className="hover:bg-gray-200 px-5 py-1 border-[1px] border-gray-400 rounded-md hover:text-[#0d6efd] font-bold text-sm text-[#9C6317]"

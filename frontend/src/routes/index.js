@@ -75,16 +75,6 @@ const router = createBrowserRouter([
 				children: [],
 			},
 			{
-				path: "/profile",
-				element: <Profile />,
-				children: [],
-			},
-			{
-				path: "/privacy",
-				element: <ChangePassword />,
-				children: [],
-			},
-			{
 				path: "/info/:username",
 				element: <UserDetails />,
 				children: [],
