@@ -131,7 +131,7 @@ const UserPopup = ({ userData, setOpenPop, setTitle }) => (
 
 const AuthSection = ({ userData, openPop, setOpenPop, setTitle }) => (
 	<div className="flex flex-row items-center justify-center">
-		{userData.id ? (
+		{userData?.id ? (
 			<div
 				className="flex flex-row gap-6 items-center justify-center"
 				onClick={() => setOpenPop(!openPop)}

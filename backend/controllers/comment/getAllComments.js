@@ -21,7 +21,6 @@ async function getAllComments(req, res) {
                 JOIN
                     pens ON comments.id_project = pens.id
             `,
-			[req.params.id],
 			function (err, result) {
 				if (err) {
 					throw err;
