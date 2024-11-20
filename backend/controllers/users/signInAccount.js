@@ -9,7 +9,10 @@ async function signInAccount(req, res) {
 
 		const user = await db
 			.promise()
-			.query("SELECT * FROM account WHERE email = ?", [email]);
+			.query("SELECT * FROM account WHERE email = ? AND deleted=?", [
+				email,
+				0,
+			]);
 		console.log("user[0]", user[0]);
 
 		if (user[0].length === 0) {

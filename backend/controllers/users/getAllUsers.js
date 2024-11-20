@@ -4,10 +4,14 @@ async function getAllUsers(req, res) {
 	try {
 		const query = () => {
 			return new Promise((resolve, reject) => {
-				db.query("SELECT * FROM account", (err, result) => {
-					if (err) reject(err);
-					resolve(result);
-				});
+				db.query(
+					"SELECT * FROM account WHERE deleted = ?",
+					[0],
+					(err, result) => {
+						if (err) reject(err);
+						resolve(result);
+					}
+				);
 			});
 		};
 

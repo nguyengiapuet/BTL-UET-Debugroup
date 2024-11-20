@@ -19,7 +19,6 @@ async function getAllComments(req, res) {
                 JOIN 
                     account ON comments.id_user = account.id
             `,
-
 			function (err, result) {
 				if (err) {
 					throw err;
