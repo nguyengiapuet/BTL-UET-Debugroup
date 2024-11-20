@@ -121,10 +121,10 @@ function CommentDashboard() {
 									<div className="table-header">
 										<div className="row">
 											<div className="row-data">#</div>
-											<div className="row-data2">
+											<div className="row-data1">
 												Project
 											</div>
-											<div className="row-data2">
+											<div className="row-data1">
 												User
 											</div>
 											<div className="row-data2">
@@ -144,7 +144,10 @@ function CommentDashboard() {
 									<div className="table-body">
 										{currentTableData.map((item, index) => {
 											return (
-												<div className="body-row">
+												<div
+													key={item.id}
+													className="body-row"
+												>
 													<div className="body-row-data">
 														<span>
 															{index +
@@ -154,13 +157,13 @@ function CommentDashboard() {
 																1}
 														</span>
 													</div>
-													<div className="body-row-data2">
+													<div className="body-row-data1">
 														<span>
 															{item.title}
 														</span>
 													</div>
 
-													<div className="body-row-data2">
+													<div className="body-row-data1">
 														<span>
 															{item.username}
 														</span>
@@ -189,7 +192,7 @@ function CommentDashboard() {
 															</button>
 														</div>
 													) : (
-														<div className="body-button">
+														<div className="body-row-data2 body-button">
 															<button
 																onClick={() =>
 																	handleDeleteComment(

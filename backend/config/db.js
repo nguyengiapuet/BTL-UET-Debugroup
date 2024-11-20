@@ -24,7 +24,7 @@ const mySqlPool = mysql.createPool({
 	port: 3307,
 	user: "root",
 	password: process.env.PASSWORD_SQL,
-	database: "btlweb",
+	database: "btlweb2",
 	connectionLimit: 10,
 	queueLimit: 0,
 	waitForConnections: true,

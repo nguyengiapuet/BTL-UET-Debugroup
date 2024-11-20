@@ -8,10 +8,10 @@ function StartPage() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (userData.id) {
+		if (userData?.id) {
 			navigate("/popular");
 		}
-	}, [userData.id]);
+	}, [userData?.id]);
 	return (
 		<div className="h-screen w-screen flex flex-row">
 			<div className="w-3/5 bg-[#ffffdb] flex flex-col justify-center">

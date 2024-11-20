@@ -42,12 +42,12 @@ function Popular() {
 
 	return (
 		<div className=" w-full h-fit py-4 pb-44">
-			<div className="flex flex-wrap justify-between gap-y-8 h-fit">
+			<div className="flex flex-wrap gap-x-6 gap-y-8 h-fit">
 				{getAllPens.length !== 0 &&
 					getAllPens.map((pen, index) => (
 						<div
 							key={index}
-							className="bg-white w-[480px] rounded-3xl h-[400px] flex flex-col items-center px-4 py-2 shadow-md"
+							className="bg-white w-[340px] rounded-3xl h-[400px] flex flex-col items-center px-4 py-2 shadow-md"
 						>
 							<div className="flex items-center justify-between w-full">
 								<Link to={`/info/${pen.username}`}>
