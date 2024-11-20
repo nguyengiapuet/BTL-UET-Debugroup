@@ -203,9 +203,9 @@ function UserDashboard() {
 															</div>
 															<div className="body-row-data2">
 																<span>
-																	{
-																		item.updated_at
-																	}{" "}
+																	{item.updated_at
+																		? item.updated_at
+																		: "Haven't updated"}{" "}
 																</span>
 															</div>
 															{stateOfInfo ===
