@@ -37,14 +37,10 @@ function ButtonComment({ pen }) {
 		totalComments();
 	}, [refreshComments]);
 	return (
-		<div className="px-3 py-1 ml-2 bg-[#cfcfcf] w-fit rounded-xl flex gap-1 items-center justify-center">
-			<p className="text-[#545454] text-xl">
-				{totalComment[pen.id] ? totalComment[pen.id] : 0}
-			</p>
-
+		<div className="w-fit rounded-xl flex gap-1 items-center justify-center">
 			<FaComment
 				onClick={() => handleOpenComment(pen)}
-				className="text-[24px] cursor-pointer text-[#545454] hover:opacity-80"
+				className="text-[16px] cursor-pointer text-[#545454] hover:opacity-80"
 			/>
 
 			{openComment && (
@@ -54,6 +50,9 @@ function ButtonComment({ pen }) {
 					refresh={setRefreshComments}
 				/>
 			)}
+			<p className="text-[#545454] text-[16px]">
+				{totalComment[pen.id] ? totalComment[pen.id] : 0}
+			</p>
 		</div>
 	);
 }

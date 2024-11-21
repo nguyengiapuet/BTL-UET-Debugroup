@@ -4,9 +4,9 @@ import { AuthContext } from "../../../context/AuthContext";
 import { html } from "@codemirror/lang-html";
 import { javascript } from "@codemirror/lang-javascript";
 import { css } from "@codemirror/lang-css";
-import ProjectHeader from "./project_components/ProjectHeader";
-import { usePenData } from "./project_components/PenData";
-import CodeEditor from "./project_components/CodeEditor";
+import ProjectHeader from "./pen_components/PenHeader";
+import { usePenData } from "./pen_components/PenData";
+import CodeEditor from "./pen_components/CodeEditor";
 
 function Pen() {
 	const inputRef = useRef();

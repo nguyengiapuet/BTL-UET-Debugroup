@@ -83,21 +83,21 @@ function ButtonLike({ pen, sortLike }) {
 		totalLikes();
 	}, [sortLike]);
 	return (
-		<div className="px-3 py-1 ml-2 bg-[#cfcfcf] w-fit rounded-xl flex gap-1 items-center justify-center">
-			<p className="text-[#545454] text-xl">
-				{totalLike[pen.id] ? totalLike[pen.id] : 0}
-			</p>
+		<div className="w-fit rounded-xl flex gap-1 items-center justify-center">
 			{allLike.find((project) => project.id_project === pen.id) ? (
 				<FaHeart
 					onClick={() => handleUnlike(pen)}
-					className="text-[24px] cursor-pointer text-[#ff3434]"
+					className="text-[16px] cursor-pointer text-[#ff3434]"
 				/>
 			) : (
 				<FaRegHeart
 					onClick={() => handleLike(pen)}
-					className="text-[24px] cursor-pointer text-[#545454]"
+					className="text-[16px] cursor-pointer text-[#545454]"
 				/>
 			)}
+			<p className="text-[#545454] text-[16px]">
+				{totalLike[pen.id] ? totalLike[pen.id] : 0}
+			</p>
 		</div>
 	);
 }
