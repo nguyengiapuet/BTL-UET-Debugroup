@@ -65,7 +65,11 @@ function Search() {
 				<div className="search-container flex flex-col bg-white shadow-md rounded-xl absolute top-12 w-full items-start p-2 max-h-[250px] overflow-y-scroll">
 					{searchResult.length > 0 &&
 						searchResult.map((user) => (
-							<UserItem key={user.id} data={user} />
+							<UserItem
+								key={user.id}
+								data={user}
+								setShowResult={setShowResult}
+							/>
 						))}
 				</div>
 			)}

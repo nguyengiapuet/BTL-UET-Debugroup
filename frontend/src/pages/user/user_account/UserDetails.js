@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SummaryApi from "../../../common";
 import { useContext, useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
@@ -9,9 +9,13 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
 import ButtonLike from "../../../components/feature/likes/ButtonLike";
 import ButtonComment from "../../../components/feature/comments/ButtonComment";
+import ButtonFollow from "../../../components/followers/ButtonFollow";
 
 function UserDetails() {
 	const params = useParams();
+	const location = useLocation();
+	const [isFollowing, setIsFollowing] = useState();
+
 	const [dataUser, setDataUser] = useState({
 		id: null,
 		username: "",
@@ -27,7 +31,6 @@ function UserDetails() {
 	const { userData } = useContext(AuthContext);
 	const [projectsUser, setProjectsUser] = useState([]);
 
-	const [isFollowing, setIsFollowing] = useState();
 	const [follow, setFollow] = useState({
 		followerCount: 0,
 		followingCount: 0,
@@ -48,36 +51,6 @@ function UserDetails() {
 			if (response.data.success) {
 				toast.success(response.data.message);
 				fetchUserProjects();
-			}
-		} catch (err) {
-			console.log(err.message);
-		}
-	};
-
-	const handleFollower = async () => {
-		try {
-			const response = await axios.post(SummaryApi.createFollower.url, {
-				followingId: dataUser.id,
-			});
-
-			if (response.data.success) {
-				toast.success(response.data.message);
-				setIsFollowing(true);
-			}
-		} catch (err) {
-			console.log(err.message);
-		}
-	};
-
-	const handleUnFollower = async () => {
-		try {
-			const response = await axios.delete(
-				`${SummaryApi.deleteFollower.url}/${dataUser.id}`
-			);
-
-			if (response.data.success) {
-				toast.success(response.data.message);
-				setIsFollowing(false);
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -113,20 +86,6 @@ function UserDetails() {
 		}
 	};
 
-	const fetchGetFollowUser = async () => {
-		try {
-			const response = await axios.get(
-				`${SummaryApi.getFollower.url}/${dataUser.id}`
-			);
-
-			if (response.data.success) {
-				setIsFollowing(response.data.isFollowing);
-			}
-		} catch (err) {
-			console.log(err.message);
-		}
-	};
-
 	const fetchCountFollower = async () => {
 		try {
 			const response = await axios.get(
@@ -146,10 +105,8 @@ function UserDetails() {
 	useEffect(() => {
 		fetchUserDetails();
 		fetchUserProjects();
-		if (dataUser.id) {
-			fetchGetFollowUser();
-		}
-	}, [dataUser.id]);
+		fetchCountFollower();
+	}, [dataUser.id, location]);
 
 	useEffect(() => {
 		fetchCountFollower();
@@ -190,23 +147,12 @@ function UserDetails() {
 							Following
 						</span>
 					</span>
-					{userData.id !== dataUser.id &&
-						(!isFollowing ? (
-							<button
-								onClick={handleFollower}
-								className="px-2 py-1 bg-green-500 rounded-md hover:bg-green-600 hover:text-white flex items-center gap-1"
-							>
-								<MdAdd />
-								Follow
-							</button>
-						) : (
-							<button
-								onClick={handleUnFollower}
-								className="px-2 py-1 bg-green-500 rounded-md hover:bg-green-600 hover:text-white flex items-center gap-1"
-							>
-								Following
-							</button>
-						))}
+					<ButtonFollow
+						currentUser={userData}
+						dataUser={dataUser}
+						setIsFollowing={setIsFollowing}
+						isFollowing={isFollowing}
+					/>
 				</div>
 
 				{/* List project */}

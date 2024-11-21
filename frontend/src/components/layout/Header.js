@@ -44,7 +44,7 @@ function Header({ isSidebarOpen, toggleNav }) {
 	);
 }
 
-const MenuSection = ({ title, toggleNav }) => (
+export const MenuSection = ({ title, toggleNav }) => (
 	<div className="h-6 hidden md:flex items-center gap-2 min-w-[200px] w-fit">
 		<button
 			onClick={toggleNav}
@@ -56,7 +56,7 @@ const MenuSection = ({ title, toggleNav }) => (
 	</div>
 );
 
-const UserAvatar = ({ avatar, size = "size-10" }) =>
+export const UserAvatar = ({ avatar, size = "size-10" }) =>
 	avatar ? (
 		<img
 			src={avatar}
@@ -67,7 +67,7 @@ const UserAvatar = ({ avatar, size = "size-10" }) =>
 		<FaUserCircle className={`cursor-pointer rounded-full ${size}`} />
 	);
 
-const PopupMenuItem = ({ to, onClick, icon: Icon, children }) => (
+export const PopupMenuItem = ({ to, onClick, icon: Icon, children }) => (
 	<Link
 		to={to}
 		onClick={onClick}
@@ -81,13 +81,13 @@ const PopupMenuItem = ({ to, onClick, icon: Icon, children }) => (
 	</Link>
 );
 
-const UserPopup = ({ userData, setOpenPop, setTitle }) => (
+export const UserPopup = ({ userData, setOpenPop, setTitle }) => (
 	<div
-		className="absolute flex flex-col w-[250px] px-4 py-1 bg-white h-fit rounded-md top-8 -left-3
+		className="z-[999] absolute flex flex-col w-[250px] px-4 py-1 bg-white h-fit rounded-md top-8 -left-3
 		transform transition-all duration-200 origin-top opacity-100 scale-100 translate-y-0"
 	>
 		<div className="flex flex-row items-center gap-3 py-2">
-			<UserAvatar avatar={userData.avatar} />
+			<UserAvatar avatar={userData.avatar} size="size-10" />
 			<div className="text-sm font-medium flex flex-col gap-1">
 				<div className="text-md font-bold">{userData.username}</div>
 				<div className="text-sm font-medium">{userData.email}</div>
@@ -140,7 +140,7 @@ const AuthSection = ({ userData, openPop, setOpenPop, setTitle }) => (
 				<FaRegBell className="text-lg font-bold text-[#9C6317]" />
 				<div className="h-6 w-[2px] bg-gray-400" />
 				<div className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative">
-					<UserAvatar avatar={userData.avatar} size="size-5" />
+					<UserAvatar avatar={userData.avatar} size="size-10" />
 					<div className="text-sm font-medium flex flex-row justify-center items-center gap-1 cursor-pointer">
 						<span className="font-medium">Xin chào,</span>
 						<span className="font-bold">{userData.username}</span>

@@ -25,13 +25,14 @@ const deleteFollower = require("../controllers/follower/deleteFollower");
 const getFollower = require("../controllers/follower/getFollower");
 const countFollower = require("../controllers/follower/countFollower");
 const searchUser = require("../controllers/users/searchUser");
-const deleteUserSmooth = require("../controllers/users/deleteUserSmooth");
 const getAllUsersDeleted = require("../controllers/users/getAllUsersDeleted");
 const RestoreUser = require("../controllers/users/RestoreUser");
 const deleteCommentByUser = require("../controllers/comment/deleteCommentByUser");
 const editCommentByUser = require("../controllers/comment/editCommentByUser");
 const getAllComments = require("../controllers/comment/getAllComments");
 const deleteCommentByAdmin = require("../controllers/comment/deleteCommentByAdmin");
+const getFollowing = require("../controllers/follower/getFollowing");
+const softDelete = require("../controllers/users/softDelete");
 
 const router = express.Router();
 
@@ -46,7 +47,7 @@ router.get("/user-details", verifyToken, getDetailsUser);
 router.post("/delete-user/:id", verifyToken, deletedUser);
 router.put("/update-profile/:id", verifyToken, updateInfoUser);
 router.get("/search/:username", searchUser);
-router.post("/delete-user-smooth/:id", deleteUserSmooth);
+router.post("/delete-user-soft/:id", softDelete);
 router.post("/restore-user/:id", RestoreUser);
 
 // Pens
@@ -76,6 +77,7 @@ router.get("/admin/all-comments", getAllComments);
 router.post("/create-follower", verifyToken, createFollower);
 router.delete("/delete-follower/:followingId", verifyToken, deleteFollower);
 router.get("/follower/:followingId", verifyToken, getFollower);
+router.get("/get-following", verifyToken, getFollowing);
 router.get("/follower-count/:userId", countFollower);
 
 module.exports = router;

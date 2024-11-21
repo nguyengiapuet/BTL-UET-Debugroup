@@ -1,6 +1,6 @@
 const db = require("../../config/db");
 
-async function deleteUserSmooth(req, res) {
+async function softDelete(req, res) {
 	console.log("(req.body)", req.body);
 
 	try {
@@ -23,4 +23,4 @@ async function deleteUserSmooth(req, res) {
 	}
 }
 
-module.exports = deleteUserSmooth;
+module.exports = softDelete;

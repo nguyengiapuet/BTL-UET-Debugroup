@@ -4,6 +4,7 @@ import jsLogo from "../../asset/image.png";
 import { useState } from "react";
 import SidebarTreeView from "./LayerTree";
 import { AiFillGithub } from "react-icons/ai";
+import ListFollower from "../followers/ListFollower";
 
 // Left Sidebar Page
 function Sidebar({ isSidebarOpen }) {
@@ -102,7 +103,11 @@ function Sidebar({ isSidebarOpen }) {
 					</div>
 
 					{/* Layer tree view */}
-					<SidebarTreeView />
+					{activeButton === "Category" ? (
+						<SidebarTreeView />
+					) : (
+						<ListFollower />
+					)}
 				</div>
 			)}
 		</div>

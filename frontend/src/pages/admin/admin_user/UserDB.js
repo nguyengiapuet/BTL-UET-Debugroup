@@ -52,7 +52,7 @@ function UserDashboard() {
 	const deleteUser = async (id) => {
 		try {
 			const response = await axios.post(
-				`${SummaryApi.deleteUserSmooth.url}/${id}`,
+				`${SummaryApi.deleteUserSoft.url}/${id}`,
 				{
 					timeNow: new Date()
 						.toISOString()

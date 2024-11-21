@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaHome } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 // Should check if user is not admin, disable Dashboard section
 function SidebarTreeView() {
 	const [active, setActive] = useState("");
+	const { setTitle } = useContext(AuthContext);
+
+	const handleClickItem = (e) => {
+		setActive(e.target.textContent.toLowerCase());
+		setTitle(e.target.textContent);
+	};
+
+	const handleClickItemAdmin = (e) => {
+		setActive(e.target.textContent.toLowerCase());
+		setTitle(e.target.textContent + " dashboard");
+	};
 
 	return (
 		<div>
@@ -31,7 +43,7 @@ function SidebarTreeView() {
 							></div>
 							<Link
 								to={"/popular"}
-								onClick={() => setActive("trending")}
+								onClick={handleClickItem}
 								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
 									active === "trending"
 										? "text-[#9C6317]"
@@ -44,15 +56,15 @@ function SidebarTreeView() {
 						<div className="flex items-center mb-4">
 							<div
 								className={`w-10 border-t-2 mr-3 ${
-									active === "learnjs"
+									active === "learn js"
 										? "border-[#9C6317]"
 										: "border-gray-300"
 								}`}
 							></div>
 							<span
-								onClick={() => setActive("learnjs")}
+								onClick={handleClickItem}
 								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
-									active === "learnjs"
+									active === "learn js"
 										? "text-[#9C6317]"
 										: "text-gray-500"
 								}`}
@@ -69,7 +81,7 @@ function SidebarTreeView() {
 								}`}
 							></div>
 							<span
-								onClick={() => setActive("about")}
+								onClick={handleClickItem}
 								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
 									active === "about"
 										? "text-[#9C6317]"
@@ -82,15 +94,15 @@ function SidebarTreeView() {
 						<div className="flex items-center mb-4">
 							<div
 								className={`w-10 border-t-2 mr-3 ${
-									active === "contactus"
+									active === "contact us"
 										? "border-[#9C6317]"
 										: "border-gray-300"
 								}`}
 							></div>
 							<span
-								onClick={() => setActive("contactus")}
+								onClick={handleClickItem}
 								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
-									active === "contactus"
+									active === "contact us"
 										? "text-[#9C6317]"
 										: "text-gray-500"
 								}`}
@@ -123,7 +135,7 @@ function SidebarTreeView() {
 							></div>
 							<Link
 								to={"/admin/project-dashboard"}
-								onClick={() => setActive("projects")}
+								onClick={handleClickItemAdmin}
 								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
 									active === "projects"
 										? "text-[#9C6317]"
@@ -143,7 +155,7 @@ function SidebarTreeView() {
 							></div>
 							<Link
 								to={"/admin/user-dashboard"}
-								onClick={() => setActive("users")}
+								onClick={handleClickItemAdmin}
 								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
 									active === "users"
 										? "text-[#9C6317]"
@@ -163,7 +175,7 @@ function SidebarTreeView() {
 							></div>
 							<Link
 								to={"/admin/comment-dashboard"}
-								onClick={() => setActive("comments")}
+								onClick={handleClickItemAdmin}
 								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full  font-medium ${
 									active === "comments"
 										? "text-[#9C6317]"
