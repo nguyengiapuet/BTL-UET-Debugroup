@@ -52,10 +52,10 @@ function ProjectHeader({
 			</div>
 
 			<div className="flex gap-6 flex-row pr-2">
-				<div className="flex flex-row gap-3">
+				<div className="flex flex-row gap-3 justify-center items-center">
 					<Link
 						to="/"
-						className="text-sm flex gap-1 items-center bg-[#9C6317] px-4 py-[3px] rounded text-white hover:bg-opacity-75"
+						className="max-h-[30px] text-sm flex gap-1 items-center bg-[#9C6317] px-4 py-[3px] rounded text-white hover:bg-opacity-75"
 					>
 						<FaShare className="text-sm" />
 						<button>Share</button>

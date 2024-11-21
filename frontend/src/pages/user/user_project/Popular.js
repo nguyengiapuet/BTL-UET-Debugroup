@@ -1,19 +1,15 @@
-/* eslint-disable jsx-a11y/iframe-has-title */
-import { useEffect, useState } from "react";
-import { FaEye, FaUserCircle } from "react-icons/fa";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import SummaryApi from "../../../common";
 import axios from "axios";
-import ButtonComment from "../../../components/feature/comments/ButtonComment";
-import ButtonLike from "../../../components/feature/likes/ButtonLike";
+import ProjectCard from "./project_components/ProjectCard";
+import { AuthContext } from "../../../context/AuthContext";
 
 function Popular() {
 	const { sortLike } = useOutletContext();
 
+	const { userData } = useContext(AuthContext);
 	const [getAllPens, setGetAllPens] = useState([]);
-
-	const navigate = useNavigate();
-	// const data
 
 	const fetchGetAllPens = async () => {
 		try {
@@ -30,10 +26,6 @@ function Popular() {
 		}
 	};
 
-	const handleClickPens = (pen) => {
-		navigate(`/pen/${pen.id}`);
-	};
-
 	useEffect(() => {
 		fetchGetAllPens();
 	}, [sortLike]);
@@ -42,66 +34,16 @@ function Popular() {
 
 	return (
 		<div className=" w-full h-fit py-4 pb-44">
-			<div className="flex flex-wrap gap-x-6 gap-y-8 h-fit">
+			<div className="flex flex-wrap gap-x-[30px] gap-y-10 h-fit">
 				{getAllPens.length !== 0 &&
 					getAllPens.map((pen, index) => (
-						<div
+						<ProjectCard
 							key={index}
-							className="bg-white w-[340px] rounded-3xl h-[400px] flex flex-col items-center px-4 py-2 shadow-md"
-						>
-							<div className="flex items-center justify-between w-full">
-								<Link to={`/info/${pen.username}`}>
-									{pen.avatar ? (
-										<img
-											className="w-[48px] h-[48px] rounded-full border border-[#c9c9c9]"
-											src={pen.avatar}
-											alt="avatar"
-										/>
-									) : (
-										<FaUserCircle className="text-5xl text-[#acacac]" />
-									)}
-								</Link>
-								<h1 className="text-2xl text-[#9C6317] font-semibold">
-									{pen.username}
-								</h1>
-
-								<div className="flex gap-2">
-									<div onClick={() => handleClickPens(pen)}>
-										<FaEye className="text-[32px] cursor-pointer text-[#E9B500]" />
-									</div>
-								</div>
-							</div>
-							<div className="mb-2 text-2xl text-[#434343]">
-								{pen.title}
-							</div>
-							<iframe
-								className="w-full h-full rounded-2xl overflow-x-hidden overflow-y-auto"
-								srcDoc={pen.output}
-							/>
-
-							<div className="w-full flex pt-4">
-								<ButtonLike pen={pen} sortLike={sortLike} />
-								<ButtonComment pen={pen} />
-							</div>
-						</div>
+							pen={pen}
+							userData={userData}
+							sortLike={sortLike}
+						/>
 					))}
-
-				{/* <div className="bg-white w-[340px] rounded-3xl h-32 flex items-center gap-4 px-4 py-2 shadow-md">
-                    <FaUserCircle className="text-7xl text-[#acacac]" />
-
-                    <div className="flex flex-col justify-between h-full">
-                        <h1 className="text-lg font-semibold">Project1</h1>
-                        <h2 className="-mt-3">
-                            Description of this project, more and more...
-                        </h2>
-                        <p className="text-sm text-[#9C6317]">
-                            Created at 26 September
-                        </p>
-                    </div>
-                    <div className="h-full">
-                        <FaStar className="text-[32px] text-[#E9B500]" />
-                    </div>
-                </div> */}
 			</div>
 		</div>
 	);
