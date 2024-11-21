@@ -61,7 +61,7 @@ function Header({ toggleNav }) {
 	);
 }
 
-const MenuSection = ({ title, toggleNav }) => (
+export const MenuSection = ({ title, toggleNav }) => (
 	<div className="h-6 hidden md:flex items-center gap-2 min-w-[200px] w-fit">
 		<button
 			onClick={toggleNav}
@@ -73,7 +73,7 @@ const MenuSection = ({ title, toggleNav }) => (
 	</div>
 );
 
-const UserAvatar = ({ avatar, size = "size-10" }) =>
+export const UserAvatar = ({ avatar, size = "size-10" }) =>
 	avatar ? (
 		<img
 			src={avatar}
@@ -84,7 +84,7 @@ const UserAvatar = ({ avatar, size = "size-10" }) =>
 		<FaUserCircle className={`cursor-pointer rounded-full ${size}`} />
 	);
 
-const PopupMenuItem = ({ to, onClick, icon: Icon, children }) => (
+export const PopupMenuItem = ({ to, onClick, icon: Icon, children }) => (
 	<div
 		onClick={onClick}
 		className="text-sm flex gap-2 items-center text-[#454545] bg-white px-1 py-2 cursor-pointer 
@@ -97,7 +97,7 @@ const PopupMenuItem = ({ to, onClick, icon: Icon, children }) => (
 	</div>
 );
 
-const UserPopup = ({
+export const UserPopup = ({
 	userData,
 	setOpenPop,
 	setTitle,
@@ -105,15 +105,15 @@ const UserPopup = ({
 	setIsPasswordOpen,
 }) => (
 	<div
-		className="absolute flex flex-col w-[250px] px-4 py-1 bg-white h-fit rounded-md top-8 -left-3
+		className="z-[999] absolute flex flex-col w-[250px] px-4 py-1 bg-white h-fit rounded-md top-8 -left-3
 		transform transition-all duration-200 origin-top opacity-100 scale-100 translate-y-0"
 	>
-		<div className="flex flex-row items-center gap-3 py-2">
-			<UserAvatar avatar={userData.avatar} />
-			<div className="text-sm font-medium flex flex-col gap-1">
+		<div className="flex flex-row justify-end items-center gap-3 py-2">
+			<div className="text-sm font-medium flex flex-col items-end gap-1">
 				<div className="text-md font-bold">{userData.username}</div>
 				<div className="text-sm font-medium">{userData.email}</div>
 			</div>
+			<UserAvatar avatar={userData.avatar} size="size-10" />
 		</div>
 
 		<PopupMenuItem
@@ -163,12 +163,16 @@ const AuthSection = ({
 			<div className="flex flex-row gap-6 items-center justify-center">
 				<FaRegBell className="text-lg font-bold text-[#9C6317]" />
 				<div className="h-6 w-[2px] bg-gray-400" />
+				{/* <<<<<<< HEAD
+				<div className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative">
+					<UserAvatar avatar={userData.avatar} size="size-10" />
+======= */}
 				<div
 					className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative"
 					onClick={() => setOpenPop(!openPop)}
 					onBlur={() => setOpenPop(false)}
 				>
-					<UserAvatar avatar={userData.avatar} size="size-5" />
+					<UserAvatar avatar={userData.avatar} size="size-10" />
 					<div className="text-sm font-medium flex flex-row justify-center items-center gap-1 cursor-pointer">
 						<span className="font-medium">Xin chào,</span>
 						<span className="font-bold">{userData.username}</span>

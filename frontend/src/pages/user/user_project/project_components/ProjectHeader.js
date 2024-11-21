@@ -1,6 +1,10 @@
-import { FaEdit, FaSave, FaShare } from "react-icons/fa";
+import { FaChevronDown, FaEdit, FaSave, FaShare } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { AiFillCode } from "react-icons/ai";
+import { UserAvatar, UserPopup } from "../../../../components/layout/Header";
+import { AuthContext } from "../../../../context/AuthContext";
+import { useContext, useState } from "react";
+import { LOCAL_STORAGE_TOKEN_NAME } from "../../../../common/constants";
 
 function ProjectHeader({
 	editTitle,
@@ -68,27 +72,72 @@ function ProjectHeader({
 					)}
 				</div>
 				<div className="py-[3px] w-[1px] bg-white"></div>
-
-				<UserSection userData={userData} />
+				<UserSection />
 			</div>
 		</div>
 	);
 }
 
-const UserSection = ({ userData }) => {
+const UserSection = () => {
 	// Change ui if user is logged in
 	// TODO
 
+	const { userData, setUserData, title, setTitle } = useContext(AuthContext);
+	const [openPop, setOpenPop] = useState(false);
+
+	const handleLogout = () => {
+		localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+		setUserData({
+			id: "",
+			username: "",
+			email: "",
+			password: "",
+			role: "",
+			avatar: "",
+		});
+	};
 	// else
 	return (
-		<div className="flex flex-row gap-3">
-			<div className="flex items-center border-[1px] border-slate-500 bg-white px-4 py-[3px] text-sm rounded text-black hover:bg-opacity-75">
-				<Link to="/signup">Signup</Link>
-			</div>
-			<div className="flex items-center border-[1px] border-[#D9D9D9] bg-slate-500 px-4 py-[3px] text-sm rounded text-white hover:bg-opacity-75">
-				<Link to="/login">Login</Link>
-			</div>
-		</div>
+		<>
+			{userData?.id ? (
+				<div
+					className="flex flex-row gap-6 items-center justify-center"
+					onClick={() => setOpenPop(!openPop)}
+					onBlur={() => setOpenPop(false)}
+				>
+					<div className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative">
+						<UserAvatar avatar={userData.avatar} size="size-10" />
+						<div className="text-sm font-medium flex text-white flex-row justify-center items-center gap-1 cursor-pointer">
+							<span className="font-medium ">Xin chào,</span>
+							<span className="font-bold">
+								{userData.username}
+							</span>
+							<FaChevronDown
+								className={`ml-1 text-gray-500 transition-transform duration-300 ${
+									openPop ? "rotate-180" : ""
+								}`}
+							/>
+						</div>
+						{openPop && (
+							<UserPopup
+								userData={userData}
+								setOpenPop={setOpenPop}
+								setTitle={setTitle}
+							/>
+						)}
+					</div>
+				</div>
+			) : (
+				<div className="flex flex-row gap-3">
+					<div className="flex items-center border-[1px] border-slate-500 bg-white px-4 py-[3px] text-sm rounded text-black hover:bg-opacity-75">
+						<Link to="/signup">Signup</Link>
+					</div>
+					<div className="flex items-center border-[1px] border-[#D9D9D9] bg-slate-500 px-4 py-[3px] text-sm rounded text-white hover:bg-opacity-75">
+						<Link to="/login">Login</Link>
+					</div>
+				</div>
+			)}
+		</>
 	);
 };
 

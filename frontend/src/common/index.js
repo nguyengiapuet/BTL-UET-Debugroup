@@ -76,8 +76,8 @@ const SummaryApi = {
 	searchUser: {
 		url: `${backendDomain}/api/search`,
 	},
-	deleteUserSmooth: {
-		url: `${backendDomain}/api/delete-user-smooth`,
+	deleteUserSoft: {
+		url: `${backendDomain}/api/delete-user-soft`,
 	},
 	trashAllUsers: {
 		url: `${backendDomain}/api/trash/allUser`,
@@ -96,6 +96,9 @@ const SummaryApi = {
 	},
 	deleteCommentByAdmin: {
 		url: `${backendDomain}/api/admin/delete-comments`,
+	},
+	getFollowing: {
+		url: `${backendDomain}/api/get-following`,
 	},
 };
 
