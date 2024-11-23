@@ -196,15 +196,21 @@ function UserDashboard() {
 
 															<div className="body-row-data2">
 																<span>
-																	{
+																	{new Date(
 																		item.created_at
-																	}
+																	).toLocaleDateString(
+																		"en-GB"
+																	)}
 																</span>
 															</div>
 															<div className="body-row-data2">
 																<span>
 																	{item.updated_at
-																		? item.updated_at
+																		? new Date(
+																				item.updated_at
+																		  ).toLocaleDateString(
+																				"en-GB"
+																		  )
 																		: "Haven't updated"}{" "}
 																</span>
 															</div>
