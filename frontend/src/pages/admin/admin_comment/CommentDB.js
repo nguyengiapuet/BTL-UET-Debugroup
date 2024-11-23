@@ -177,12 +177,20 @@ function CommentDashboard() {
 
 													<div className="body-row-data2 flex-wrap overflow-hidden">
 														<span>
-															{item.comments_at}
+															{new Date(
+																item.comments_at
+															).toLocaleDateString(
+																"en-GB"
+															)}
 														</span>
 													</div>
 													<div className="body-row-data2">
 														<span>
-															{item.update_at}{" "}
+															{new Date(
+																item.update_at
+															).toLocaleDateString(
+																"en-GB"
+															)}
 														</span>
 													</div>
 													{stateOfInfo === "2" ? (

@@ -173,12 +173,20 @@ function ProjectDashboard() {
 
 													<div className="body-row-data2">
 														<span>
-															{item.created_at}
+															{new Date(
+																item.created_at
+															).toLocaleDateString(
+																"en-GB"
+															)}
 														</span>
 													</div>
 													<div className="body-row-data2">
 														<span>
-															{item.updated_at}{" "}
+															{new Date(
+																item.updated_at
+															).toLocaleDateString(
+																"en-GB"
+															)}
 														</span>
 													</div>
 													{stateOfInfo === "2" ? (
