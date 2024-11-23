@@ -14,6 +14,7 @@ import LoginPage from "../pages/user/user_account/LogIn";
 import SignUp from "../pages/user/user_account/SignUp";
 import TrashUser from "../pages/admin/admin_user/TrashUser";
 import ProjectDetail from "../pages/user/user_project/ProjectDetail";
+import AboutUs from "../pages/app/AboutUs";
 
 const router = createBrowserRouter([
 	{
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
 						element: <MyProject />,
 					},
 				],
+			},
+			{
+				path: "/about-us",
+				element: <AboutUs />,
 			},
 			{
 				path: "project-detail/:id",

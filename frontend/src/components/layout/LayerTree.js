@@ -80,7 +80,8 @@ function SidebarTreeView() {
 										: "border-gray-300"
 								}`}
 							></div>
-							<span
+							<Link
+								to={"/about-us"}
 								onClick={handleClickItem}
 								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
 									active === "about"
@@ -89,7 +90,7 @@ function SidebarTreeView() {
 								}`}
 							>
 								About
-							</span>
+							</Link>
 						</div>
 						<div className="flex items-center mb-4">
 							<div

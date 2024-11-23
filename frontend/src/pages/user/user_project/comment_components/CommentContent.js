@@ -1,4 +1,5 @@
-function CommentContent(commentData) {
+function CommentContent(commentData, width) {
+	const widthCss = width || "w-3/5";
 	// Comment data: {username, time, content}
 	const exampleComment = {
 		username: "Surendhiran Natarajan",
@@ -7,7 +8,7 @@ function CommentContent(commentData) {
 			"Hi Whish you all am Surendhiran Natarajan Chennai Avadi new in this group please help to learn UX and UI, and achieve the target thank you friends",
 	};
 	return (
-		<div className="w-3/5 pt-5">
+		<div className={`${widthCss} pt-5`}>
 			<div className="flex flex-row gap-3 items-start">
 				{/* Left avatar user */}
 				<div className="h-10 min-w-10 rounded-full bg-red-500 border-[1px] border-gray-200"></div>
