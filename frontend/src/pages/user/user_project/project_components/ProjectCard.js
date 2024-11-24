@@ -3,7 +3,7 @@ import ButtonLike from "../../../../components/feature/likes/ButtonLike";
 import ButtonComment from "../../../../components/feature/comments/ButtonComment";
 function ProjectCard({ pen, userData, sortLike }) {
 	return (
-		<div className="flex flex-col w-[calc(33.33%-20px)]">
+		<div className="flex flex-col w-[calc(33.33%-20px)] bg-slate-200 rounded-xl shadow-md">
 			<div className="bg-white w-full rounded-xl h-[215px] flex flex-col items-center gap-4 shadow-md relative group">
 				{/* Preview */}
 				<Link className="w-full h-full rounded-xl overflow-x-hidden overflow-y-auto">
@@ -42,15 +42,18 @@ const ActionButton = ({ to, label, target }) => (
 );
 
 const CardFooter = ({ pen, userData, sortLike }) => (
-	<div className="w-full pt-2 flex flex-row justify-between items-center text-sm">
+	<div className="w-full py-2 px-2 flex flex-row justify-between items-center text-sm">
 		<div className="flex flex-col">
 			<Link target="blank" className="font-semibold">
 				{pen.title}
 			</Link>
 			<div>
 				by{" "}
-				<Link className="hover:underline hover:font-medium">
-					{userData.username}
+				<Link
+					to={`/info/${pen.username}`}
+					className="hover:underline font-medium"
+				>
+					{pen.username}
 				</Link>
 			</div>
 		</div>
