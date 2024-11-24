@@ -5,6 +5,8 @@ import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Modal, Upload } from "antd";
+import { FaUserCircle } from "react-icons/fa";
+import { UserAvatar } from "../../../components/layout/Header";
 
 const props = {
 	name: "file",
@@ -18,6 +20,7 @@ function ProfileModal({ isOpen, onClose }) {
 	const [data, setData] = useState({
 		username: userData.username,
 		avatar: userData.avatar,
+
 		// avatar: null
 	});
 
@@ -119,17 +122,20 @@ function ProfileModal({ isOpen, onClose }) {
 			>
 				<div className="flex flex-col">
 					<div className="h-12 bg-gray-200 w-full relative rounded-t-lg">
-						<div className="h-16 w-16 rounded-full bg-gray-200 absolute top-3 left-3 border-2 border-red-500"></div>
+						<div className="absolute top-4 left-4 overflow-hidden">
+							<UserAvatar size="size-14" avatar={data.avatar} />
+						</div>
 					</div>
 					<div className="flex flex-col gap-2 pt-10 px-3">
 						<div className="font-bold text-xl">{data.username}</div>
-						<div className="font-medium">example@gmail.com</div>
+						<div className="font-medium">{userData.email}</div>
 					</div>
 					<div className="flex flex-row gap-2 pt-10 px-3 justify-center items-center">
 						<div className="min-w-[100px]">Name:</div>
 						<input
-							name="name"
+							name="username"
 							type="text"
+							onChange={changeProfile}
 							value={data.username}
 							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
 						/>
@@ -143,22 +149,28 @@ function ProfileModal({ isOpen, onClose }) {
 							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
 						/>
 					</div>
-					<div className="flex flex-row gap-2 pt-10 px-3 justify-center items-center">
-						<div className="min-w-[100px]">Username:</div>
-						<input
-							name="username"
-							type="text"
-							value="example"
-							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
-						/>
-					</div>
+
 					<div className="flex flex-row gap-2 pt-10 px-3 items-center pb-5">
 						<div className="w-[100px]">Avatar:</div>
-						<Upload {...props}>
-							<Button icon={<UploadOutlined />}>
-								Click to Upload
-							</Button>
-						</Upload>
+						<div className="w-16 h-16 relative rounded-full bg-slate-200 overflow-hidden">
+							<div>
+								{data.avatar ? (
+									<img src={data.avatar} alt="Login icon" />
+								) : (
+									<FaUserCircle className="w-full h-full text-center text-5xl text-[#6f6f6f]" />
+								)}
+							</div>
+							<label>
+								<div className=" text-center w-full text-xs pb-2 absolute bottom-0 text-slate-800 bg-slate-100 bg-opacity-60 cursor-pointer">
+									Change avatar
+								</div>
+								<input
+									type="file"
+									className="hidden"
+									onChange={handleUploadPic}
+								/>
+							</label>
+						</div>
 					</div>
 				</div>
 			</Modal>

@@ -103,6 +103,7 @@ export const UserPopup = ({
 	setTitle,
 	setIsProfileOpen,
 	setIsPasswordOpen,
+	handleLogout,
 }) => (
 	<div
 		className="z-[999] absolute flex flex-col w-[250px] px-4 py-1 bg-white h-fit rounded-md top-8 -left-3
@@ -141,6 +142,7 @@ export const UserPopup = ({
 		<PopupMenuItem
 			onClick={() => {
 				setTitle("Quản lý tài khoản");
+				handleLogout();
 				setOpenPop(false);
 			}}
 			icon={FaSignOutAlt}
@@ -153,6 +155,7 @@ export const UserPopup = ({
 const AuthSection = ({
 	userData,
 	openPop,
+	handleLogout,
 	setOpenPop,
 	setTitle,
 	setIsProfileOpen,
@@ -189,6 +192,7 @@ const AuthSection = ({
 							setTitle={setTitle}
 							setIsPasswordOpen={setIsPasswordOpen}
 							setIsProfileOpen={setIsProfileOpen}
+							handleLogout={handleLogout}
 						/>
 					)}
 				</div>

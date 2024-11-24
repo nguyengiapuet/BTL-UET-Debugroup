@@ -33,6 +33,8 @@ const getAllComments = require("../controllers/comment/getAllComments");
 const deleteCommentByAdmin = require("../controllers/comment/deleteCommentByAdmin");
 const getFollowing = require("../controllers/follower/getFollowing");
 const softDelete = require("../controllers/users/softDelete");
+const changePassword = require("../controllers/users/changePassword");
+const checkPasswordUser = require("../controllers/users/checkPasswordUser");
 
 const router = express.Router();
 
@@ -46,6 +48,8 @@ router.get("/info/:username", findUserByUsername);
 router.get("/user-details", verifyToken, getDetailsUser);
 router.post("/delete-user/:id", verifyToken, deletedUser);
 router.put("/update-profile/:id", verifyToken, updateInfoUser);
+router.put("/change-password", verifyToken, changePassword);
+router.post("/check-password", verifyToken, checkPasswordUser);
 router.get("/search/:username", searchUser);
 router.post("/delete-user-soft/:id", softDelete);
 router.post("/restore-user/:id", RestoreUser);

@@ -1,19 +1,68 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { Button, Modal } from "antd";
+import { UserAvatar } from "../../../components/layout/Header";
+import axios from "axios";
+import SummaryApi from "../../../common";
+import { toast } from "react-toastify";
 
 function ChangePasswordModal({ isOpen, onClose }) {
-	const { userData, setUserData } = useContext(AuthContext);
-	const [data, setData] = useState({
-		email: userData.email,
-		// avatar: null
+	const { userData } = useContext(AuthContext);
+
+	const [dataPassword, setDataPassword] = useState({
+		passwordCurrent: "",
+		passwordNew: "",
 	});
+
+	const onChangePassword = (e) => {
+		setDataPassword({ ...dataPassword, [e.target.name]: e.target.value });
+	};
 	const [loading, setLoading] = useState(false);
+
+	const checkPassword = async () => {
+		try {
+			const response = await axios.post(
+				SummaryApi.checkPasswordUser.url,
+				{
+					password: dataPassword.passwordCurrent,
+				}
+			);
+
+			if (response.data.success) {
+				handleChangePassword();
+			} else {
+				toast.error(response.data.message);
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
+	const handleChangePassword = async () => {
+		try {
+			const response = await axios.put(SummaryApi.changePassword.url, {
+				password: dataPassword.passwordNew,
+			});
+
+			console.log("response.data.message>>>", response.data.message);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				setDataPassword({ passwordCurrent: "", passwordNew: "" });
+				onClose();
+			} else {
+				toast.error(response.data.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const handleOk = () => {
 		setLoading(true);
+		checkPassword();
 		setTimeout(() => {
 			setLoading(false);
-			onClose();
 		}, 1000);
 	};
 	const handleCancel = () => {
@@ -42,27 +91,36 @@ function ChangePasswordModal({ isOpen, onClose }) {
 			>
 				<div className="flex flex-col pb-5">
 					<div className="h-12 bg-gray-200 w-full relative rounded-t-lg">
-						<div className="h-16 w-16 rounded-full bg-gray-200 absolute top-3 left-3 border-2 border-red-500"></div>
+						<div className="absolute top-4 left-4 overflow-hidden">
+							<UserAvatar
+								size="size-14"
+								avatar={userData.avatar}
+							/>
+						</div>
 					</div>
 					<div className="flex flex-col gap-2 pt-10 px-3">
 						<div className="font-bold text-xl">
 							{userData.username}
 						</div>
-						<div className="font-medium">example@gmail.com</div>
+						<div className="font-medium">{userData.email}</div>
 					</div>
 					<div className="flex flex-row gap-2 pt-10 px-3 justify-center items-center">
 						<div className="min-w-[100px]">Password:</div>
 						<input
-							name="password"
+							name="passwordCurrent"
 							type="password"
+							value={dataPassword.passwordCurrent}
+							onChange={onChangePassword}
 							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
 						/>
 					</div>
 					<div className="flex flex-row gap-2 pt-10 px-3 justify-center items-center">
 						<div className="min-w-[100px]">New password:</div>
 						<input
-							name="newPassword"
+							name="passwordNew"
 							type="password"
+							value={dataPassword.passwordNew}
+							onChange={onChangePassword}
 							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
 						/>
 					</div>

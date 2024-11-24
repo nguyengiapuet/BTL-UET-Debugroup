@@ -100,6 +100,12 @@ const SummaryApi = {
 	getFollowing: {
 		url: `${backendDomain}/api/get-following`,
 	},
+	changePassword: {
+		url: `${backendDomain}/api/change-password`,
+	},
+	checkPasswordUser: {
+		url: `${backendDomain}/api/check-password`,
+	},
 };
 
 export default SummaryApi;
