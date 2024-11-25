@@ -3,23 +3,15 @@ import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
 import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
-import { UploadOutlined } from "@ant-design/icons";
 import { Button, Modal, Upload } from "antd";
 import { FaUserCircle } from "react-icons/fa";
 import { UserAvatar } from "../../../components/layout/Header";
 
-const props = {
-	name: "file",
-	action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
-	headers: {
-		authorization: "authorization-text",
-	},
-};
 function ProfileModal({ isOpen, onClose }) {
 	const { userData, setUserData } = useContext(AuthContext);
 	const [data, setData] = useState({
-		username: userData.username,
-		avatar: userData.avatar,
+		username: userData?.username,
+		avatar: userData?.avatar,
 
 		// avatar: null
 	});
@@ -100,7 +92,7 @@ function ProfileModal({ isOpen, onClose }) {
 				onOk={handleOk}
 				onCancel={handleCancel}
 				footer={
-					<div className="flex flex-row justify-between items-center">
+					<div className="flex flex-row justify-between items-center z-[999]">
 						<Button className="bg-red-500 text-white font-medium">
 							Delete
 						</Button>
@@ -128,7 +120,7 @@ function ProfileModal({ isOpen, onClose }) {
 					</div>
 					<div className="flex flex-col gap-2 pt-10 px-3">
 						<div className="font-bold text-xl">{data.username}</div>
-						<div className="font-medium">{userData.email}</div>
+						<div className="font-medium">{userData?.email}</div>
 					</div>
 					<div className="flex flex-row gap-2 pt-10 px-3 justify-center items-center">
 						<div className="min-w-[100px]">Name:</div>
@@ -145,7 +137,7 @@ function ProfileModal({ isOpen, onClose }) {
 						<input
 							name="email"
 							type="text"
-							value="example@gmail.com"
+							placeholder={data.email}
 							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
 						/>
 					</div>

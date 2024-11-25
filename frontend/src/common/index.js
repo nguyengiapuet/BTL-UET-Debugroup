@@ -106,6 +106,12 @@ const SummaryApi = {
 	checkPasswordUser: {
 		url: `${backendDomain}/api/check-password`,
 	},
+	totalLikePen: {
+		url: `${backendDomain}/api/total-like-pen`,
+	},
+	totalCommentPen: {
+		url: `${backendDomain}/api/total-comment-pen`,
+	},
 };
 
 export default SummaryApi;

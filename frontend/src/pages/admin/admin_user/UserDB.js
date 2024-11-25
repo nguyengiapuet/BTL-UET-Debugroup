@@ -12,7 +12,7 @@ let PageSize = 10;
 function UserDashboard() {
 	const [currentPage, setCurrentPage] = useState(1);
 	// 1 is active, 2 is deleted
-	const [stateOfInfo, setStateOfInfo] = useState(1);
+	const [stateOfInfo, setStateOfInfo] = useState("1");
 	const [getAllUsers, setGetAllUsers] = useState([]);
 
 	const fetchGetAllUsers = async () => {
@@ -27,6 +27,46 @@ function UserDashboard() {
 			console.log(err.message);
 			return;
 		}
+	};
+
+	const fetchGetAllUsersDeleted = async () => {
+		try {
+			const response = await axios.get(SummaryApi.trashAllUsers.url);
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				setGetAllUsers(response.data.data);
+			}
+		} catch (err) {
+			console.log(err.message);
+			return;
+		}
+	};
+
+	const deleteUser = async (id) => {
+		try {
+			const response = await axios.post(
+				`${SummaryApi.deletedUser.url}/${id}`
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
+			}
+		} catch (err) {}
+	};
+
+	const restoreUser = async (id) => {
+		try {
+			const response = await axios.post(
+				`${SummaryApi.restoreUser.url}/${id}`
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
+			}
+		} catch (err) {}
 	};
 
 	const currentTableData = useMemo(() => {
@@ -49,7 +89,7 @@ function UserDashboard() {
 	// 		}
 	// 	} catch (err) {}
 	// };
-	const deleteUser = async (id) => {
+	const softDeleteUser = async (id) => {
 		try {
 			const response = await axios.post(
 				`${SummaryApi.deleteUserSoft.url}/${id}`,
@@ -68,27 +108,29 @@ function UserDashboard() {
 		} catch (err) {}
 	};
 
-	const handleOnchangeType = () => {
-		var e = document.getElementById("status");
-		setStateOfInfo(e.value);
+	const handleOnchangeType = (e) => {
+		setStateOfInfo(e.target.value);
 	};
 
 	useEffect(() => {
-		fetchGetAllUsers();
-	}, []);
+		if (stateOfInfo === "1") {
+			fetchGetAllUsers();
+		} else {
+			fetchGetAllUsersDeleted();
+			console.log("change");
+		}
+	}, [stateOfInfo]);
 
 	return (
 		<div>
 			<div className="request-container">
 				<div className="request-content">
 					<div>
-						<div className="request-title">List of Users</div>
-						<Link
-							to={"/users/trash"}
-							className="text-blue-500 underline text-lg "
-						>
-							Trash
-						</Link>
+						{stateOfInfo === "2" ? (
+							<div className="request-title">Users Trash</div>
+						) : (
+							<div className="request-title">List of Users</div>
+						)}
 					</div>
 					<div className="request-table">
 						<div className="section">
@@ -106,13 +148,10 @@ function UserDashboard() {
 											id="status"
 											className="form-select"
 											type="text"
-											onChange={() =>
-												handleOnchangeType()
-											}
+											defaultValue={"1"}
+											onChange={handleOnchangeType}
 										>
-											<option value="1" selected>
-												Active
-											</option>
+											<option value="1">Active</option>
 											<option value="2">Deleted</option>
 										</select>
 									</div>
@@ -123,11 +162,10 @@ function UserDashboard() {
 										<select
 											className="form-select"
 											type="text"
+											defaultValue={"2"}
 										>
 											<option value="1">Date</option>
-											<option value="2" selected>
-												Name
-											</option>
+											<option value="2">Name</option>
 										</select>
 									</div>
 									<div className="col1">
@@ -163,7 +201,7 @@ function UserDashboard() {
 										</div>
 									</div>
 									<div className="table-body">
-										{currentTableData.length > 0 &&
+										{currentTableData.length > 0 ? (
 											currentTableData.map(
 												(item, index) => {
 													return (
@@ -217,8 +255,25 @@ function UserDashboard() {
 															{stateOfInfo ===
 															"2" ? (
 																<div className="body-button">
-																	<button className="ok-button">
+																	<button
+																		onClick={() =>
+																			restoreUser(
+																				item.id
+																			)
+																		}
+																		className="ok-button"
+																	>
 																		Restore
+																	</button>
+																	<button
+																		onClick={() =>
+																			deleteUser(
+																				item.id
+																			)
+																		}
+																		className="reject-button"
+																	>
+																		Delete
 																	</button>
 																</div>
 															) : (
@@ -226,7 +281,7 @@ function UserDashboard() {
 																	<button
 																		className="reject-button"
 																		onClick={() =>
-																			deleteUser(
+																			softDeleteUser(
 																				item.id
 																			)
 																		}
@@ -238,7 +293,12 @@ function UserDashboard() {
 														</div>
 													);
 												}
-											)}
+											)
+										) : (
+											<div className="text-center text-2xl text-gray-500 font-semibold mt-10">
+												No one has user yet!
+											</div>
+										)}
 									</div>
 								</div>
 							</div>

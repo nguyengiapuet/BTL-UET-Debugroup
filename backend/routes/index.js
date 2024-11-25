@@ -35,6 +35,8 @@ const getFollowing = require("../controllers/follower/getFollowing");
 const softDelete = require("../controllers/users/softDelete");
 const changePassword = require("../controllers/users/changePassword");
 const checkPasswordUser = require("../controllers/users/checkPasswordUser");
+const totalLikePen = require("../controllers/likes/totalLikePen");
+const totalCommentPen = require("../controllers/comment/totalCommentPen");
 
 const router = express.Router();
 
@@ -66,6 +68,7 @@ router.put("/update-pens/:id", verifyToken, updatePen);
 router.post("/add-like", verifyToken, addLikes);
 router.post("/delete-like", verifyToken, deleteLikes);
 router.get("/total-like", totalLike);
+router.get("/total-like-pen/:penId", totalLikePen);
 router.get("/all-like", verifyToken, getAllLikeByUser);
 
 // Comments
@@ -76,6 +79,7 @@ router.post("/delete-comments", verifyToken, deleteCommentByUser);
 router.post("/admin/delete-comments", verifyToken, deleteCommentByAdmin);
 router.post("/edit-comments", verifyToken, editCommentByUser);
 router.get("/admin/all-comments", getAllComments);
+router.get("/total-comment-pen/:penId", totalCommentPen);
 
 // Follower
 router.post("/create-follower", verifyToken, createFollower);

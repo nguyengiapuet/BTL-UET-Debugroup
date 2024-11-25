@@ -39,7 +39,6 @@ function Comments({ project, setOpen, refresh }) {
 			);
 
 			if (response.data.success) {
-				console.log("response.data.data>>>>", response.data.data);
 				refresh((prev) => !prev);
 				setAllComments(response.data.data);
 			}
@@ -112,13 +111,19 @@ function Comments({ project, setOpen, refresh }) {
 				</div>
 
 				<div className="w-full flex flex-col mb-16 gap-2 pb-2">
-					{allComments.map((comment, index) => (
-						<Comment
-							key={comment.id}
-							comment={comment}
-							setRefreshComment={setRefreshComment}
-						/>
-					))}
+					{allComments.length > 0 ? (
+						allComments.map((comment, index) => (
+							<Comment
+								key={comment.id}
+								comment={comment}
+								setRefreshComment={setRefreshComment}
+							/>
+						))
+					) : (
+						<div className="text-center text-2xl text-gray-500 font-semibold my-10">
+							No one has comment yet!
+						</div>
+					)}
 				</div>
 
 				<div className=" w-[50%] h-16 fixed bottom-[calc(5%-1px)] rounded-xl">

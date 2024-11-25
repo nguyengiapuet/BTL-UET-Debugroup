@@ -6,20 +6,34 @@ import SummaryApi from "../../../common";
 
 function ButtonLike({ pen, sortLike }) {
 	const [allLike, setAllLike] = useState([]);
-	const [totalLike, setTotalLike] = useState({});
+	const [totalLike, setTotalLike] = useState();
+
+	// const totalLikes = async () => {
+	// 	try {
+	// 		const response = await axios.get(SummaryApi.totalLike.url);
+
+	// 		if (response.data.success) {
+	// 			for (let i = 0; i < response.data.data.length; i++) {
+	// 				setTotalLike((prev) => ({
+	// 					...prev,
+	// 					[response.data.data[i].id_project]:
+	// 						response.data.data[i].total_likes,
+	// 				}));
+	// 			}
+	// 		}
+	// 	} catch (err) {
+	// 		console.log(err.message);
+	// 	}
+	// };
 
 	const totalLikes = async () => {
 		try {
-			const response = await axios.get(SummaryApi.totalLike.url);
+			const response = await axios.get(
+				`${SummaryApi.totalLikePen.url}/${pen.id}`
+			);
 
 			if (response.data.success) {
-				for (let i = 0; i < response.data.data.length; i++) {
-					setTotalLike((prev) => ({
-						...prev,
-						[response.data.data[i].id_project]:
-							response.data.data[i].total_likes,
-					}));
-				}
+				setTotalLike((prev) => response.data.data);
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -35,10 +49,7 @@ function ButtonLike({ pen, sortLike }) {
 			if (response.data.success) {
 				toast.success("Like added successfully!");
 				getAllLikeByUser();
-				setTotalLike((prev) => ({
-					...prev,
-					[pen.id]: prev[pen.id] ? prev[pen.id] + 1 : 1,
-				}));
+				setTotalLike((prev) => prev + 1);
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -55,10 +66,7 @@ function ButtonLike({ pen, sortLike }) {
 			if (response.data.success) {
 				toast.success("Like removed successfully!");
 				getAllLikeByUser();
-				setTotalLike((prev) => ({
-					...prev,
-					[pen.id]: prev[pen.id] ? prev[pen.id] - 1 : 0,
-				}));
+				setTotalLike((prev) => prev - 1);
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -81,7 +89,7 @@ function ButtonLike({ pen, sortLike }) {
 	useEffect(() => {
 		getAllLikeByUser();
 		totalLikes();
-	}, [sortLike]);
+	}, [sortLike, pen.id]);
 	return (
 		<div className="w-fit rounded-xl flex gap-1 items-center justify-center">
 			{allLike.find((project) => project.id_project === pen.id) ? (
@@ -96,7 +104,7 @@ function ButtonLike({ pen, sortLike }) {
 				/>
 			)}
 			<p className="text-[#545454] text-[16px]">
-				{totalLike[pen.id] ? totalLike[pen.id] : 0}
+				{totalLike ? totalLike : 0}
 			</p>
 		</div>
 	);

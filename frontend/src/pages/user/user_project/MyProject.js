@@ -5,9 +5,11 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
 import ProjectCard from "./project_components/ProjectCard";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 function MyProject() {
 	const { sortLike } = useOutletContext();
+	const navigate = useNavigate();
 
 	const [getAllPens, setGetAllPens] = useState([]);
 	const { userData } = useContext(AuthContext);
@@ -30,6 +32,9 @@ function MyProject() {
 			console.log(err.message);
 			return;
 		}
+	};
+	const handleClickPens = (pen) => {
+		navigate(`/pen/${pen.id}`);
 	};
 
 	const handleRemove = async (pen) => {
@@ -60,6 +65,9 @@ function MyProject() {
 						pen={pen}
 						userData={userData}
 						sortLike={sortLike}
+						owner={true}
+						handleClickPens={handleClickPens}
+						handleRemove={handleRemove}
 					/>
 				))}
 		</div>
