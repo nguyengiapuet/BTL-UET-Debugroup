@@ -77,15 +77,14 @@ function ProjectDashboard() {
 									<div className="col1">
 										<select
 											id="status"
+											defaultValue={"1"}
 											className="form-select"
 											type="text"
 											onChange={() =>
 												handleOnchangeType()
 											}
 										>
-											<option value="1" selected>
-												Active
-											</option>
+											<option value="1">Active</option>
 											<option value="2">Deleted</option>
 										</select>
 									</div>
@@ -96,11 +95,10 @@ function ProjectDashboard() {
 										<select
 											className="form-select"
 											type="text"
+											defaultValue={"2"}
 										>
 											<option value="1">Date</option>
-											<option value="2" selected>
-												Name
-											</option>
+											<option value="2">Name</option>
 										</select>
 									</div>
 									<div className="col1">
@@ -136,82 +134,94 @@ function ProjectDashboard() {
 										</div>
 									</div>
 									<div className="table-body">
-										{currentTableData.map((item, index) => {
-											return (
-												<div className="body-row">
-													<div className="body-row-data">
-														<span>
-															{index +
-																(currentPage -
-																	1) *
-																	PageSize +
-																1}
-														</span>
-													</div>
-													<div className="body-row-data1">
-														<span>
-															{item.title}
-														</span>
-													</div>
+										{currentTableData.length > 0 ? (
+											currentTableData.map(
+												(item, index) => {
+													return (
+														<div
+															key={index}
+															className="body-row"
+														>
+															<div className="body-row-data">
+																<span>
+																	{index +
+																		(currentPage -
+																			1) *
+																			PageSize +
+																		1}
+																</span>
+															</div>
+															<div className="body-row-data1">
+																<span>
+																	{item.title}
+																</span>
+															</div>
 
-													<div className="body-row-data1">
-														<span>
-															<span className="font-semibold">
-																{
-																	item.total_likes
-																}{" "}
-															</span>
-															likes,{" "}
-															<span className="font-semibold">
-																{
-																	item.total_comments
-																}{" "}
-															</span>
-															comments
-														</span>
-													</div>
+															<div className="body-row-data1">
+																<span>
+																	<span className="font-semibold">
+																		{
+																			item.total_likes
+																		}{" "}
+																	</span>
+																	likes,{" "}
+																	<span className="font-semibold">
+																		{
+																			item.total_comments
+																		}{" "}
+																	</span>
+																	comments
+																</span>
+															</div>
 
-													<div className="body-row-data2">
-														<span>
-															{new Date(
-																item.created_at
-															).toLocaleDateString(
-																"en-GB"
+															<div className="body-row-data2">
+																<span>
+																	{new Date(
+																		item.created_at
+																	).toLocaleDateString(
+																		"en-GB"
+																	)}
+																</span>
+															</div>
+															<div className="body-row-data2">
+																<span>
+																	{new Date(
+																		item.updated_at
+																	).toLocaleDateString(
+																		"en-GB"
+																	)}
+																</span>
+															</div>
+															{stateOfInfo ===
+															"2" ? (
+																<div className="body-button">
+																	<button className="ok-button">
+																		Restore
+																	</button>
+																</div>
+															) : (
+																<div className="body-button">
+																	<button
+																		onClick={() =>
+																			handleDelete(
+																				item
+																			)
+																		}
+																		className="reject-button"
+																	>
+																		Delete
+																	</button>
+																</div>
 															)}
-														</span>
-													</div>
-													<div className="body-row-data2">
-														<span>
-															{new Date(
-																item.updated_at
-															).toLocaleDateString(
-																"en-GB"
-															)}
-														</span>
-													</div>
-													{stateOfInfo === "2" ? (
-														<div className="body-button">
-															<button className="ok-button">
-																Restore
-															</button>
 														</div>
-													) : (
-														<div className="body-button">
-															<button
-																onClick={() =>
-																	handleDelete(
-																		item
-																	)
-																}
-																className="reject-button"
-															>
-																Delete
-															</button>
-														</div>
-													)}
-												</div>
-											);
-										})}
+													);
+												}
+											)
+										) : (
+											<div className="text-center text-2xl text-gray-500 font-semibold mt-10">
+												No one has project yet!
+											</div>
+										)}
 									</div>
 								</div>
 							</div>

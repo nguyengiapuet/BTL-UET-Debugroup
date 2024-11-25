@@ -1,7 +1,18 @@
 import { Link } from "react-router-dom";
 import ButtonLike from "../../../../components/feature/likes/ButtonLike";
 import ButtonComment from "../../../../components/feature/comments/ButtonComment";
-function ProjectCard({ pen, userData, sortLike }) {
+import { FaEdit, FaTrash } from "react-icons/fa";
+
+function ProjectCard({
+	pen,
+	userData,
+	sortLike,
+	owner = false,
+	handleClickPens,
+	handleRemove,
+}) {
+	console.log("pen>>>>", pen.id, "-", pen.title);
+
 	return (
 		<div className="flex flex-col w-[calc(33.33%-20px)] bg-slate-200 rounded-xl shadow-md">
 			<div className="bg-white w-full rounded-xl h-[215px] flex flex-col items-center gap-4 shadow-md relative group">
@@ -25,6 +36,17 @@ function ProjectCard({ pen, userData, sortLike }) {
 				</div>
 			</div>
 			<CardFooter pen={pen} userData={userData} sortLike={sortLike} />
+			{owner && (
+				<div className="flex justify-end py-2 mx-2 gap-2 border-t-2 border-gray-400">
+					<div onClick={() => handleClickPens(pen)}>
+						<FaEdit className="text-[32px] cursor-pointer text-[#E9B500]" />
+					</div>
+
+					<div onClick={() => handleRemove(pen)}>
+						<FaTrash className="text-[32px] cursor-pointer text-[#E9B500]" />
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

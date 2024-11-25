@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import javascriptDemo from "../../asset/javascript_demo.webm";
 import fastLiveView from "../../asset/live_code.webm";
 import CommentContent from "../user/user_project/comment_components/CommentContent";
@@ -91,16 +92,20 @@ function AboutUs() {
 					</video>
 				</div>
 			</div>
-			{/* Review section */}
+
 			<div className="w-full h-fit bg-indigo-100 mt-10">
 				<div className="m-auto my-10 pb-10 pt-5 flex flex-col gap-5 justify-center items-center max-w-[700px]">
-					<div className="text-[28px] font-bold">Reviews</div>
-					<div className="text-left flex flex-col gap-2 text-sm">
-						<CommentContent width="w-full" />
-						<CommentContent width="w-full" />
-						<CommentContent width="w-full" />
-						<CommentContent width="w-full" />
-						<CommentContent width="w-full" />
+					<div className="text-[28px] font-bold">
+						<Link
+							to={"/pen"}
+							className="coding-btn animated-button1 h-12 w-48 font-semibold cursor-pointer flex items-center justify-center text-xl text-white"
+						>
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+							Start Coding
+						</Link>
 					</div>
 				</div>
 			</div>

@@ -94,15 +94,15 @@ function ChangePasswordModal({ isOpen, onClose }) {
 						<div className="absolute top-4 left-4 overflow-hidden">
 							<UserAvatar
 								size="size-14"
-								avatar={userData.avatar}
+								avatar={userData?.avatar}
 							/>
 						</div>
 					</div>
 					<div className="flex flex-col gap-2 pt-10 px-3">
 						<div className="font-bold text-xl">
-							{userData.username}
+							{userData?.username}
 						</div>
-						<div className="font-medium">{userData.email}</div>
+						<div className="font-medium">{userData?.email}</div>
 					</div>
 					<div className="flex flex-row gap-2 pt-10 px-3 justify-center items-center">
 						<div className="min-w-[100px]">Password:</div>

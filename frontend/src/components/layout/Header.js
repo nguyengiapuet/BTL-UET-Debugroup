@@ -162,7 +162,7 @@ const AuthSection = ({
 	setIsPasswordOpen,
 }) => (
 	<div className="flex flex-row items-center justify-center">
-		{userData.id ? (
+		{userData?.id ? (
 			<div className="flex flex-row gap-6 items-center justify-center">
 				<FaRegBell className="text-lg font-bold text-[#9C6317]" />
 				<div className="h-6 w-[2px] bg-gray-400" />

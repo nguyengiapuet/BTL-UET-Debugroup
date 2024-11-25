@@ -33,10 +33,7 @@ function ListFollower() {
 			{listFollowing.length > 0 ? (
 				<>
 					{listFollowing.map((item, index) => (
-						<>
-							<FollowerItem key={index} user={item} />
-							<hr />
-						</>
+						<FollowerItem key={index} user={item} />
 					))}
 				</>
 			) : (

@@ -84,6 +84,14 @@ const UserSection = () => {
 
 	const { userData, setUserData, title, setTitle } = useContext(AuthContext);
 	const [openPop, setOpenPop] = useState(false);
+	const [isProfileOpen, setIsProfileOpen] = useState(false);
+	const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+	const handleClosePassword = () => {
+		setIsPasswordOpen(false);
+	};
+	const handleCloseProfile = () => {
+		setIsProfileOpen(false);
+	};
 
 	const handleLogout = () => {
 		localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
@@ -123,6 +131,9 @@ const UserSection = () => {
 								userData={userData}
 								setOpenPop={setOpenPop}
 								setTitle={setTitle}
+								setIsProfileOpen={setIsProfileOpen}
+								setIsPasswordOpen={setIsPasswordOpen}
+								handleLogout={handleLogout}
 							/>
 						)}
 					</div>

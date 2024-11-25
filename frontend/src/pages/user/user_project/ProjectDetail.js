@@ -1,20 +1,28 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SummaryApi from "../../../common";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { FaPaperPlane } from "react-icons/fa";
 import CommentContent from "./comment_components/CommentContent";
+import ButtonLike from "../../../components/feature/likes/ButtonLike";
+import ButtonComment from "../../../components/feature/comments/ButtonComment";
+import LabelComment from "./comment_components/LabelComment";
+import ListComment from "./comment_components/ListComment";
+import InputComment from "./comment_components/InputComment";
+import { AuthContext } from "../../../context/AuthContext";
 
 function ProjectDetail() {
 	const params = useParams();
 	const [dataPen, setDataPen] = useState({});
+	const [refreshComment, setRefreshComment] = useState(false);
+	const { userData } = useContext(AuthContext);
+
 	const handleLoadPens = async () => {
 		try {
 			const response = await axios.get(
 				`${SummaryApi.getPens.url}/${params.id}`
 			);
 			if (response.data.success) {
-				console.log("response.data.data", response.data.data);
 				setDataPen(response.data.data);
 			} else {
 				console.log("response.data.message", response.data.message);
@@ -29,6 +37,7 @@ function ProjectDetail() {
 			handleLoadPens();
 		}
 	}, []);
+
 	return (
 		<div className="px-20 py-10 overflow-y-auto w-full h-screen flex flex-col gap-10">
 			{/* Project detail top content*/}
@@ -37,7 +46,11 @@ function ProjectDetail() {
 				<div className="flex flex-col gap-3">
 					{/* User information */}
 					<div className="flex flex-row gap-3 justify-start items-center">
-						<div className="h-10 w-10 rounded-full bg-gray-300"></div>
+						<img
+							alt=""
+							src={userData.avatar}
+							className="size-12 rounded-full border border-gray-300"
+						/>
 						<div className="flex flex-col">
 							<div className="text-md font-bold">Admin</div>
 							<div className="text-sm font-medium text-gray-500">
@@ -50,9 +63,12 @@ function ProjectDetail() {
 					<div className="flex h-4 flex-row justify-between items-center gap-2 text-[15px] text-gray-500">
 						<div className="">Project preview</div>
 						<div className="h-full w-[1px] bg-gray-500"></div>
-						<div>2.7k likes</div>
+						<ButtonLike pen={dataPen} />
 						<div className="h-full w-[1px] bg-gray-500"></div>
-						<div>100 comments</div>
+						<LabelComment
+							pen={dataPen}
+							refreshComment={refreshComment}
+						/>
 					</div>
 					{/* View source button */}
 					<Link
@@ -90,21 +106,22 @@ function ProjectDetail() {
 				<div className="text-md font-bold text-black">Comments</div>
 				<div className="w-full h-[1px] bg-gray-400"></div>
 				<div className="w-3/5 h-12 rounded-xl flex flex-row items-center justify-between relative mt-3 border-[1px] border-gray-200 focus-within:border-[#9CA3AF]">
-					<input
-						name="comment"
-						type="text"
-						placeholder="Add a comment..."
-						className="h-full text-sm shadow-md bg-[#cad4d57] w-full outline-none rounded-xl px-12"
+					<InputComment
+						project={dataPen}
+						setRefreshComment={setRefreshComment}
+						avatar={userData.avatar}
 					/>
-					<div className="h-9 w-9 rounded-full bg-gray-300 absolute left-2"></div>
-					<FaPaperPlane className="text-md cursor-pointer absolute right-5" />
 				</div>
-				<div>17 Comments</div>
-				<div className="w-full flex flex-col gap-2">
+				<LabelComment pen={dataPen} refreshComment={refreshComment} />
+				{/* <div className="w-full flex flex-col gap-2">
 					<CommentContent />
 					<CommentContent />
 					<CommentContent />
-				</div>
+				</div> */}
+				<ListComment
+					project={dataPen}
+					refreshComment={refreshComment}
+				/>
 			</div>
 		</div>
 	);

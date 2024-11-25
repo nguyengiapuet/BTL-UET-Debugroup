@@ -12,7 +12,6 @@ import CommentDashboard from "../pages/admin/admin_comment/CommentDB";
 import StartPage from "../pages/app/StartPage";
 import LoginPage from "../pages/user/user_account/LogIn";
 import SignUp from "../pages/user/user_account/SignUp";
-import TrashUser from "../pages/admin/admin_user/TrashUser";
 import ProjectDetail from "../pages/user/user_project/ProjectDetail";
 import AboutUs from "../pages/app/AboutUs";
 
@@ -74,11 +73,6 @@ const router = createBrowserRouter([
 			{
 				path: "/admin/comment-dashboard",
 				element: <CommentDashboard />,
-				children: [],
-			},
-			{
-				path: "/users/trash",
-				element: <TrashUser />,
 				children: [],
 			},
 			{
