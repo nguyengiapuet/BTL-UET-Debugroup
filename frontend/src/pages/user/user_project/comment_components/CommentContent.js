@@ -18,7 +18,13 @@ function CommentContent({ comment, setRefreshComment, width }) {
 							{comment.username}
 						</div>
 						<div className="text-sm text-gray-500">
-							{comment.comments_at}
+							{new Date(comment.comments_at).toLocaleDateString(
+								"en-GB"
+							)}
+							<span> at </span>
+							{new Date(comment.comments_at).toLocaleTimeString(
+								"en-GB"
+							)}
 						</div>
 					</div>
 					<div className="text-sm text-gray-700">

@@ -37,7 +37,9 @@ function ListFollower() {
 					))}
 				</>
 			) : (
-				<div>No following</div>
+				<div className="text-center text-gray-500 font-medium text-xl mt-10">
+					No following
+				</div>
 			)}
 		</div>
 	);

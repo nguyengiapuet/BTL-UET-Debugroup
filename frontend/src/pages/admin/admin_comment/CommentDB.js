@@ -57,6 +57,39 @@ function CommentDashboard() {
 		}
 	};
 
+	const sortProjects = (listProject) => {
+		const sortedList = listProject.sort((a, b) => {
+			const nameComparison = a.title.localeCompare(b.title);
+			if (nameComparison !== 0) {
+				return nameComparison;
+			}
+
+			const dateA = new Date(a.comments_at);
+			const dateB = new Date(b.comments_at);
+			return dateA - dateB;
+		});
+
+		return sortedList;
+	};
+
+	const handleOnchangeSort = (e) => {
+		if (e.target.value === "2") {
+			// console.log("e.target.value>>>>>>>>>>>>>>>>>>>>>>", e.target.value);
+			const sortedList = sortProjects([...allComments]);
+
+			setAllComments(sortedList);
+		} else {
+			const sortedList = (arr) =>
+				arr.sort((a, b) => {
+					const dateA = new Date(a.comments_at);
+					const dateB = new Date(b.comments_at);
+					return dateA - dateB;
+				});
+
+			setAllComments(sortedList([...allComments]));
+		}
+	};
+
 	useEffect(() => {
 		getAllComments();
 	}, []);
@@ -98,7 +131,8 @@ function CommentDashboard() {
 										<select
 											className="form-select"
 											type="text"
-											defaultValue={"2"}
+											defaultValue={"1"}
+											onChange={handleOnchangeSort}
 										>
 											<option value="1">Date</option>
 											<option value="2">Project</option>

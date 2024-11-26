@@ -39,6 +39,39 @@ function ProjectDashboard() {
 		setStateOfInfo(e.value);
 	};
 
+	const sortProjects = (listProject) => {
+		const sortedList = listProject.sort((a, b) => {
+			const nameComparison = a.title.localeCompare(b.title);
+			if (nameComparison !== 0) {
+				return nameComparison;
+			}
+
+			const dateA = new Date(a.created_at);
+			const dateB = new Date(b.created_at);
+			return dateA - dateB;
+		});
+
+		return sortedList;
+	};
+
+	const handleOnchangeSort = (e) => {
+		if (e.target.value === "2") {
+			// console.log("e.target.value>>>>>>>>>>>>>>>>>>>>>>", e.target.value);
+			const sortedList = sortProjects([...getAllPens]);
+
+			setGetAllPens(sortedList);
+		} else {
+			const sortedList = (arr) =>
+				arr.sort((a, b) => {
+					const dateA = new Date(a.created_at);
+					const dateB = new Date(b.created_at);
+					return dateA - dateB;
+				});
+
+			setGetAllPens(sortedList([...getAllPens]));
+		}
+	};
+
 	const handleDelete = async (item) => {
 		try {
 			const response = await axios.delete(
@@ -95,7 +128,8 @@ function ProjectDashboard() {
 										<select
 											className="form-select"
 											type="text"
-											defaultValue={"2"}
+											defaultValue={"1"}
+											onChange={handleOnchangeSort}
 										>
 											<option value="1">Date</option>
 											<option value="2">Name</option>

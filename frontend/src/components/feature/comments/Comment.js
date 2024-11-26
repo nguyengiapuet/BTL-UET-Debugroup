@@ -53,7 +53,21 @@ function Comment({ comment, setRefreshComment }) {
 					<FaUserCircle className="text-5xl" />
 				)}
 				<div className="bg-[#cad4d5] px-2 py-1 w-fit rounded-md overflow-hidden">
-					<p className="text-lg font-medium">{comment.username}</p>
+					<div className="flex items-center gap-2">
+						<p className="text-lg font-medium">
+							{comment.username}
+						</p>
+						<div className="text-sm text-gray-500">
+							{new Date(comment.comments_at).toLocaleDateString(
+								"en-GB"
+							)}
+							<span> at </span>
+							{new Date(comment.comments_at).toLocaleTimeString(
+								"en-GB"
+							)}
+						</div>
+					</div>
+
 					{edit ? (
 						<textarea
 							value={content}
