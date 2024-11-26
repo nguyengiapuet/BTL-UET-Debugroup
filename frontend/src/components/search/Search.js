@@ -49,7 +49,7 @@ function Search() {
 	}, []);
 
 	return (
-		<div className="relative h-fit z-10 search-container">
+		<div className="hidden lg:block relative h-fit z-10 search-container">
 			<div className="flex items-center bg-[#D9E2EF] rounded-full py-[2px] px-4">
 				<FaSearch className="text-gray-500 text-sm" />
 				<input

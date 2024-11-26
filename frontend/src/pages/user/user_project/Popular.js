@@ -33,7 +33,7 @@ function Popular() {
 	console.log("getAllPens", getAllPens);
 
 	return (
-		<div className=" w-full h-fit py-4 pb-44">
+		<div className=" h-fit py-4 pb-44">
 			<div className="flex flex-wrap gap-x-[30px] gap-y-10 h-fit">
 				{getAllPens.length !== 0 &&
 					getAllPens.map((pen, index) => (

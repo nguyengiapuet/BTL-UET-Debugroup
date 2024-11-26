@@ -10,6 +10,7 @@ async function getAllCommentsByProject(req, res) {
                     comments.id,
                     comments.content, 
                     comments.id_user, 
+					comments.comments_at,
                     account.username, 
                     account.email,
                     account.avatar

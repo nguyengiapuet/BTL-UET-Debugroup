@@ -60,7 +60,7 @@ function Comments({ project, setOpen, refresh }) {
 	return (
 		<div className=" bg-[#9797977a] fixed top-0 left-0 right-0 bottom-0 z-10">
 			<div className="fixed bg-[#e0f5f7] w-[50%] h-[90%] top-[5%] rounded-xl right-[25%] shadow-lg scroll-none overflow-y-auto">
-				<div className="bg-[#c9eefc] fixed top-[calc(5%-1px)] right-[25%] w-[50%] rounded-tl-xl rounded-tr-xl h-14 flex justify-between items-center p-4">
+				<div className="bg-[#c9eefc] z-50 fixed top-[calc(5%-1px)] right-[25%] w-[50%] rounded-tl-xl rounded-tr-xl h-14 flex justify-between items-center p-4">
 					<div className="text-2xl font-semibold">
 						Project of {project.username}
 					</div>

@@ -69,14 +69,6 @@ function UserDashboard() {
 		} catch (err) {}
 	};
 
-	const currentTableData = useMemo(() => {
-		const firstPageIndex = (currentPage - 1) * PageSize;
-		const lastPageIndex = firstPageIndex + PageSize;
-		return getAllUsers.length > 0
-			? getAllUsers.slice(firstPageIndex, lastPageIndex)
-			: [];
-	}, [currentPage, getAllUsers]);
-
 	// const deleteUser = async (id) => {
 	// 	try {
 	// 		const response = await axios.delete(
@@ -108,8 +100,49 @@ function UserDashboard() {
 		} catch (err) {}
 	};
 
+	const currentTableData = useMemo(() => {
+		const firstPageIndex = (currentPage - 1) * PageSize;
+		const lastPageIndex = firstPageIndex + PageSize;
+		return getAllUsers.length > 0
+			? getAllUsers.slice(firstPageIndex, lastPageIndex)
+			: [];
+	}, [currentPage, getAllUsers]);
+
 	const handleOnchangeType = (e) => {
 		setStateOfInfo(e.target.value);
+	};
+
+	const sortUsers = (listUser) => {
+		const sortedList = listUser.sort((a, b) => {
+			const nameComparison = a.username.localeCompare(b.username);
+			if (nameComparison !== 0) {
+				return nameComparison;
+			}
+
+			const dateA = new Date(a.created_at);
+			const dateB = new Date(b.created_at);
+			return dateA - dateB;
+		});
+
+		return sortedList;
+	};
+
+	const handleOnchangeSort = (e) => {
+		if (e.target.value === "2") {
+			// console.log("e.target.value>>>>>>>>>>>>>>>>>>>>>>", e.target.value);
+			const sortedList = sortUsers([...getAllUsers]);
+
+			setGetAllUsers(sortedList);
+		} else {
+			const sortedList = (arr) =>
+				arr.sort((a, b) => {
+					const dateA = new Date(a.created_at);
+					const dateB = new Date(b.created_at);
+					return dateA - dateB;
+				});
+
+			setGetAllUsers(sortedList([...getAllUsers]));
+		}
 	};
 
 	useEffect(() => {
@@ -162,7 +195,8 @@ function UserDashboard() {
 										<select
 											className="form-select"
 											type="text"
-											defaultValue={"2"}
+											defaultValue={"1"}
+											onChange={handleOnchangeSort}
 										>
 											<option value="1">Date</option>
 											<option value="2">Name</option>

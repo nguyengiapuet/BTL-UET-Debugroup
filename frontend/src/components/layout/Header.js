@@ -69,7 +69,9 @@ export const MenuSection = ({ title, toggleNav }) => (
 		>
 			<AiOutlineMenu className="text-gray-700 text-lg font-bold" />
 		</button>
-		<p className="text-lg font-bold text-[#545454]">{title}</p>
+		<p className="hidden xl:block text-lg font-bold text-[#545454]">
+			{title}
+		</p>
 	</div>
 );
 
