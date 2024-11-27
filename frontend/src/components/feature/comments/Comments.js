@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/iframe-has-title */
 import axios from "axios";
 import { FaComment, FaPaperPlane, FaShare, FaUserCircle } from "react-icons/fa";
 import SummaryApi from "../../../common";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { MdClose } from "react-icons/md";
-import ActionButtonComment from "./ActionButtonComment";
 import Comment from "./Comment";
 
 function Comments({ project, setOpen, refresh }) {
@@ -63,7 +61,7 @@ function Comments({ project, setOpen, refresh }) {
 			<div className="fixed bg-[#e0f5f7] w-[50%] h-[90%] top-[5%] rounded-xl right-[25%] shadow-lg scroll-none overflow-y-auto">
 				<div className="bg-[#c9eefc] z-50 fixed top-[calc(5%-1px)] right-[25%] w-[50%] rounded-tl-xl rounded-tr-xl h-14 flex justify-between items-center p-4">
 					<div className="text-2xl font-semibold">
-						Project of {project.username}
+						Project preview
 					</div>
 					<MdClose
 						onClick={() => setOpen(false)}

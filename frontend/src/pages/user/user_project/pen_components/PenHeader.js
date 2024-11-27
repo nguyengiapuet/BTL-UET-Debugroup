@@ -82,16 +82,16 @@ const UserSection = () => {
 	// Change ui if user is logged in
 	// TODO
 
-	const { userData, setUserData, title, setTitle } = useContext(AuthContext);
+	const { userData, setUserData, setTitle } = useContext(AuthContext);
 	const [openPop, setOpenPop] = useState(false);
 	const [isProfileOpen, setIsProfileOpen] = useState(false);
 	const [isPasswordOpen, setIsPasswordOpen] = useState(false);
-	const handleClosePassword = () => {
-		setIsPasswordOpen(false);
-	};
-	const handleCloseProfile = () => {
-		setIsProfileOpen(false);
-	};
+	// const handleClosePassword = () => {
+	// 	setIsPasswordOpen(false);
+	// };
+	// const handleCloseProfile = () => {
+	// 	setIsProfileOpen(false);
+	// };
 
 	const handleLogout = () => {
 		localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);

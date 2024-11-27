@@ -6,6 +6,7 @@ import { FaPaperPlane } from "react-icons/fa";
 
 function InputComment({ project, setRefreshComment, avatar }) {
 	const [comment, setComment] = useState("");
+
 	const handleSendComments = async () => {
 		try {
 			const response = await axios.post(SummaryApi.sendComments.url, {
@@ -39,7 +40,7 @@ function InputComment({ project, setRefreshComment, avatar }) {
 				value={comment}
 				type="text"
 				placeholder="Comments"
-				className="h-full text-sm shadow-md bg-[#cad4d57] w-full outline-none rounded-xl px-12"
+				className="h-full text-sm shadow-md bg-[#cad4d57] w-full outline-none rounded-xl px-[55px]"
 			/>
 			<img
 				alt=""

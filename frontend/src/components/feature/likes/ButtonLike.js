@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaRegArrowAltCircleUp } from "react-icons/fa";
 import { toast } from "react-toastify";
 import SummaryApi from "../../../common";
 import { AuthContext } from "../../../context/AuthContext";
@@ -10,23 +10,6 @@ function ButtonLike({ pen, sortLike }) {
 	const [totalLike, setTotalLike] = useState();
 
 	const { userData } = useContext(AuthContext);
-	// const totalLikes = async () => {
-	// 	try {
-	// 		const response = await axios.get(SummaryApi.totalLike.url);
-
-	// 		if (response.data.success) {
-	// 			for (let i = 0; i < response.data.data.length; i++) {
-	// 				setTotalLike((prev) => ({
-	// 					...prev,
-	// 					[response.data.data[i].id_project]:
-	// 						response.data.data[i].total_likes,
-	// 				}));
-	// 			}
-	// 		}
-	// 	} catch (err) {
-	// 		console.log(err.message);
-	// 	}
-	// };
 
 	const totalLikes = async () => {
 		try {
@@ -99,15 +82,16 @@ function ButtonLike({ pen, sortLike }) {
 		getAllLikeByUser();
 		totalLikes();
 	}, [sortLike, pen.id]);
+
 	return (
 		<div className="w-fit rounded-xl flex gap-1 items-center justify-center">
 			{allLike.find((project) => project.id_project === pen.id) ? (
-				<FaHeart
+				<FaRegArrowAltCircleUp
 					onClick={() => handleUnlike(pen)}
-					className="text-[16px] cursor-pointer text-[#ff3434]"
+					className="text-[16px] cursor-pointer text-red-600"
 				/>
 			) : (
-				<FaRegHeart
+				<FaRegArrowAltCircleUp
 					onClick={() => handleLike(pen)}
 					className="text-[16px] cursor-pointer text-[#545454]"
 				/>

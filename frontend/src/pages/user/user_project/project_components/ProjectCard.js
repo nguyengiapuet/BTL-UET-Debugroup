@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import ButtonLike from "../../../../components/feature/likes/ButtonLike";
 import ButtonComment from "../../../../components/feature/comments/ButtonComment";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { Modal } from "antd";
+import { useState } from "react";
 
 function ProjectCard({
 	pen,
@@ -11,6 +13,14 @@ function ProjectCard({
 	handleClickPens,
 	handleRemove,
 }) {
+	const [open, setOpen] = useState(false);
+	const showModal = () => {
+		setOpen(true);
+	};
+	const hideModal = () => {
+		setOpen(false);
+	};
+
 	return (
 		<div className="flex flex-col min-w-[240px] w-[calc(33.33%-20px)] bg-slate-200 rounded-xl shadow-md">
 			<div className="bg-white w-full rounded-xl h-[215px] flex flex-col items-center gap-4 shadow-md relative group">
@@ -34,17 +44,49 @@ function ProjectCard({
 				</div>
 			</div>
 			<CardFooter pen={pen} userData={userData} sortLike={sortLike} />
+			{/* If my Project => Show edit and delete button */}
 			{owner && (
-				<div className="flex justify-end py-2 mx-2 gap-2 border-t-2 border-gray-400">
-					<div onClick={() => handleClickPens(pen)}>
-						<FaEdit className="text-[32px] cursor-pointer text-[#E9B500]" />
+				<div className="flex border-t-[1px] border-gray-400">
+					<div
+						className="py-2 flex flex-row gap-2 w-1/2 justify-center items-center border-r-[1px] border-gray-400 hover:bg-gray-300 hover:transition-all hover:duration-200 hover:scale-105 hover:rounded-bl-xl cursor-pointer"
+						onClick={() => handleClickPens(pen)}
+					>
+						<FaEdit className="text-[16px] cursor-pointer text-sky-500" />
+						<div className="text-[16px]">Edit</div>
 					</div>
-
-					<div onClick={() => handleRemove(pen)}>
-						<FaTrash className="text-[32px] cursor-pointer text-[#E9B500]" />
+					<div
+						className="py-2 flex flex-row gap-2 w-1/2 justify-center items-center hover:bg-gray-300 hover:transition-all hover:duration-200 hover:scale-105 hover:rounded-br-xl cursor-pointer"
+						onClick={showModal}
+					>
+						<FaTrash className="text-[16px] cursor-pointer text-red-500" />
+						<div className="text-[16px]">Delete</div>
 					</div>
 				</div>
 			)}
+			{/* This modal is for confirm or cancel delete project */}
+			<Modal
+				title={
+					<div className="text-bold text-[18px]">
+						Delete this project?
+					</div>
+				}
+				open={open}
+				onOk={() => handleRemove(pen)}
+				onCancel={hideModal}
+				okText="Confirm"
+				cancelText="Cancel"
+				width={400}
+			>
+				<div className="flex flex-col gap-1 py-4 items-center">
+					<div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center mb-4">
+						<span className="text-2xl text-red-500 font-bold">
+							!
+						</span>
+					</div>
+					<div>Are you sure you want to delete this project?</div>
+					<div>After deleting, just Admin can restore it.</div>
+				</div>
+			</Modal>
 		</div>
 	);
 }
@@ -61,10 +103,10 @@ const ActionButton = ({ to, label, target }) => (
 	</Link>
 );
 
-const CardFooter = ({ pen, userData, sortLike }) => (
+const CardFooter = ({ pen, sortLike }) => (
 	<div className="w-full py-2 px-2 flex flex-row justify-between items-center text-sm">
 		<div className="flex flex-col">
-			<Link target="blank" className="font-semibold">
+			<Link to={`/project-detail/${pen.id}`} className="font-semibold">
 				{pen.title}
 			</Link>
 			<div>
