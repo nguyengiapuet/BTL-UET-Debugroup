@@ -2,10 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import SummaryApi from "../../../common";
 import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { FaPaperPlane } from "react-icons/fa";
-import CommentContent from "./comment_components/CommentContent";
 import ButtonLike from "../../../components/feature/likes/ButtonLike";
-import ButtonComment from "../../../components/feature/comments/ButtonComment";
 import LabelComment from "./comment_components/LabelComment";
 import ListComment from "./comment_components/ListComment";
 import InputComment from "./comment_components/InputComment";
@@ -116,11 +113,6 @@ function ProjectDetail() {
 					/>
 				</div>
 				<LabelComment pen={dataPen} refreshComment={refreshComment} />
-				{/* <div className="w-full flex flex-col gap-2">
-					<CommentContent />
-					<CommentContent />
-					<CommentContent />
-				</div> */}
 				<ListComment
 					project={dataPen}
 					refreshComment={refreshComment}
