@@ -22,7 +22,7 @@ function FollowerItem({ user }) {
 							className="size-12 rounded-full border shadow-sm"
 						/>
 					) : (
-						<FaUserCircle />
+						<FaUserCircle className="size-12" />
 					)}
 					<span className="text-xl max-w-24 truncate font-semibold overflow-hidden ">
 						{user.username}

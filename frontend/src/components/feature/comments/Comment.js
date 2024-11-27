@@ -37,6 +37,7 @@ function Comment({ comment, setRefreshComment }) {
 			}
 		} catch (error) {
 			console.log(error.message);
+			toast.error("Please login and try again");
 		}
 	};
 

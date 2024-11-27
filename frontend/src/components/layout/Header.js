@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LOCAL_STORAGE_TOKEN_NAME } from "../../common/constants";
 import {
 	FaLock,
@@ -8,16 +8,20 @@ import {
 	FaUserCircle,
 	FaChevronDown,
 } from "react-icons/fa";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { AiOutlineMenu } from "react-icons/ai";
 import Search from "../search/Search";
 import ProfileModal from "../../pages/user/user_account/Profile";
 import ChangePasswordModal from "../../pages/user/user_account/ChangePassword";
+import Notifications from "../notifications/Notifications";
+import NotificationCount from "../notifications/NotificationCount";
 
 function Header({ toggleNav }) {
 	const { userData, setUserData, title, setTitle } = useContext(AuthContext);
 	const [openPop, setOpenPop] = useState(false);
+	const [openNotification, setOpenNotification] = useState(false);
+	const navigate = useNavigate();
 
 	const handleLogout = () => {
 		localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
@@ -29,6 +33,7 @@ function Header({ toggleNav }) {
 			role: "",
 			avatar: "",
 		});
+		navigate("/login");
 	};
 
 	const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -51,6 +56,8 @@ function Header({ toggleNav }) {
 				handleLogout={handleLogout}
 				setIsProfileOpen={setIsProfileOpen}
 				setIsPasswordOpen={setIsPasswordOpen}
+				openNotification={openNotification}
+				setOpenNotification={setOpenNotification}
 			/>
 			<ProfileModal isOpen={isProfileOpen} onClose={handleCloseProfile} />
 			<ChangePasswordModal
@@ -162,60 +169,95 @@ const AuthSection = ({
 	setTitle,
 	setIsProfileOpen,
 	setIsPasswordOpen,
-}) => (
-	<div className="flex flex-row items-center justify-center">
-		{userData?.id ? (
-			<div className="flex flex-row gap-6 items-center justify-center">
-				<FaRegBell className="text-lg font-bold text-[#9C6317]" />
-				<div className="h-6 w-[2px] bg-gray-400" />
-				{/* <<<<<<< HEAD
+	openNotification,
+	setOpenNotification,
+}) => {
+	const [markRead, setMarkRead] = useState(false);
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (!event.target.closest(".notification-container")) {
+				setOpenNotification(false);
+				setMarkRead((prev) => !prev);
+			}
+		};
+
+		document.addEventListener("click", handleClickOutside);
+		return () => document.removeEventListener("click", handleClickOutside);
+	}, []);
+
+	return (
+		<div className="flex flex-row items-center justify-center">
+			{userData?.id ? (
+				<div className="flex flex-row gap-6 items-center justify-center">
+					<div className="relative notification-container">
+						<div
+							className="cursor-pointer"
+							onClick={() => {
+								setOpenNotification((prev) => !prev);
+								setMarkRead((prev) => !prev);
+							}}
+						>
+							<FaRegBell className="text-xl cursor-pointer font-bold text-[#9C6317]" />
+							<NotificationCount markRead={markRead} />
+						</div>
+						{openNotification && (
+							<Notifications
+								setOpenNotification={setOpenNotification}
+							/>
+						)}
+					</div>
+					<div className="h-6 w-[2px] bg-gray-400" />
+					{/* <<<<<<< HEAD
 				<div className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative">
 					<UserAvatar avatar={userData.avatar} size="size-10" />
 ======= */}
-				<div
-					className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative"
-					onClick={() => setOpenPop(!openPop)}
-					onBlur={() => setOpenPop(false)}
-				>
-					<UserAvatar avatar={userData.avatar} size="size-10" />
-					<div className="text-sm font-medium flex flex-row justify-center items-center gap-1 cursor-pointer">
-						<span className="font-medium">Xin chào,</span>
-						<span className="font-bold">{userData.username}</span>
-						<FaChevronDown
-							className={`ml-1 text-gray-500 transition-transform duration-300 ${
-								openPop ? "rotate-180" : ""
-							}`}
-						/>
+					<div
+						className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative"
+						onClick={() => setOpenPop(!openPop)}
+						onBlur={() => setOpenPop(false)}
+					>
+						<UserAvatar avatar={userData.avatar} size="size-10" />
+						<div className="text-sm font-medium flex flex-row justify-center items-center gap-1 cursor-pointer">
+							<span className="font-medium">Xin chào,</span>
+							<span className="font-bold">
+								{userData.username}
+							</span>
+							<FaChevronDown
+								className={`ml-1 text-gray-500 transition-transform duration-300 ${
+									openPop ? "rotate-180" : ""
+								}`}
+							/>
+						</div>
+						{openPop && (
+							<UserPopup
+								userData={userData}
+								setOpenPop={setOpenPop}
+								setTitle={setTitle}
+								setIsPasswordOpen={setIsPasswordOpen}
+								setIsProfileOpen={setIsProfileOpen}
+								handleLogout={handleLogout}
+							/>
+						)}
 					</div>
-					{openPop && (
-						<UserPopup
-							userData={userData}
-							setOpenPop={setOpenPop}
-							setTitle={setTitle}
-							setIsPasswordOpen={setIsPasswordOpen}
-							setIsProfileOpen={setIsProfileOpen}
-							handleLogout={handleLogout}
-						/>
-					)}
 				</div>
-			</div>
-		) : (
-			<div className="flex flex-row justify-center items-center gap-5 px-4">
-				<Link
-					to="login"
-					className="hover:bg-gray-200 px-5 py-1 border-[1px] border-gray-400 rounded-md hover:text-[#0d6efd] font-bold text-sm text-[#9C6317]"
-				>
-					Login
-				</Link>
-				<Link
-					to="signup"
-					className="bg-[#9C6317] flex items-center justify-center px-4 py-1 rounded-md text-sm font-medium text-white"
-				>
-					Signup
-				</Link>
-			</div>
-		)}
-	</div>
-);
-
+			) : (
+				<div className="flex flex-row justify-center items-center gap-5 px-4">
+					<Link
+						to="login"
+						className="hover:bg-gray-200 px-5 py-1 border-[1px] border-gray-400 rounded-md hover:text-[#0d6efd] font-bold text-sm text-[#9C6317]"
+					>
+						Login
+					</Link>
+					<Link
+						to="signup"
+						className="bg-[#9C6317] flex items-center justify-center px-4 py-1 rounded-md text-sm font-medium text-white"
+					>
+						Signup
+					</Link>
+				</div>
+			)}
+		</div>
+	);
+};
 export default Header;

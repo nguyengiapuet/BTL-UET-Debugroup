@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import SummaryApi from "../../../common";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { FaPaperPlane } from "react-icons/fa";
 import CommentContent from "./comment_components/CommentContent";
 import ButtonLike from "../../../components/feature/likes/ButtonLike";
@@ -12,6 +12,7 @@ import InputComment from "./comment_components/InputComment";
 import { AuthContext } from "../../../context/AuthContext";
 
 function ProjectDetail() {
+	const location = useLocation();
 	const params = useParams();
 	const [dataPen, setDataPen] = useState({});
 	const [refreshComment, setRefreshComment] = useState(false);
@@ -36,7 +37,7 @@ function ProjectDetail() {
 		if (params.id !== undefined) {
 			handleLoadPens();
 		}
-	}, []);
+	}, [location]);
 
 	return (
 		<div className="px-20 py-10 overflow-y-auto w-full h-screen flex flex-col gap-10">
@@ -48,18 +49,20 @@ function ProjectDetail() {
 					<div className="flex flex-row gap-3 justify-start items-center">
 						<img
 							alt=""
-							src={userData.avatar}
+							src={dataPen?.avatar}
 							className="size-12 rounded-full border border-gray-300"
 						/>
 						<div className="flex flex-col">
-							<div className="text-md font-bold">Admin</div>
+							<div className="text-md font-bold">
+								{dataPen?.username}
+							</div>
 							<div className="text-sm font-medium text-gray-500">
-								Contact: {dataPen.email}
+								Contact: {dataPen?.email}
 							</div>
 						</div>
 					</div>
 					{/* Project information */}
-					<div className="text-xl font-bold">{dataPen.title}</div>
+					<div className="text-xl font-bold">{dataPen?.title}</div>
 					<div className="flex h-4 flex-row justify-between items-center gap-2 text-[15px] text-gray-500">
 						<div className="">Project preview</div>
 						<div className="h-full w-[1px] bg-gray-500"></div>
@@ -73,7 +76,7 @@ function ProjectDetail() {
 					{/* View source button */}
 					<Link
 						className="w-fit h-fit mt-5 bg-[#fe5b16] rounded-md px-5 py-2 text-sm text-white font-bold hover:bg-[#fe5b16]/80"
-						to={`/pen/${params.id}`}
+						to={`/pen/${params?.id}`}
 					>
 						View source
 					</Link>
@@ -82,7 +85,7 @@ function ProjectDetail() {
 				<div className="bg-white rounded-3xl shadow-md min-w-[680px] flex justify-center items-center">
 					<iframe
 						className="max-w-[600px] rounded-2xl w-full min-h-[330px] my-10"
-						srcDoc={dataPen.output}
+						srcDoc={dataPen?.output}
 					/>
 				</div>
 			</div>
@@ -109,7 +112,7 @@ function ProjectDetail() {
 					<InputComment
 						project={dataPen}
 						setRefreshComment={setRefreshComment}
-						avatar={userData.avatar}
+						avatar={userData?.avatar}
 					/>
 				</div>
 				<LabelComment pen={dataPen} refreshComment={refreshComment} />

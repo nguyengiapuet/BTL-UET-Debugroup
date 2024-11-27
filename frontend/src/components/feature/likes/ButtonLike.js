@@ -1,13 +1,15 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import SummaryApi from "../../../common";
+import { AuthContext } from "../../../context/AuthContext";
 
 function ButtonLike({ pen, sortLike }) {
 	const [allLike, setAllLike] = useState([]);
 	const [totalLike, setTotalLike] = useState();
 
+	const { userData } = useContext(AuthContext);
 	// const totalLikes = async () => {
 	// 	try {
 	// 		const response = await axios.get(SummaryApi.totalLike.url);
@@ -53,6 +55,7 @@ function ButtonLike({ pen, sortLike }) {
 			}
 		} catch (err) {
 			console.log(err.message);
+			toast.error("Please login and try again");
 			return;
 		}
 	};
@@ -67,6 +70,8 @@ function ButtonLike({ pen, sortLike }) {
 				toast.success("Like removed successfully!");
 				getAllLikeByUser();
 				setTotalLike((prev) => prev - 1);
+			} else {
+				toast.error("Failed to remove like!");
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -75,14 +80,18 @@ function ButtonLike({ pen, sortLike }) {
 	};
 
 	const getAllLikeByUser = async () => {
-		try {
-			const response = await axios.get(SummaryApi.getAllLikeByUser.url);
-			if (response.data.success) {
-				setAllLike(response.data.data);
+		if (userData.id) {
+			try {
+				const response = await axios.get(
+					SummaryApi.getAllLikeByUser.url
+				);
+				if (response.data.success) {
+					setAllLike(response.data.data);
+				}
+			} catch (err) {
+				console.log(err.message);
+				return;
 			}
-		} catch (err) {
-			console.log(err.message);
-			return;
 		}
 	};
 

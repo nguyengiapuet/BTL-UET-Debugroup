@@ -112,6 +112,15 @@ const SummaryApi = {
 	totalCommentPen: {
 		url: `${backendDomain}/api/total-comment-pen`,
 	},
+	getAllNotificationByUser: {
+		url: `${backendDomain}/api/all-notification`,
+	},
+	countNotificationUnread: {
+		url: `${backendDomain}/api/count-notification-unread`,
+	},
+	markAsReadNotification: {
+		url: `${backendDomain}/api/mark-as-read-notification`,
+	},
 };
 
 export default SummaryApi;
