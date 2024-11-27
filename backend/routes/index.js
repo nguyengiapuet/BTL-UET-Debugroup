@@ -11,7 +11,7 @@ const getDetailsPen = require("../controllers/pens/getDetailsPen");
 const deletedPen = require("../controllers/pens/deletedPen");
 const updatePen = require("../controllers/pens/updatePen");
 const getAllPensPublic = require("../controllers/pens/getAllPensPublic");
-const addLikes = require("../controllers/likes/addlikes");
+const addLikes = require("../controllers/likes/addLikes");
 const deleteLikes = require("../controllers/likes/deleteLikes");
 const getAllLikeByUser = require("../controllers/likes/getAllLikeByUser");
 const totalLike = require("../controllers/likes/totalLikes");
@@ -37,6 +37,9 @@ const changePassword = require("../controllers/users/changePassword");
 const checkPasswordUser = require("../controllers/users/checkPasswordUser");
 const totalLikePen = require("../controllers/likes/totalLikePen");
 const totalCommentPen = require("../controllers/comment/totalCommentPen");
+const getAllNotificationByUser = require("../controllers/notifications/getAllNotificationByUser");
+const countNotificationUnread = require("../controllers/notifications/countNotificationUnread");
+const markAsReadNotification = require("../controllers/notifications/markAsReadNotification");
 
 const router = express.Router();
 
@@ -87,5 +90,10 @@ router.delete("/delete-follower/:followingId", verifyToken, deleteFollower);
 router.get("/follower/:followingId", verifyToken, getFollower);
 router.get("/get-following", verifyToken, getFollowing);
 router.get("/follower-count/:userId", countFollower);
+
+// Notification
+router.get("/all-notification", verifyToken, getAllNotificationByUser);
+router.get("/count-notification-unread", verifyToken, countNotificationUnread);
+router.post("/mark-as-read-notification", verifyToken, markAsReadNotification);
 
 module.exports = router;

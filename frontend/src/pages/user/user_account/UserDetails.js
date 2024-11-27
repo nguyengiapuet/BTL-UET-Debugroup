@@ -121,11 +121,15 @@ function UserDetails() {
 						className="object-cover h-64 w-full rounded-lg"
 						src="https://img.freepik.com/free-vector/copy-space-bokeh-spring-lights-background_52683-55649.jpg"
 					/>
-					<img
-						alt=""
-						className="object-cover h-32 w-32 rounded-full bottom-16 relative mx-auto ring-4 ring-white"
-						src={dataUser.avatar}
-					/>
+					{dataUser?.avatar ? (
+						<img
+							alt=""
+							className="object-cover h-32 w-32 rounded-full bottom-16 relative mx-auto ring-4 ring-white"
+							src={dataUser?.avatar}
+						/>
+					) : (
+						<FaUserCircle className="h-32 w-32 rounded-full bottom-16 relative mx-auto ring-4 ring-white" />
+					)}
 				</div>
 
 				<div className="-mt-12">

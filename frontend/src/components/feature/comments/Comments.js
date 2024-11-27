@@ -29,6 +29,7 @@ function Comments({ project, setOpen, refresh }) {
 			}
 		} catch (err) {
 			console.log(err.message);
+			toast.error("Please login and try again");
 		}
 	};
 

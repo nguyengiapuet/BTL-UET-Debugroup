@@ -11,8 +11,6 @@ function ProjectCard({
 	handleClickPens,
 	handleRemove,
 }) {
-	console.log("pen>>>>", pen.id, "-", pen.title);
-
 	return (
 		<div className="flex flex-col min-w-[240px] w-[calc(33.33%-20px)] bg-slate-200 rounded-xl shadow-md">
 			<div className="bg-white w-full rounded-xl h-[215px] flex flex-col items-center gap-4 shadow-md relative group">
