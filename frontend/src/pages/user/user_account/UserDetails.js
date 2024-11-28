@@ -1,20 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SummaryApi from "../../../common";
 import { useContext, useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
-import { FaEdit, FaEye, FaTrash, FaUserCircle } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
-import ButtonLike from "../../../components/feature/likes/ButtonLike";
-import ButtonComment from "../../../components/feature/comments/ButtonComment";
 import ButtonFollow from "../../../components/followers/ButtonFollow";
+import ProjectCard from "../user_project/project_components/ProjectCard";
 
 function UserDetails() {
 	const params = useParams();
 	const location = useLocation();
 	const [isFollowing, setIsFollowing] = useState();
+	const [activeTab, setActiveTab] = useState("about");
 
 	const [dataUser, setDataUser] = useState({
 		id: null,
@@ -112,121 +110,233 @@ function UserDetails() {
 		fetchCountFollower();
 	}, [isFollowing]);
 
+	// TODO: handle loading list followers.
+	const followers = [
+		{
+			avatar: "",
+			username: "",
+		},
+		{
+			avatar: "",
+			username: "",
+		},
+		{
+			avatar: "",
+			username: "",
+		},
+	];
+
 	return (
-		<div className="bg-slate-200 w-full h-[100vh] overflow-y-scroll pb-20">
-			<div className="flex flex-col p-6 items-center">
-				<div className="w-full">
-					<img
-						alt=""
-						className="object-cover h-64 w-full rounded-lg"
-						src="https://img.freepik.com/free-vector/copy-space-bokeh-spring-lights-background_52683-55649.jpg"
-					/>
+		<div className="bg-white w-full h-[100vh] overflow-y-scroll pb-20 border-l-2 border-gray-300">
+			<div className="flex flex-col items-center">
+				{/* User detail header */}
+				<div className="w-full h-40 bg-gradient-to-r from-[#9C6317]/20 to-[#9C6317]/40"></div>
+				<div className="w-full bg-white">
 					{dataUser?.avatar ? (
 						<img
 							alt=""
-							className="object-cover h-32 w-32 rounded-full bottom-16 relative mx-auto ring-4 ring-white"
+							className="object-cover h-20 w-20 rounded-full bottom-10 relative mx-auto ring-4 ring-white"
 							src={dataUser?.avatar}
 						/>
 					) : (
-						<FaUserCircle className="h-32 w-32 rounded-full bottom-16 relative mx-auto ring-4 ring-white" />
+						<FaUserCircle className="h-20 w-20 rounded-full bottom-10 relative mx-auto ring-4 ring-white" />
 					)}
 				</div>
-
-				<div className="-mt-12">
-					<span className="text-3xl font-medium">
-						{dataUser.username}
-					</span>
+				<div className="-my-7 text-lg font-bold">
+					{dataUser.username}
 				</div>
 
-				<div className="flex gap-6 items-center mt-2">
-					<span className="font-medium text-lg flex gap-1 items-center">
-						{follow.followingCount}
-						<span className="text-gray-500 text-lg font-normal">
-							Followers
-						</span>
-					</span>
-					<span className="font-medium text-lg flex gap-1 items-center">
-						{follow.followerCount}
-						<span className="text-gray-500 text-lg font-normal">
-							Following
-						</span>
-					</span>
-					<ButtonFollow
-						currentUser={userData}
-						dataUser={dataUser}
-						setIsFollowing={setIsFollowing}
-						isFollowing={isFollowing}
-					/>
-				</div>
+				{/* Followers and following with actions: follow/unfollow/edit profile */}
+				<SocialOfUser
+					follow={follow}
+					userData={userData}
+					setIsFollowing={setIsFollowing}
+					isFollowing={isFollowing}
+					dataUser={dataUser}
+				/>
 
-				{/* List project */}
-				<div className="flex flex-wrap justify-between gap-y-8 h-fit mt-10 w-[55vw]">
-					{projectsUser.length !== 0 &&
-						projectsUser.map((pen, index) => (
+				{/* This is 2 tabs view of UserDetails: Profile and Projects */}
+				<div className="w-full mt-8">
+					<div className="flex justify-center border-b border-t border-gray-300 relative">
+						{/* Button profile tab */}
+						<button
+							className={`px-5 py-4 font-medium relative ${
+								activeTab === "about"
+									? "text-[#9C6317]"
+									: "text-gray-500 hover:text-[#9C6317]"
+							}`}
+							onClick={() => setActiveTab("about")}
+						>
+							Profile
 							<div
-								key={index}
-								className="bg-white w-[25vw] rounded-3xl h-[400px] flex flex-col items-center gap-4 px-4 py-2 shadow-md"
+								className={`absolute bottom-0 left-0 w-full h-0.5 bg-[#9C6317] transition-transform duration-300 ease-in-out ${
+									activeTab === "about"
+										? "scale-x-100"
+										: "scale-x-0"
+								}`}
+							></div>
+						</button>
+						{/* Button projects tab */}
+						<button
+							className={`px-5 py-4 font-medium relative ${
+								activeTab === "projects"
+									? "text-[#9C6317]"
+									: "text-gray-500 hover:text-[#9C6317]"
+							}`}
+							onClick={() => setActiveTab("projects")}
+						>
+							Projects
+							<div
+								className={`absolute bottom-0 left-0 w-full h-0.5 bg-[#9C6317] transition-transform duration-300 ease-in-out ${
+									activeTab === "projects"
+										? "scale-x-100"
+										: "scale-x-0"
+								}`}
+							/>
+						</button>
+					</div>
+
+					<div className="mt-8 px-4 w-full">
+						{/* Profile tab */}
+						{activeTab === "about" ? (
+							<div
+								className={`transition-opacity duration-300 ease-in-out ${
+									activeTab === "about"
+										? "opacity-100"
+										: "opacity-0"
+								}`}
 							>
-								<div className="flex h-20 items-center justify-between w-full">
-									{pen.avatar ? (
-										<img
-											className="w-[48px] h-[48px] rounded-full border border-[#c9c9c9]"
-											src={pen.avatar}
-											alt="avatar"
-										/>
-									) : (
-										<FaUserCircle className="text-5xl text-[#acacac]" />
-									)}
-									<h1 className="text-2xl text-[#9C6317] font-semibold">
-										{pen.title}
-									</h1>
-
-									<div className="flex gap-2">
-										{userData.id === dataUser.id ? (
-											<>
-												<div
-													onClick={() =>
-														handleClickPens(pen)
-													}
-												>
-													<FaEdit className="text-[32px] cursor-pointer text-[#E9B500]" />
-												</div>
-
-												<div
-													onClick={() =>
-														handleRemove(pen)
-													}
-												>
-													<FaTrash className="text-[32px] cursor-pointer text-[#E9B500]" />
-												</div>
-											</>
-										) : (
-											<div
-												onClick={() =>
-													handleClickPens(pen)
-												}
-											>
-												<FaEye className="text-[32px] cursor-pointer text-[#E9B500]" />
-											</div>
-										)}
-									</div>
-								</div>
-								<iframe
-									title={pen.title}
-									className="w-full h-full rounded-2xl overflow-x-hidden overflow-y-auto"
-									srcDoc={pen.output}
+								<ProfileTab
+									dataUser={dataUser}
+									followers={followers}
 								/>
-
-								<div className="w-full flex pt-4">
-									<ButtonLike pen={pen} />
-									<ButtonComment pen={pen} />
-								</div>
 							</div>
-						))}
+						) : (
+							/* Projects tab */
+							<div
+								className={`flex w-full gap-x-[30px] gap-y-10 h-fit justify-start transition-opacity duration-300 ease-in-out ${
+									activeTab === "projects"
+										? "opacity-100"
+										: "opacity-0"
+								}`}
+							>
+								{projectsUser.length === 0 ? (
+									<div className="text-gray-500 text-center">
+										No projects available
+									</div>
+								) : (
+									projectsUser.map((pen) => (
+										<ProjectCard pen={pen} />
+									))
+								)}
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>
 	);
 }
+
+const SocialOfUser = ({
+	follow,
+	userData,
+	setIsFollowing,
+	isFollowing,
+	dataUser,
+}) => {
+	return (
+		<div className="bg-white flex flex-col gap-6 items-center justify-center mt-7 text-sm text-gray-700">
+			<div className="flex flex-col justify-center items-center text-center max-w-[600px]">
+				<div>Follow for daily coding tips, memes and freebies</div>
+				<div>
+					Since 2009, Dribbble has been the go-to destination for
+					millions of designers worldwide to find inspiration, grow
+					their portfolios.
+				</div>
+			</div>
+
+			<div className="flex flex-row gap-2 items-center justify-center">
+				<div className="flex flex-col items-start justify-center text-lg font-bold">
+					{follow.followingCount}
+					<div className="text-gray-500 text-sm font-normal">
+						Followers
+					</div>
+				</div>
+				<div className="w-[1px] h-[30px] bg-gray-400 mx-4"></div>
+				<div className="flex flex-col items-start justify-center text-lg font-bold">
+					{follow.followerCount}
+					<div className="text-gray-500 text-sm font-normal">
+						Following
+					</div>
+				</div>
+				<div className="w-[1px] h-[30px] bg-gray-400 mx-4"></div>
+				<ButtonFollow
+					currentUser={userData}
+					dataUser={dataUser}
+					setIsFollowing={setIsFollowing}
+					isFollowing={isFollowing}
+				/>
+			</div>
+		</div>
+	);
+};
+
+const ProfileTab = ({ dataUser, followers }) => {
+	return (
+		<div className="w-full flex flex-row justify-between items-start gap-4">
+			{/* Bio of users */}
+			<p className="max-w-2xl w-[60%] max-h-[400px] overflow-y-auto text-gray-700 leading-relaxed bg-gray-50 rounded-lg p-6 shadow-sm">
+				{!dataUser.bio ? (
+					<span>
+						<span className="font-medium">Hi there! </span>
+						I'm a passionate developer who loves creating beautiful
+						and functional web applications. With expertise in
+						frontend technologies like React , I enjoy bringing
+						ideas to life through code.
+						<br />
+						<br />
+						When I'm not coding, you can find me exploring new
+						technologies, contributing to open source projects, or
+						sharing knowledge with the developer community. When I'm
+						not coding, you can find me exploring new technologies,
+						contributing to open source projects, or sharing
+						knowledge with the developer community. When I'm not
+						coding, you can find me exploring new technologies,
+						contributing to open source projects, or sharing
+						knowledge with the developer community. When I'm not
+						coding, you can find me exploring new technologies,
+						contributing to open source projects, or sharing
+						knowledge with the developer community.
+						<br />
+						<br />
+						<span className="italic font-medium">
+							Let's build something amazing together!
+						</span>
+					</span>
+				) : (
+					<span>No bio available</span>
+				)}
+			</p>
+			<div className="max-h-[400px] overflow-y-auto grow bg-gray-50 rounded-lg shadow-sm">
+				<div className="p-3 w-full gap-8 flex flex-col items-center justify-center">
+					<div className="w-full text-center text-md font-bold bg-gradient-to-r from-amber-100 to-amber-200 py-2 rounded-lg">
+						Followers
+					</div>
+					<div className="w-full flex flex-col items-center justify-center gap-3">
+						{followers.map((follower, index) => (
+							<div className="w-full bg-indigo-100 hover:bg-indigo-200 rounded-lg p-2 shadow-s flex flex-row gap-3 items-center cursor-pointer">
+								<div className="w-8 h-8 rounded-full bg-gray-500"></div>
+								<div className="text-sm font-bold">
+									{"User " + (index + 1)}
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
 
 export default UserDetails;

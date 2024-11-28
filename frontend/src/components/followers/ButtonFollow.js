@@ -2,7 +2,7 @@ import axios from "axios";
 import SummaryApi from "../../common";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdEdit, MdRemove } from "react-icons/md";
 
 function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 	const handleFollower = async () => {
@@ -52,26 +52,42 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 		if (dataUser?.id) fetchGetFollowUser();
 	}, [dataUser.id]);
 
+	// TODO: handle edit profile.
+	const handleEditProfile = () => {
+		console.log("edit profile");
+	};
+
+	if (currentUser.id === dataUser.id)
+		return (
+			<button
+				onClick={handleEditProfile}
+				className="px-3 py-[5px] bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
+			>
+				<MdEdit />
+				Edit profile
+			</button>
+		);
+
 	return (
-		<>
-			{currentUser.id !== dataUser.id &&
-				(!isFollowing ? (
-					<button
-						onClick={handleFollower}
-						className="px-2 py-1 bg-green-500 rounded-md hover:bg-green-600 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
-					>
-						<MdAdd />
-						Follow
-					</button>
-				) : (
-					<button
-						onClick={handleUnFollower}
-						className="px-2 py-1 bg-green-500 rounded-md hover:bg-green-600 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
-					>
-						UnFollow
-					</button>
-				))}
-		</>
+		<div>
+			{!isFollowing ? (
+				<button
+					onClick={handleFollower}
+					className="px-3 py-[5px] bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
+				>
+					<MdAdd />
+					Follow
+				</button>
+			) : (
+				<button
+					onClick={handleUnFollower}
+					className="px-3 py-[5px] bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
+				>
+					<MdRemove />
+					Unfollow
+				</button>
+			)}
+		</div>
 	);
 }
 
