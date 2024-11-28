@@ -91,6 +91,16 @@ function ProjectCard({
 	);
 }
 
+const ProjectStatus = ({ isPublic }) => (
+	<div
+		className={`bg-red-400 text-black px-3 py-1 rounded-md max-h-[30px] text-center ${
+			isPublic ? "bg-green-400" : "bg-red-400"
+		}`}
+	>
+		{isPublic ? "Public" : "Private"}
+	</div>
+);
+
 const ActionButton = ({ to, label, target }) => (
 	<Link
 		to={to}
@@ -105,19 +115,25 @@ const ActionButton = ({ to, label, target }) => (
 
 const CardFooter = ({ pen, sortLike }) => (
 	<div className="w-full py-2 px-2 flex flex-row justify-between items-center text-sm">
-		<div className="flex flex-col">
-			<Link to={`/project-detail/${pen.id}`} className="font-semibold">
-				{pen.title}
-			</Link>
-			<div>
-				by{" "}
+		<div className="flex flex-row gap-2 justify-center items-center">
+			<div className="flex flex-col">
 				<Link
-					to={`/info/${pen.username}`}
-					className="hover:underline font-medium"
+					to={`/project-detail/${pen.id}`}
+					className="font-semibold"
 				>
-					{pen.username}
+					{pen.title}
 				</Link>
+				<div>
+					by{" "}
+					<Link
+						to={`/info/${pen.username}`}
+						className="hover:underline font-medium"
+					>
+						{pen.username}
+					</Link>
+				</div>
 			</div>
+			<ProjectStatus isPublic={true} />
 		</div>
 		<div className="flex flex-row gap-4">
 			<ButtonLike pen={pen} sortLike={sortLike} />
