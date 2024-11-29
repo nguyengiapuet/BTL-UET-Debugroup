@@ -40,6 +40,7 @@ const totalCommentPen = require("../controllers/comment/totalCommentPen");
 const getAllNotificationByUser = require("../controllers/notifications/getAllNotificationByUser");
 const countNotificationUnread = require("../controllers/notifications/countNotificationUnread");
 const markAsReadNotification = require("../controllers/notifications/markAsReadNotification");
+const getListFollowingUser = require("../controllers/follower/getListFollowingUser");
 
 const router = express.Router();
 
@@ -90,6 +91,7 @@ router.delete("/delete-follower/:followingId", verifyToken, deleteFollower);
 router.get("/follower/:followingId", verifyToken, getFollower);
 router.get("/get-following", verifyToken, getFollowing);
 router.get("/follower-count/:userId", countFollower);
+router.get("/list-following-user/:username", getListFollowingUser);
 
 // Notification
 router.get("/all-notification", verifyToken, getAllNotificationByUser);

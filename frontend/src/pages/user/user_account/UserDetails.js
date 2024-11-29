@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import SummaryApi from "../../../common";
 import { useContext, useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
@@ -13,6 +13,7 @@ function UserDetails() {
 	const location = useLocation();
 	const [isFollowing, setIsFollowing] = useState();
 	const [activeTab, setActiveTab] = useState("about");
+	const [followers, setFollowers] = useState([]);
 
 	const [dataUser, setDataUser] = useState({
 		id: null,
@@ -100,31 +101,34 @@ function UserDetails() {
 		}
 	};
 
+	const getListFollowingUser = async () => {
+		try {
+			const response = await axios.get(
+				`${SummaryApi.getListFollowingUser.url}/${params.username}`
+			);
+			if (response.data.success) {
+				console.log(
+					"response.data.data>>>>>>>>>>>>>>>>>>",
+					response.data.data
+				);
+				setFollowers(response.data.data);
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
 	useEffect(() => {
 		fetchUserDetails();
 		fetchUserProjects();
 		fetchCountFollower();
+		getListFollowingUser();
 	}, [dataUser.id, location]);
 
 	useEffect(() => {
 		fetchCountFollower();
+		getListFollowingUser();
 	}, [isFollowing]);
-
-	// TODO: handle loading list followers.
-	const followers = [
-		{
-			avatar: "",
-			username: "",
-		},
-		{
-			avatar: "",
-			username: "",
-		},
-		{
-			avatar: "",
-			username: "",
-		},
-	];
 
 	return (
 		<div className="bg-white w-full h-[100vh] overflow-y-scroll pb-20 border-l-2 border-gray-300">
@@ -214,19 +218,19 @@ function UserDetails() {
 						) : (
 							/* Projects tab */
 							<div
-								className={`flex w-full gap-x-[30px] gap-y-10 h-fit justify-start transition-opacity duration-300 ease-in-out ${
+								className={`flex flex-wrap w-full gap-x-[30px] gap-y-10 h-fit justify-start transition-opacity duration-300 ease-in-out ${
 									activeTab === "projects"
 										? "opacity-100"
 										: "opacity-0"
 								}`}
 							>
 								{projectsUser.length === 0 ? (
-									<div className="text-gray-500 text-center">
+									<div className="text-gray-400 w-full font-medium text-center text-xl">
 										No projects available
 									</div>
 								) : (
-									projectsUser.map((pen) => (
-										<ProjectCard pen={pen} />
+									projectsUser.map((pen, index) => (
+										<ProjectCard key={index} pen={pen} />
 									))
 								)}
 							</div>
@@ -257,14 +261,14 @@ const SocialOfUser = ({
 			</div>
 
 			<div className="flex flex-row gap-2 items-center justify-center">
-				<div className="flex flex-col items-start justify-center text-lg font-bold">
+				<div className="flex flex-col items-center justify-center text-lg font-bold">
 					{follow.followingCount}
 					<div className="text-gray-500 text-sm font-normal">
 						Followers
 					</div>
 				</div>
 				<div className="w-[1px] h-[30px] bg-gray-400 mx-4"></div>
-				<div className="flex flex-col items-start justify-center text-lg font-bold">
+				<div className="flex flex-col items-center justify-center text-lg font-bold">
 					{follow.followerCount}
 					<div className="text-gray-500 text-sm font-normal">
 						Following
@@ -286,8 +290,8 @@ const ProfileTab = ({ dataUser, followers }) => {
 	return (
 		<div className="w-full flex flex-row justify-between items-start gap-4">
 			{/* Bio of users */}
-			<p className="max-w-2xl w-[60%] max-h-[400px] overflow-y-auto text-gray-700 leading-relaxed bg-gray-50 rounded-lg p-6 shadow-sm">
-				{!dataUser.bio ? (
+			<div className="max-w-2xl w-[60%] max-h-[400px] overflow-y-auto text-gray-700 leading-relaxed bg-gray-50 rounded-lg p-6 shadow-sm">
+				{dataUser?.bio ? (
 					<span>
 						<span className="font-medium">Hi there! </span>
 						I'm a passionate developer who loves creating beautiful
@@ -315,9 +319,11 @@ const ProfileTab = ({ dataUser, followers }) => {
 						</span>
 					</span>
 				) : (
-					<span>No bio available</span>
+					<div className="text-center text-xl text-gray-400 font-medium">
+						No bio available
+					</div>
 				)}
-			</p>
+			</div>
 			<div className="max-h-[400px] overflow-y-auto grow bg-gray-50 rounded-lg shadow-sm">
 				<div className="p-3 w-full gap-8 flex flex-col items-center justify-center">
 					<div className="w-full text-center text-md font-bold bg-gradient-to-r from-amber-100 to-amber-200 py-2 rounded-lg">
@@ -325,12 +331,24 @@ const ProfileTab = ({ dataUser, followers }) => {
 					</div>
 					<div className="w-full flex flex-col items-center justify-center gap-3">
 						{followers.map((follower, index) => (
-							<div className="w-full bg-indigo-100 hover:bg-indigo-200 rounded-lg p-2 shadow-s flex flex-row gap-3 items-center cursor-pointer">
-								<div className="w-8 h-8 rounded-full bg-gray-500"></div>
+							<Link
+								key={index}
+								to={`/info/${follower.username}`}
+								className="w-full bg-indigo-100 hover:bg-indigo-200 rounded-lg p-2 shadow-s flex flex-row gap-3 items-center cursor-pointer"
+							>
+								{follower.avatar ? (
+									<img
+										className="rounded-full size-10 border border-gray-400"
+										alt=""
+										src={follower.avatar}
+									/>
+								) : (
+									<FaUserCircle className="size-10" />
+								)}
 								<div className="text-sm font-bold">
-									{"User " + (index + 1)}
+									{follower.username}
 								</div>
-							</div>
+							</Link>
 						))}
 					</div>
 				</div>

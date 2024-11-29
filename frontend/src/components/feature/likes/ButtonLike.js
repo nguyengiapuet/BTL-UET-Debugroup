@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { FaRegArrowAltCircleUp } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import SummaryApi from "../../../common";
 import { AuthContext } from "../../../context/AuthContext";
@@ -86,12 +86,12 @@ function ButtonLike({ pen, sortLike }) {
 	return (
 		<div className="w-fit rounded-xl flex gap-1 items-center justify-center">
 			{allLike.find((project) => project.id_project === pen.id) ? (
-				<FaRegArrowAltCircleUp
+				<FaHeart
 					onClick={() => handleUnlike(pen)}
 					className="text-[16px] cursor-pointer text-red-600"
 				/>
 			) : (
-				<FaRegArrowAltCircleUp
+				<FaRegHeart
 					onClick={() => handleLike(pen)}
 					className="text-[16px] cursor-pointer text-[#545454]"
 				/>

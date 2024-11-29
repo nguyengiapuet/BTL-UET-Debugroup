@@ -5,7 +5,7 @@ import axios from "axios";
 import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
 
-function ActionButtonComment({ comment, setComment, setEdit }) {
+function ActionButtonComment({ comment, setRefreshComment, setEdit }) {
 	const [openDialog, setOpenDialog] = useState(false);
 	const { userData } = useContext(AuthContext);
 	const ref = useRef();
@@ -23,7 +23,7 @@ function ActionButtonComment({ comment, setComment, setEdit }) {
 
 			if (response.data.success) {
 				toast.success(response.data.message);
-				setComment((prev) => !prev);
+				setRefreshComment((prev) => !prev);
 				setOpenDialog(false);
 			}
 		} catch (error) {
@@ -59,7 +59,7 @@ function ActionButtonComment({ comment, setComment, setEdit }) {
 			{openDialog && comment.id_user === userData.id && (
 				<div
 					ref={ref}
-					className="absolute z-[999] -bottom-12 -left-6 bg-gray-400 py-1 text-white rounded-lg "
+					className="absolute z-[999] -bottom-14 -left-6 bg-gray-400 py-1 text-white rounded-lg"
 				>
 					<div
 						onClick={handleDeleteComment}

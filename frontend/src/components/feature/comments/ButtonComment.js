@@ -12,7 +12,7 @@ import { AuthContext } from "../../../context/AuthContext";
 function ButtonComment({ pen }) {
 	const [totalComment, setTotalComment] = useState();
 	const [project, setProject] = useState("");
-	const [refreshComments, setRefreshComments] = useState(false);
+	const [refreshComment, setRefreshComment] = useState(false);
 	const { userData } = useContext(AuthContext);
 
 	const totalComments = async () => {
@@ -30,7 +30,7 @@ function ButtonComment({ pen }) {
 
 	useEffect(() => {
 		totalComments();
-	}, [refreshComments]);
+	}, [refreshComment]);
 
 	// TODO: Handle modal of project preview.
 	const [open, setOpen] = useState(false);
@@ -72,16 +72,18 @@ function ButtonComment({ pen }) {
 					footer={
 						<FooterModal
 							project={project}
-							setRefreshComment={setRefreshComments}
+							setRefreshComment={setRefreshComment}
 							userData={userData}
+							refreshComment={refreshComment}
 						/>
 					}
 				>
 					<ModalContent
 						project={project}
 						setOpen={setOpen}
-						refresh={setRefreshComments}
+						setRefreshComment={setRefreshComment}
 						userData={userData}
+						refreshComment={refreshComment}
 					/>
 				</Modal>
 			</div>
@@ -96,9 +98,8 @@ const ModalTitle = () => {
 		</div>
 	);
 };
-const ModalContent = ({ project, refresh }) => {
+const ModalContent = ({ project, setRefreshComment, refreshComment }) => {
 	const [allComments, setAllComments] = useState([]);
-	const [refreshComment, setRefreshComment] = useState(false);
 
 	const getAllCommentsByProject = async () => {
 		try {
@@ -107,7 +108,7 @@ const ModalContent = ({ project, refresh }) => {
 			);
 
 			if (response.data.success) {
-				refresh((prev) => !prev);
+				setRefreshComment((prev) => !prev);
 				setAllComments(response.data.data);
 			}
 		} catch (err) {
@@ -157,6 +158,7 @@ const ModalContent = ({ project, refresh }) => {
 				<ListComment
 					project={project}
 					refreshComment={refreshComment}
+					setRefreshComment={setRefreshComment}
 				/>
 			</div>
 		</div>
