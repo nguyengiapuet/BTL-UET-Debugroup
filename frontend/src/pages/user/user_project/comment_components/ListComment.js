@@ -3,7 +3,7 @@ import CommentContent from "./CommentContent";
 import axios from "axios";
 import SummaryApi from "../../../../common";
 
-function ListComment({ project, refreshComment }) {
+function ListComment({ project, refreshComment, setRefreshComment }) {
 	const [allComments, setAllComments] = useState([]);
 
 	const getAllCommentsByProject = async () => {
@@ -28,7 +28,11 @@ function ListComment({ project, refreshComment }) {
 			<div className="w-full flex flex-col mb-16 gap-2 pb-2">
 				{allComments.length > 0 ? (
 					allComments.map((comment, index) => (
-						<CommentContent key={comment.id} comment={comment} />
+						<CommentContent
+							key={comment.id}
+							comment={comment}
+							setRefreshComment={setRefreshComment}
+						/>
 					))
 				) : (
 					<div className="text-center text-2xl text-gray-500 font-semibold my-10">

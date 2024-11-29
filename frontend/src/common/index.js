@@ -121,6 +121,9 @@ const SummaryApi = {
 	markAsReadNotification: {
 		url: `${backendDomain}/api/mark-as-read-notification`,
 	},
+	getListFollowingUser: {
+		url: `${backendDomain}/api/list-following-user`,
+	},
 };
 
 export default SummaryApi;

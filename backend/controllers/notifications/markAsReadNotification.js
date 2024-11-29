@@ -3,7 +3,7 @@ const db = require("../../config/db");
 async function markAsReadNotification(req, res) {
 	try {
 		db.query(
-			`UPDATE notification SET  \`read\` = ? WHERE recipientId = ?
+			`UPDATE notification SET  isRead = ? WHERE recipientId = ?
             `,
 			[1, req.userId],
 			function (err, result) {
