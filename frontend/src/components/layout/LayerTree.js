@@ -1,18 +1,32 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaHome } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 // Should check if user is not admin, disable Dashboard section
 function SidebarTreeView() {
 	const [active, setActive] = useState("");
+	const { setTitle } = useContext(AuthContext);
+
+	const handleClickItem = (e) => {
+		setActive(e.target.textContent.toLowerCase());
+		setTitle(e.target.textContent);
+	};
+
+	const handleClickItemAdmin = (e) => {
+		setActive(e.target.textContent.toLowerCase());
+		setTitle(e.target.textContent + " dashboard");
+	};
 
 	return (
 		<div>
 			<div className="w-64 pt-3 rounded-r-lg">
 				{/* Home parent */}
 				<div className="pl-4 mb-4">
-					<div className="hover:bg-gray-200 rounded-lg px-3 py-2 flex items-center mb-2 cursor-pointer">
+					<div
+						className={`rounded-lg px-3 py-2 flex items-center mb-2`}
+					>
 						<FaHome className="text-[#9C6317] mr-4" />
 						<span className="text-lg font-bold text-[#9C6317]">
 							Home
@@ -31,12 +45,13 @@ function SidebarTreeView() {
 							></div>
 							<Link
 								to={"/popular"}
-								onClick={() => setActive("trending")}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
-									active === "trending"
-										? "text-[#9C6317]"
-										: "text-gray-500"
-								}`}
+								onClick={handleClickItem}
+								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
+									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
+										active === "trending"
+											? "text-[#9C6317]"
+											: "text-gray-500"
+									}`}
 							>
 								Trending
 							</Link>
@@ -44,18 +59,19 @@ function SidebarTreeView() {
 						<div className="flex items-center mb-4">
 							<div
 								className={`w-10 border-t-2 mr-3 ${
-									active === "learnjs"
+									active === "learn js"
 										? "border-[#9C6317]"
 										: "border-gray-300"
 								}`}
 							></div>
 							<span
-								onClick={() => setActive("learnjs")}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
-									active === "learnjs"
-										? "text-[#9C6317]"
-										: "text-gray-500"
-								}`}
+								onClick={handleClickItem}
+								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
+									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
+										active === "learn js"
+											? "text-[#9C6317]"
+											: "text-gray-500"
+									}`}
 							>
 								Learn JS
 							</span>
@@ -68,32 +84,35 @@ function SidebarTreeView() {
 										: "border-gray-300"
 								}`}
 							></div>
-							<span
-								onClick={() => setActive("about")}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
-									active === "about"
-										? "text-[#9C6317]"
-										: "text-gray-500"
-								}`}
+							<Link
+								to={"/about-us"}
+								onClick={handleClickItem}
+								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
+									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
+										active === "about"
+											? "text-[#9C6317]"
+											: "text-gray-500"
+									}`}
 							>
 								About
-							</span>
+							</Link>
 						</div>
 						<div className="flex items-center mb-4">
 							<div
 								className={`w-10 border-t-2 mr-3 ${
-									active === "contactus"
+									active === "contact us"
 										? "border-[#9C6317]"
 										: "border-gray-300"
 								}`}
 							></div>
 							<span
-								onClick={() => setActive("contactus")}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
-									active === "contactus"
-										? "text-[#9C6317]"
-										: "text-gray-500"
-								}`}
+								onClick={handleClickItem}
+								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium 
+									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
+										active === "contact us"
+											? "text-[#9C6317]"
+											: "text-gray-500"
+									}`}
 							>
 								Contact us
 							</span>
@@ -104,7 +123,9 @@ function SidebarTreeView() {
 			<div className="w-64 pt-3 rounded-r-lg">
 				{/* Dashboard parent */}
 				<div className="pl-4 mb-4">
-					<div className="hover:bg-gray-200 rounded-lg px-3 py-2 flex items-center mb-2 cursor-pointer">
+					<div
+						className={`rounded-lg px-3 py-2 flex items-center mb-2`}
+					>
 						<MdDashboard className="text-[#9C6317] mr-4" />
 						<span className="text-lg font-bold text-[#9C6317]">
 							Dashboard
@@ -123,12 +144,13 @@ function SidebarTreeView() {
 							></div>
 							<Link
 								to={"/admin/project-dashboard"}
-								onClick={() => setActive("projects")}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
-									active === "projects"
-										? "text-[#9C6317]"
-										: "text-gray-500"
-								}`}
+								onClick={handleClickItemAdmin}
+								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
+									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
+										active === "projects"
+											? "text-[#9C6317]"
+											: "text-gray-500"
+									}`}
 							>
 								Projects
 							</Link>
@@ -143,12 +165,13 @@ function SidebarTreeView() {
 							></div>
 							<Link
 								to={"/admin/user-dashboard"}
-								onClick={() => setActive("users")}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium ${
-									active === "users"
-										? "text-[#9C6317]"
-										: "text-gray-500"
-								}`}
+								onClick={handleClickItemAdmin}
+								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium 
+									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
+										active === "users"
+											? "text-[#9C6317]"
+											: "text-gray-500"
+									}`}
 							>
 								Users
 							</Link>
@@ -163,12 +186,13 @@ function SidebarTreeView() {
 							></div>
 							<Link
 								to={"/admin/comment-dashboard"}
-								onClick={() => setActive("comments")}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full  font-medium ${
-									active === "comments"
-										? "text-[#9C6317]"
-										: "text-gray-500"
-								}`}
+								onClick={handleClickItemAdmin}
+								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium 
+									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
+										active === "comments"
+											? "text-[#9C6317]"
+											: "text-gray-500"
+									}`}
 							>
 								Comments
 							</Link>

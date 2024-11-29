@@ -1,63 +1,133 @@
 import { useContext, useState } from "react";
-import { FaCog, FaEdit } from "react-icons/fa";
 import { AuthContext } from "../../../context/AuthContext";
+import { Button, Modal } from "antd";
+import { UserAvatar } from "../../../components/layout/Header";
+import axios from "axios";
+import SummaryApi from "../../../common";
+import { toast } from "react-toastify";
 
-function ChangePassword() {
-	const { userData, setUserData } = useContext(AuthContext);
-	const [data, setData] = useState({
-		email: userData.email,
-		// avatar: null
+function ChangePasswordModal({ isOpen, onClose }) {
+	const { userData } = useContext(AuthContext);
+
+	const [dataPassword, setDataPassword] = useState({
+		passwordCurrent: "",
+		passwordNew: "",
 	});
-	return (
-		<div className=" w-full h-[90vh] bg-slate-100 flex justify-center items-center flex-col gap-4">
-			<div className="h-fit w-[75%] bg-slate-200 rounded-xl px-4 py-4">
-				<div className="flex items-center gap-36">
-					<div>
-						<div className="text-3xl text-[#9C6317] font-medium">
-							Your private info
-						</div>
-						<p className="w-[600px] text-lg text-[#505050]">
-							Private info and options to manage it. You can make
-							some of this private info.
-						</p>
-					</div>
-					<FaCog className="text-8xl text-[#9C6317]" />
-				</div>
 
-				<div className="mt-12 flex flex-col gap-4">
-					<div className="flex gap-8 items-center w-fit relative">
-						<label className="text-[#505050] text-lg w-32">
-							Email:
-						</label>
-						<input
-							type="text"
-							name="username"
-							value={data.email}
-							className="text-[#505050] text-lg outline-none w-72 px-2 py-1 rounded-lg"
-							placeholder="UserA"
-						/>
-						<FaEdit className="absolute top-1 right-2 text-2xl cursor-pointer" />
+	const onChangePassword = (e) => {
+		setDataPassword({ ...dataPassword, [e.target.name]: e.target.value });
+	};
+	const [loading, setLoading] = useState(false);
+
+	const checkPassword = async () => {
+		try {
+			const response = await axios.post(
+				SummaryApi.checkPasswordUser.url,
+				{
+					password: dataPassword.passwordCurrent,
+				}
+			);
+
+			if (response.data.success) {
+				handleChangePassword();
+			} else {
+				toast.error(response.data.message);
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
+	const handleChangePassword = async () => {
+		try {
+			const response = await axios.put(SummaryApi.changePassword.url, {
+				password: dataPassword.passwordNew,
+			});
+
+			console.log("response.data.message>>>", response.data.message);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				setDataPassword({ passwordCurrent: "", passwordNew: "" });
+				onClose();
+			} else {
+				toast.error(response.data.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleOk = () => {
+		setLoading(true);
+		checkPassword();
+		setTimeout(() => {
+			setLoading(false);
+		}, 1000);
+	};
+	const handleCancel = () => {
+		onClose();
+	};
+	return (
+		<>
+			<Modal
+				open={isOpen}
+				title={<div className="font-bold text-lg">Change password</div>}
+				onOk={handleOk}
+				onCancel={handleCancel}
+				footer={[
+					<Button key="back" onClick={handleCancel}>
+						Cancel
+					</Button>,
+					<Button
+						key="submit"
+						type="primary"
+						loading={loading}
+						onClick={handleOk}
+					>
+						Save changes
+					</Button>,
+				]}
+			>
+				<div className="flex flex-col pb-5">
+					<div className="h-12 bg-gray-200 w-full relative rounded-t-lg">
+						<div className="absolute top-4 left-4 overflow-hidden">
+							<UserAvatar
+								size="size-14"
+								avatar={userData?.avatar}
+							/>
+						</div>
 					</div>
-					<div className="flex gap-8 items-center w-fit relative">
-						<label className="text-[#505050] text-lg w-32">
-							Password:
-						</label>
+					<div className="flex flex-col gap-2 pt-10 px-3">
+						<div className="font-bold text-xl">
+							{userData?.username}
+						</div>
+						<div className="font-medium">{userData?.email}</div>
+					</div>
+					<div className="flex flex-row gap-2 pt-10 px-3 justify-center items-center">
+						<div className="min-w-[100px]">Password:</div>
 						<input
+							name="passwordCurrent"
 							type="password"
-							name="username"
-							value={"*******"}
-							className="text-[#505050] text-lg outline-none w-72 px-2 py-1 rounded-lg"
-							placeholder="UserA"
+							value={dataPassword.passwordCurrent}
+							onChange={onChangePassword}
+							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
 						/>
-						<FaEdit className="absolute top-1 right-2 text-2xl cursor-pointer" />
+					</div>
+					<div className="flex flex-row gap-2 pt-10 px-3 justify-center items-center">
+						<div className="min-w-[100px]">New password:</div>
+						<input
+							name="passwordNew"
+							type="password"
+							value={dataPassword.passwordNew}
+							onChange={onChangePassword}
+							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
+						/>
 					</div>
 				</div>
-				<button className="bg-[#7e158e] font-medium rounded-xl px-2 py-1 ml-40 mt-4 hover:bg-opacity-85 text-white">
-					Save change
-				</button>
-			</div>
-		</div>
+			</Modal>
+		</>
 	);
 }
 
-export default ChangePassword;
+export default ChangePasswordModal;

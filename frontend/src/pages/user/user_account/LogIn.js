@@ -15,7 +15,7 @@ function LoginPage() {
 	});
 
 	const { loadUser, userData } = useContext(AuthContext);
-	if (userData.id) {
+	if (userData?.id) {
 		return navigate("/popular");
 	}
 

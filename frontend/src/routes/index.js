@@ -3,8 +3,6 @@ import Home from "../pages/user/user_home/Home";
 import Upvoted from "../pages/user/user_project/Upvoted";
 import MyProject from "../pages/user/user_project/MyProject";
 import Popular from "../pages/user/user_project/Popular";
-import Profile from "../pages/user/user_account/Profile";
-import ChangePassword from "../pages//user/user_account/ChangePassword";
 import Pen from "../pages/user/user_project/Pen";
 import App from "../App";
 import UserDetails from "../pages/user/user_account/UserDetails";
@@ -14,7 +12,8 @@ import CommentDashboard from "../pages/admin/admin_comment/CommentDB";
 import StartPage from "../pages/app/StartPage";
 import LoginPage from "../pages/user/user_account/LogIn";
 import SignUp from "../pages/user/user_account/SignUp";
-import TrashUser from "../pages/admin/admin_user/TrashUser";
+import ProjectDetail from "../pages/user/user_project/ProjectDetail";
+import AboutUs from "../pages/app/AboutUs";
 
 const router = createBrowserRouter([
 	{
@@ -50,9 +49,16 @@ const router = createBrowserRouter([
 					{
 						path: "/myproject",
 						element: <MyProject />,
-						children: [],
 					},
 				],
+			},
+			{
+				path: "/about-us",
+				element: <AboutUs />,
+			},
+			{
+				path: "project-detail/:id",
+				element: <ProjectDetail />,
 			},
 			{
 				path: "/admin/project-dashboard",
@@ -67,21 +73,6 @@ const router = createBrowserRouter([
 			{
 				path: "/admin/comment-dashboard",
 				element: <CommentDashboard />,
-				children: [],
-			},
-			{
-				path: "/users/trash",
-				element: <TrashUser />,
-				children: [],
-			},
-			{
-				path: "/profile",
-				element: <Profile />,
-				children: [],
-			},
-			{
-				path: "/privacy",
-				element: <ChangePassword />,
 				children: [],
 			},
 			{

@@ -1,19 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import { FaCog, FaEdit, FaRegTrashAlt, FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
 import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
+import { Button, Modal, Upload } from "antd";
+import { FaUserCircle } from "react-icons/fa";
+import { UserAvatar } from "../../../components/layout/Header";
 
-function Profile() {
+function ProfileModal({ isOpen, onClose }) {
 	const { userData, setUserData } = useContext(AuthContext);
 	const [data, setData] = useState({
-		username: userData.username,
-		avatar: userData.avatar,
+		username: userData?.username,
+		avatar: userData?.avatar,
+
 		// avatar: null
 	});
-
-	console.log("data>>>/", data.username);
 
 	const handleUploadPic = async (e) => {
 		const file = e.target.files[0];
@@ -68,31 +69,81 @@ function Profile() {
 			});
 		}
 	}, [userData]);
-	return (
-		<div className=" w-full h-[90vh] bg-slate-100 flex justify-center items-center flex-col gap-4">
-			<div className="h-fit w-[75%] bg-slate-200 rounded-xl px-4 py-4">
-				<div className="flex items-center gap-36">
-					<div>
-						<div className="text-3xl text-[#9C6317] font-medium">
-							Your profile info
-						</div>
-						<p className="w-[600px] text-lg text-[#505050]">
-							Personal info and options to manage it. You can make
-							some of this basic info, like your contact details,
-							visible to others so they can reach you easily.
-						</p>
-					</div>
-					<FaCog className="text-8xl text-[#9C6317]" />
-				</div>
 
-				<div className="mt-12 flex flex-col gap-4">
-					<div className="flex gap-8 items-center">
-						<label className="text-[#505050] text-lg w-32">
-							Profile picture
-						</label>
-						<div className="text-[#505050] text-lg">
-							Add a profile picture to your account
+	const [loading, setLoading] = useState(false);
+	const handleOk = () => {
+		setLoading(true);
+		handleUpdateProfile();
+		setTimeout(() => {
+			setLoading(false);
+			onClose();
+		}, 1000);
+	};
+	const handleCancel = () => {
+		onClose();
+	};
+	return (
+		<>
+			<Modal
+				open={isOpen}
+				title={
+					<div className="font-bold text-lg">Profile infomation</div>
+				}
+				onOk={handleOk}
+				onCancel={handleCancel}
+				footer={
+					<div className="flex flex-row justify-between items-center z-[999]">
+						<Button className="bg-red-500 text-white font-medium">
+							Delete
+						</Button>
+						<div className="flex flex-row gap-3">
+							<Button key="back" onClick={handleCancel}>
+								Cancel
+							</Button>
+							<Button
+								key="submit"
+								type="primary"
+								loading={loading}
+								onClick={handleOk}
+							>
+								Save changes
+							</Button>
 						</div>
+					</div>
+				}
+			>
+				<div className="flex flex-col">
+					<div className="h-12 bg-gray-200 w-full relative rounded-t-lg">
+						<div className="absolute top-4 left-4 overflow-hidden">
+							<UserAvatar size="size-14" avatar={data.avatar} />
+						</div>
+					</div>
+					<div className="flex flex-col gap-2 pt-10 px-3">
+						<div className="font-bold text-xl">{data.username}</div>
+						<div className="font-medium">{userData?.email}</div>
+					</div>
+					<div className="flex flex-row gap-2 pt-10 px-3 justify-center items-center">
+						<div className="min-w-[100px]">Name:</div>
+						<input
+							name="username"
+							type="text"
+							onChange={changeProfile}
+							value={data.username}
+							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
+						/>
+					</div>
+					<div className="flex flex-row gap-2 pt-10 px-3 justify-center items-center">
+						<div className="min-w-[100px]">Email:</div>
+						<input
+							name="email"
+							type="text"
+							placeholder={data.email}
+							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
+						/>
+					</div>
+
+					<div className="flex flex-row gap-2 pt-10 px-3 items-center pb-5">
+						<div className="w-[100px]">Avatar:</div>
 						<div className="w-16 h-16 relative rounded-full bg-slate-200 overflow-hidden">
 							<div>
 								{data.avatar ? (
@@ -113,80 +164,10 @@ function Profile() {
 							</label>
 						</div>
 					</div>
-					<div className="flex gap-8 items-center w-fit relative">
-						<label className="text-[#505050] text-lg w-32">
-							Name:
-						</label>
-						<input
-							type="text"
-							name="username"
-							value={data.username}
-							onChange={changeProfile}
-							className="text-[#505050] text-lg outline-none w-72 px-2 py-1 rounded-lg"
-							placeholder="UserA"
-						/>
-						<FaEdit className="absolute top-1 right-2 text-2xl cursor-pointer" />
-					</div>
-					<div className="flex gap-8 items-center">
-						<label className="text-[#505050] text-lg w-32">
-							Gender
-						</label>
-						<div>
-							<input
-								className=""
-								name="gender"
-								value={"male"}
-								type="radio"
-							/>
-							<label className="ml-2 text-lg text-[#505050]">
-								Male
-							</label>
-						</div>
-						<div>
-							<input
-								className=""
-								name="gender"
-								value={"female"}
-								type="radio"
-							/>
-							<label className="ml-2 text-lg text-[#505050]">
-								Female
-							</label>
-						</div>
-					</div>
 				</div>
-				<button
-					onClick={handleUpdateProfile}
-					className="bg-[#7e158e] font-medium rounded-xl px-2 py-1 ml-40 mt-4 hover:bg-opacity-85 text-white"
-				>
-					Save change
-				</button>
-			</div>
-
-			<div className="bg-slate-200 w-[75%] h-36 rounded-xl pl-4">
-				<div className="flex justify-between gap-10">
-					<div>
-						<div className="text-3xl mt-2 text-[#9C6317] font-medium">
-							Danger
-						</div>
-						<p className="w-[600px] text-lg text-[#505050]">
-							Deleting your account will wipe all infomation about
-							you and content you have created
-						</p>
-					</div>
-
-					<div className="bg-[#979797] w-full h-36 rounded-tr-xl rounded-br-xl flex items-center justify-center">
-						<div className="bg-[#9C6317] flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-opacity-85">
-							<FaRegTrashAlt className="text-3xl text-white" />
-							<button className="text-white font-semibold text-2xl">
-								DELETE
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+			</Modal>
+		</>
 	);
 }
 
-export default Profile;
+export default ProfileModal;

@@ -12,7 +12,7 @@ let PageSize = 10;
 function UserDashboard() {
 	const [currentPage, setCurrentPage] = useState(1);
 	// 1 is active, 2 is deleted
-	const [stateOfInfo, setStateOfInfo] = useState(1);
+	const [stateOfInfo, setStateOfInfo] = useState("1");
 	const [getAllUsers, setGetAllUsers] = useState([]);
 
 	const fetchGetAllUsers = async () => {
@@ -29,13 +29,45 @@ function UserDashboard() {
 		}
 	};
 
-	const currentTableData = useMemo(() => {
-		const firstPageIndex = (currentPage - 1) * PageSize;
-		const lastPageIndex = firstPageIndex + PageSize;
-		return getAllUsers.length > 0
-			? getAllUsers.slice(firstPageIndex, lastPageIndex)
-			: [];
-	}, [currentPage, getAllUsers]);
+	const fetchGetAllUsersDeleted = async () => {
+		try {
+			const response = await axios.get(SummaryApi.trashAllUsers.url);
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				setGetAllUsers(response.data.data);
+			}
+		} catch (err) {
+			console.log(err.message);
+			return;
+		}
+	};
+
+	const deleteUser = async (id) => {
+		try {
+			const response = await axios.post(
+				`${SummaryApi.deletedUser.url}/${id}`
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
+			}
+		} catch (err) {}
+	};
+
+	const restoreUser = async (id) => {
+		try {
+			const response = await axios.post(
+				`${SummaryApi.restoreUser.url}/${id}`
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
+			}
+		} catch (err) {}
+	};
 
 	// const deleteUser = async (id) => {
 	// 	try {
@@ -49,10 +81,10 @@ function UserDashboard() {
 	// 		}
 	// 	} catch (err) {}
 	// };
-	const deleteUser = async (id) => {
+	const softDeleteUser = async (id) => {
 		try {
 			const response = await axios.post(
-				`${SummaryApi.deleteUserSmooth.url}/${id}`,
+				`${SummaryApi.deleteUserSoft.url}/${id}`,
 				{
 					timeNow: new Date()
 						.toISOString()
@@ -68,27 +100,70 @@ function UserDashboard() {
 		} catch (err) {}
 	};
 
-	const handleOnchangeType = () => {
-		var e = document.getElementById("status");
-		setStateOfInfo(e.value);
+	const currentTableData = useMemo(() => {
+		const firstPageIndex = (currentPage - 1) * PageSize;
+		const lastPageIndex = firstPageIndex + PageSize;
+		return getAllUsers.length > 0
+			? getAllUsers.slice(firstPageIndex, lastPageIndex)
+			: [];
+	}, [currentPage, getAllUsers]);
+
+	const handleOnchangeType = (e) => {
+		setStateOfInfo(e.target.value);
+	};
+
+	const sortUsers = (listUser) => {
+		const sortedList = listUser.sort((a, b) => {
+			const nameComparison = a.username.localeCompare(b.username);
+			if (nameComparison !== 0) {
+				return nameComparison;
+			}
+
+			const dateA = new Date(a.created_at);
+			const dateB = new Date(b.created_at);
+			return dateA - dateB;
+		});
+
+		return sortedList;
+	};
+
+	const handleOnchangeSort = (e) => {
+		if (e.target.value === "2") {
+			// console.log("e.target.value>>>>>>>>>>>>>>>>>>>>>>", e.target.value);
+			const sortedList = sortUsers([...getAllUsers]);
+
+			setGetAllUsers(sortedList);
+		} else {
+			const sortedList = (arr) =>
+				arr.sort((a, b) => {
+					const dateA = new Date(a.created_at);
+					const dateB = new Date(b.created_at);
+					return dateA - dateB;
+				});
+
+			setGetAllUsers(sortedList([...getAllUsers]));
+		}
 	};
 
 	useEffect(() => {
-		fetchGetAllUsers();
-	}, []);
+		if (stateOfInfo === "1") {
+			fetchGetAllUsers();
+		} else {
+			fetchGetAllUsersDeleted();
+			console.log("change");
+		}
+	}, [stateOfInfo]);
 
 	return (
 		<div>
 			<div className="request-container">
 				<div className="request-content">
 					<div>
-						<div className="request-title">List of Users</div>
-						<Link
-							to={"/users/trash"}
-							className="text-blue-500 underline text-lg "
-						>
-							Trash
-						</Link>
+						{stateOfInfo === "2" ? (
+							<div className="request-title">Users Trash</div>
+						) : (
+							<div className="request-title">List of Users</div>
+						)}
 					</div>
 					<div className="request-table">
 						<div className="section">
@@ -106,13 +181,10 @@ function UserDashboard() {
 											id="status"
 											className="form-select"
 											type="text"
-											onChange={() =>
-												handleOnchangeType()
-											}
+											defaultValue={"1"}
+											onChange={handleOnchangeType}
 										>
-											<option value="1" selected>
-												Active
-											</option>
+											<option value="1">Active</option>
 											<option value="2">Deleted</option>
 										</select>
 									</div>
@@ -123,11 +195,11 @@ function UserDashboard() {
 										<select
 											className="form-select"
 											type="text"
+											defaultValue={"1"}
+											onChange={handleOnchangeSort}
 										>
 											<option value="1">Date</option>
-											<option value="2" selected>
-												Name
-											</option>
+											<option value="2">Name</option>
 										</select>
 									</div>
 									<div className="col1">
@@ -163,7 +235,7 @@ function UserDashboard() {
 										</div>
 									</div>
 									<div className="table-body">
-										{currentTableData.length > 0 &&
+										{currentTableData.length > 0 ? (
 											currentTableData.map(
 												(item, index) => {
 													return (
@@ -196,23 +268,46 @@ function UserDashboard() {
 
 															<div className="body-row-data2">
 																<span>
-																	{
+																	{new Date(
 																		item.created_at
-																	}
+																	).toLocaleDateString(
+																		"en-GB"
+																	)}
 																</span>
 															</div>
 															<div className="body-row-data2">
 																<span>
-																	{
-																		item.updated_at
-																	}{" "}
+																	{item.updated_at
+																		? new Date(
+																				item.updated_at
+																		  ).toLocaleDateString(
+																				"en-GB"
+																		  )
+																		: "Haven't updated"}{" "}
 																</span>
 															</div>
 															{stateOfInfo ===
 															"2" ? (
 																<div className="body-button">
-																	<button className="ok-button">
+																	<button
+																		onClick={() =>
+																			restoreUser(
+																				item.id
+																			)
+																		}
+																		className="ok-button"
+																	>
 																		Restore
+																	</button>
+																	<button
+																		onClick={() =>
+																			deleteUser(
+																				item.id
+																			)
+																		}
+																		className="reject-button"
+																	>
+																		Delete
 																	</button>
 																</div>
 															) : (
@@ -220,7 +315,7 @@ function UserDashboard() {
 																	<button
 																		className="reject-button"
 																		onClick={() =>
-																			deleteUser(
+																			softDeleteUser(
 																				item.id
 																			)
 																		}
@@ -232,7 +327,12 @@ function UserDashboard() {
 														</div>
 													);
 												}
-											)}
+											)
+										) : (
+											<div className="text-center text-2xl text-gray-500 font-semibold mt-10">
+												No one has user yet!
+											</div>
+										)}
 									</div>
 								</div>
 							</div>

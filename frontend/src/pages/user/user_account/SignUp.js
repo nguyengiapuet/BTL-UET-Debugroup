@@ -16,7 +16,7 @@ function SignUp() {
 		confirmPassword: "",
 	});
 
-	if (userData.id) {
+	if (userData?.id) {
 		navigate("/popular");
 	}
 	const handleOnChange = (e) => {

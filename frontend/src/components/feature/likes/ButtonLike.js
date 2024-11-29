@@ -1,25 +1,24 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import SummaryApi from "../../../common";
+import { AuthContext } from "../../../context/AuthContext";
 
 function ButtonLike({ pen, sortLike }) {
 	const [allLike, setAllLike] = useState([]);
-	const [totalLike, setTotalLike] = useState({});
+	const [totalLike, setTotalLike] = useState();
+
+	const { userData } = useContext(AuthContext);
 
 	const totalLikes = async () => {
 		try {
-			const response = await axios.get(SummaryApi.totalLike.url);
+			const response = await axios.get(
+				`${SummaryApi.totalLikePen.url}/${pen.id}`
+			);
 
 			if (response.data.success) {
-				for (let i = 0; i < response.data.data.length; i++) {
-					setTotalLike((prev) => ({
-						...prev,
-						[response.data.data[i].id_project]:
-							response.data.data[i].total_likes,
-					}));
-				}
+				setTotalLike((prev) => response.data.data);
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -35,13 +34,11 @@ function ButtonLike({ pen, sortLike }) {
 			if (response.data.success) {
 				toast.success("Like added successfully!");
 				getAllLikeByUser();
-				setTotalLike((prev) => ({
-					...prev,
-					[pen.id]: prev[pen.id] ? prev[pen.id] + 1 : 1,
-				}));
+				setTotalLike((prev) => prev + 1);
 			}
 		} catch (err) {
 			console.log(err.message);
+			toast.error("Please login and try again");
 			return;
 		}
 	};
@@ -55,10 +52,9 @@ function ButtonLike({ pen, sortLike }) {
 			if (response.data.success) {
 				toast.success("Like removed successfully!");
 				getAllLikeByUser();
-				setTotalLike((prev) => ({
-					...prev,
-					[pen.id]: prev[pen.id] ? prev[pen.id] - 1 : 0,
-				}));
+				setTotalLike((prev) => prev - 1);
+			} else {
+				toast.error("Failed to remove like!");
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -67,37 +63,42 @@ function ButtonLike({ pen, sortLike }) {
 	};
 
 	const getAllLikeByUser = async () => {
-		try {
-			const response = await axios.get(SummaryApi.getAllLikeByUser.url);
-			if (response.data.success) {
-				setAllLike(response.data.data);
+		if (userData.id) {
+			try {
+				const response = await axios.get(
+					SummaryApi.getAllLikeByUser.url
+				);
+				if (response.data.success) {
+					setAllLike(response.data.data);
+				}
+			} catch (err) {
+				console.log(err.message);
+				return;
 			}
-		} catch (err) {
-			console.log(err.message);
-			return;
 		}
 	};
 
 	useEffect(() => {
 		getAllLikeByUser();
 		totalLikes();
-	}, [sortLike]);
+	}, [sortLike, pen.id]);
+
 	return (
-		<div className="px-3 py-1 ml-2 bg-[#cfcfcf] w-fit rounded-xl flex gap-1 items-center justify-center">
-			<p className="text-[#545454] text-xl">
-				{totalLike[pen.id] ? totalLike[pen.id] : 0}
-			</p>
+		<div className="w-fit rounded-xl flex gap-1 items-center justify-center">
 			{allLike.find((project) => project.id_project === pen.id) ? (
 				<FaHeart
 					onClick={() => handleUnlike(pen)}
-					className="text-[24px] cursor-pointer text-[#ff3434]"
+					className="text-[16px] cursor-pointer text-red-600"
 				/>
 			) : (
 				<FaRegHeart
 					onClick={() => handleLike(pen)}
-					className="text-[24px] cursor-pointer text-[#545454]"
+					className="text-[16px] cursor-pointer text-[#545454]"
 				/>
 			)}
+			<p className="text-[#545454] text-[16px]">
+				{totalLike ? totalLike : 0}
+			</p>
 		</div>
 	);
 }

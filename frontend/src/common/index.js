@@ -76,8 +76,8 @@ const SummaryApi = {
 	searchUser: {
 		url: `${backendDomain}/api/search`,
 	},
-	deleteUserSmooth: {
-		url: `${backendDomain}/api/delete-user-smooth`,
+	deleteUserSoft: {
+		url: `${backendDomain}/api/delete-user-soft`,
 	},
 	trashAllUsers: {
 		url: `${backendDomain}/api/trash/allUser`,
@@ -96,6 +96,33 @@ const SummaryApi = {
 	},
 	deleteCommentByAdmin: {
 		url: `${backendDomain}/api/admin/delete-comments`,
+	},
+	getFollowing: {
+		url: `${backendDomain}/api/get-following`,
+	},
+	changePassword: {
+		url: `${backendDomain}/api/change-password`,
+	},
+	checkPasswordUser: {
+		url: `${backendDomain}/api/check-password`,
+	},
+	totalLikePen: {
+		url: `${backendDomain}/api/total-like-pen`,
+	},
+	totalCommentPen: {
+		url: `${backendDomain}/api/total-comment-pen`,
+	},
+	getAllNotificationByUser: {
+		url: `${backendDomain}/api/all-notification`,
+	},
+	countNotificationUnread: {
+		url: `${backendDomain}/api/count-notification-unread`,
+	},
+	markAsReadNotification: {
+		url: `${backendDomain}/api/mark-as-read-notification`,
+	},
+	getListFollowingUser: {
+		url: `${backendDomain}/api/list-following-user`,
 	},
 };
 

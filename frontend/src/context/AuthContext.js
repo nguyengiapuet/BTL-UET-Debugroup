@@ -20,18 +20,17 @@ const AuthContextProvider = ({ children }) => {
 	const loadUser = async () => {
 		if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
 			setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]);
-		}
+			try {
+				const response = await axios.get(SummaryApi.getDetailsUser.url);
 
-		try {
-			const response = await axios.get(SummaryApi.getDetailsUser.url);
-
-			if (response.data.success) {
-				console.log(response.data.user);
-				setUserData(response.data.user);
+				if (response.data.success) {
+					console.log(response.data.user);
+					setUserData(response.data.user);
+				}
+			} catch (err) {
+				console.error("Error loading user", err);
+				localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
 			}
-		} catch (err) {
-			console.error("Error loading user", err);
-			localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
 		}
 	};
 

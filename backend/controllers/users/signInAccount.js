@@ -52,7 +52,7 @@ async function signInAccount(req, res) {
 	} catch (err) {
 		res.status(404).json({
 			success: false,
-			message: "err.message",
+			message: err.message,
 		});
 	}
 }

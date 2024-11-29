@@ -49,7 +49,7 @@ function Search() {
 	}, []);
 
 	return (
-		<div className="relative h-fit z-10 search-container">
+		<div className="hidden lg:block relative h-fit z-10 search-container">
 			<div className="flex items-center bg-[#D9E2EF] rounded-full py-[2px] px-4">
 				<FaSearch className="text-gray-500 text-sm" />
 				<input
@@ -57,7 +57,7 @@ function Search() {
 					type="text"
 					name="search"
 					onFocus={() => setShowResult(true)}
-					className="h-8 w-[400px] z-10 rounded-r-full bg-[#D9E2EF] px-4 outline-none text-sm"
+					className="h-7 w-[400px] z-10 rounded-r-full bg-[#D9E2EF] px-4 outline-none text-sm"
 					placeholder="Search"
 				/>
 			</div>
@@ -65,7 +65,11 @@ function Search() {
 				<div className="search-container flex flex-col bg-white shadow-md rounded-xl absolute top-12 w-full items-start p-2 max-h-[250px] overflow-y-scroll">
 					{searchResult.length > 0 &&
 						searchResult.map((user) => (
-							<UserItem key={user.id} data={user} />
+							<UserItem
+								key={user.id}
+								data={user}
+								setShowResult={setShowResult}
+							/>
 						))}
 				</div>
 			)}
