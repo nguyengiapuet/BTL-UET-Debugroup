@@ -14,6 +14,8 @@ import LoginPage from "../pages/user/user_account/LogIn";
 import SignUp from "../pages/user/user_account/SignUp";
 import ProjectDetail from "../pages/user/user_project/ProjectDetail";
 import AboutUs from "../pages/app/AboutUs";
+import LearnJs from "../pages/user/user_learnJs/LearnJs";
+import Game1 from "../pages/user/user_learnJs/Game1";
 
 const router = createBrowserRouter([
 	{
@@ -52,6 +54,15 @@ const router = createBrowserRouter([
 					},
 				],
 			},
+			{
+				path: "/learn",
+				element: <LearnJs />,
+			},
+			{
+				path: "/learn/game1",
+				element: <Game1 />,
+			},
+
 			{
 				path: "/about-us",
 				element: <AboutUs />,

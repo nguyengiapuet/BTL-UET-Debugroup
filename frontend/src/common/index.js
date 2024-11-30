@@ -124,6 +124,10 @@ const SummaryApi = {
 	getListFollowingUser: {
 		url: `${backendDomain}/api/list-following-user`,
 	},
+	//learn
+	getQuestion1: {
+		url: `${backendDomain}/api/learn/question1`,
+	},
 };
 
 export default SummaryApi;
