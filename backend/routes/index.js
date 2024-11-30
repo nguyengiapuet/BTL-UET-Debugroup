@@ -41,6 +41,7 @@ const getAllNotificationByUser = require("../controllers/notifications/getAllNot
 const countNotificationUnread = require("../controllers/notifications/countNotificationUnread");
 const markAsReadNotification = require("../controllers/notifications/markAsReadNotification");
 const getListFollowingUser = require("../controllers/follower/getListFollowingUser");
+const getQuestion1 = require("../controllers/learnJs/getQuestion1");
 
 const router = express.Router();
 
@@ -97,5 +98,6 @@ router.get("/list-following-user/:username", getListFollowingUser);
 router.get("/all-notification", verifyToken, getAllNotificationByUser);
 router.get("/count-notification-unread", verifyToken, countNotificationUnread);
 router.post("/mark-as-read-notification", verifyToken, markAsReadNotification);
-
+//question
+router.get("/learn/question1", verifyToken, getQuestion1);
 module.exports = router;
