@@ -2,7 +2,7 @@ import axios from "axios";
 import SummaryApi from "../../../common";
 import { useEffect, useState } from "react";
 import { Button } from "antd";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const LearnJs = () => {
 	return (
