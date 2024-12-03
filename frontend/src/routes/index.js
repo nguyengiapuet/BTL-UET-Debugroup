@@ -17,6 +17,7 @@ import AboutUs from "../pages/app/AboutUs";
 import LearnJs from "../pages/user/user_learnJs/LearnJs";
 import Game1 from "../pages/user/user_learnJs/Game1";
 import Contact from "../pages/user/contact-us/Contact";
+import Game2 from "../pages/user/user_learnJs/Game2";
 
 const router = createBrowserRouter([
 	{
@@ -60,8 +61,12 @@ const router = createBrowserRouter([
 				element: <LearnJs />,
 			},
 			{
-				path: "/learn/game1",
+				path: "/game1",
 				element: <Game1 />,
+			},
+			{
+				path: "/game2",
+				element: <Game2 />,
 			},
 			{
 				path: "/contact-us",
