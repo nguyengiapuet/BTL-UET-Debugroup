@@ -108,7 +108,6 @@ const ModalContent = ({ project, setRefreshComment, refreshComment }) => {
 			);
 
 			if (response.data.success) {
-				setRefreshComment((prev) => !prev);
 				setAllComments(response.data.data);
 			}
 		} catch (err) {
