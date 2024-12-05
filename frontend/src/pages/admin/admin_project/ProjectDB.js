@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import Pagination from "../admin_component/pagination/Pagination";
 import "../admin_component/style/ProjectDB.scss";
-import mockData from "../admin_mockdata/projects.json";
 import axios from "axios";
 import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
+import DeleteModal from "../admin_component/modal/DeleteModal";
+import RestoreModal from "../admin_component/modal/RestoreModal";
 
 let PageSize = 10;
 
@@ -13,6 +14,8 @@ function ProjectDashboard() {
 	// 1 is active, 2 is deleted
 	const [stateOfInfo, setStateOfInfo] = useState(1);
 	const [getAllPens, setGetAllPens] = useState([]);
+	const [openModal, setOpenModal] = useState(false);
+	const [selectedProject, setSelectedProject] = useState(null);
 
 	const fetchGetAllPens = async () => {
 		try {
@@ -34,45 +37,79 @@ function ProjectDashboard() {
 		return getAllPens.slice(firstPageIndex, lastPageIndex);
 	}, [currentPage, getAllPens]);
 
+	// change state of project: delete or active.
 	const handleOnchangeType = () => {
 		var e = document.getElementById("status");
 		setStateOfInfo(e.value);
 	};
 
-	const sortProjects = (listProject) => {
-		const sortedList = listProject.sort((a, b) => {
-			const nameComparison = a.title.localeCompare(b.title);
-			if (nameComparison !== 0) {
-				return nameComparison;
-			}
-
-			const dateA = new Date(a.created_at);
-			const dateB = new Date(b.created_at);
-			return dateA - dateB;
-		});
-
-		return sortedList;
+	// function implement sort.
+	const sortProjects = (listProject, sortBy) => {
+		if (sortBy === "title") {
+			return listProject.sort((a, b) => a.title.localeCompare(b.title));
+		} else if (sortBy === "date") {
+			return listProject.sort((a, b) => {
+				const dateA = new Date(a.created_at);
+				const dateB = new Date(b.created_at);
+				return dateA - dateB;
+			});
+		}
+		return listProject;
 	};
 
 	const handleOnchangeSort = (e) => {
-		if (e.target.value === "2") {
-			// console.log("e.target.value>>>>>>>>>>>>>>>>>>>>>>", e.target.value);
-			const sortedList = sortProjects([...getAllPens]);
+		// 2 is sort by title, else is sort by date.
+		const sortValue = e.target.value;
+		let sortedList;
 
-			setGetAllPens(sortedList);
+		if (sortValue === "2") {
+			// Sort by title
+			sortedList = sortProjects([...getAllPens], "title");
 		} else {
-			const sortedList = (arr) =>
-				arr.sort((a, b) => {
-					const dateA = new Date(a.created_at);
-					const dateB = new Date(b.created_at);
-					return dateA - dateB;
-				});
-
-			setGetAllPens(sortedList([...getAllPens]));
+			// Sort by date
+			sortedList = sortProjects([...getAllPens], "date");
 		}
+
+		setGetAllPens(sortedList);
 	};
 
-	const handleDelete = async (item) => {
+	useEffect(() => {
+		fetchGetAllPens();
+	}, []);
+
+	// TODO: handleDeleteProject in active
+	const [activeProject, setActiveProject] = useState(true);
+	const handleDeleteActiveProject = (project) => {
+		setActiveProject(true);
+		setOpenModal(true);
+		setSelectedProject(project);
+	};
+	const onCancel = () => {
+		setOpenModal(false);
+	};
+
+	const handleConfirmDeleteInActive = async () => {
+		setOpenModal(false);
+		deleteActive(selectedProject);
+	};
+
+	// handleDeleteProject in deleted
+	const handleDeleteForever = () => {
+		setActiveProject(false);
+		setOpenModal(true);
+		console.log("Delete this project");
+	};
+	// TODO: handle Restore project.
+	const handleRestoreProject = () => {
+		setOpenModal(true);
+		console.log("Delete this project");
+	};
+	const handleConfirmDeleteInDeleted = async () => {
+		setOpenModal(false);
+		// add api.
+		// deleteForever(project)
+	};
+	const deleteActive = async (item) => {
 		try {
 			const response = await axios.delete(
 				`${SummaryApi.deletePens.url}/${item.id}`
@@ -86,13 +123,24 @@ function ProjectDashboard() {
 			console.log(error.message);
 		}
 	};
-
-	useEffect(() => {
-		fetchGetAllPens();
-	}, []);
-
+	const deleteForever = async (item) => {};
 	return (
 		<div>
+			<DeleteModal
+				isOpen={openModal}
+				title={activeProject ? "Delete Project" : "Delete Forever"}
+				onConfirm={handleConfirmDeleteInActive}
+				fieldOfDelete="project"
+				onCancel={onCancel}
+			/>
+			<RestoreModal
+				isOpen={openModal}
+				title="Restore project"
+				onConfirm={handleConfirmDeleteInDeleted}
+				fieldOfDelete="project"
+				onCancel={onCancel}
+			/>
+
 			<div className="request-container">
 				<div className="request-content">
 					<div className="request-title">List of projects</div>
@@ -228,20 +276,33 @@ function ProjectDashboard() {
 															</div>
 															{stateOfInfo ===
 															"2" ? (
-																<div className="body-button">
-																	<button className="ok-button">
+																<div className="delete-body-button">
+																	<button
+																		className="ok-button"
+																		onClick={
+																			handleRestoreProject
+																		}
+																	>
 																		Restore
+																	</button>
+																	<button
+																		className="reject-button"
+																		onClick={
+																			handleDeleteForever
+																		}
+																	>
+																		Delete
 																	</button>
 																</div>
 															) : (
-																<div className="body-button">
+																<div className="body-row-data2 active-body-button">
 																	<button
+																		className="reject-button"
 																		onClick={() =>
-																			handleDelete(
+																			handleDeleteActiveProject(
 																				item
 																			)
 																		}
-																		className="reject-button"
 																	>
 																		Delete
 																	</button>

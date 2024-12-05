@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Pagination from "../admin_component/pagination/Pagination";
 import "../admin_component/style/ProjectDB.scss";
-import mockData from "../admin_mockdata/projects.json";
 import axios from "axios";
 import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
@@ -153,13 +152,13 @@ function CommentDashboard() {
 									<div className="table-header">
 										<div className="row">
 											<div className="row-data">#</div>
-											<div className="row-data1">
+											<div className="row-data2">
 												Project
 											</div>
-											<div className="row-data1">
+											<div className="row-data2">
 												User
 											</div>
-											<div className="row-data2">
+											<div className="row-data1">
 												Comment
 											</div>
 											<div className="row-data2">
@@ -191,13 +190,13 @@ function CommentDashboard() {
 																		1}
 																</span>
 															</div>
-															<div className="body-row-data1">
+															<div className="body-row-data2">
 																<span>
 																	{item.title}
 																</span>
 															</div>
 
-															<div className="body-row-data1">
+															<div className="body-row-data2">
 																<span>
 																	{
 																		item.username
@@ -205,7 +204,7 @@ function CommentDashboard() {
 																</span>
 															</div>
 
-															<div className="body-row-data2">
+															<div className="body-row-data1">
 																<span className="line-clamp-2 break-words">
 																	{
 																		item.content
@@ -233,13 +232,16 @@ function CommentDashboard() {
 															</div>
 															{stateOfInfo ===
 															"2" ? (
-																<div className="body-button">
+																<div className="delete-body-button">
 																	<button className="ok-button">
 																		Restore
 																	</button>
+																	<button className="reject-button">
+																		Delete
+																	</button>
 																</div>
 															) : (
-																<div className="body-row-data2 body-button">
+																<div className="body-row-data2 active-body-button">
 																	<button
 																		onClick={() =>
 																			handleDeleteComment(
