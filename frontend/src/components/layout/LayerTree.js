@@ -64,7 +64,8 @@ function SidebarTreeView() {
 										: "border-gray-300"
 								}`}
 							></div>
-							<span
+							<Link
+								to={"/learn"}
 								onClick={handleClickItem}
 								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
 									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
@@ -74,7 +75,7 @@ function SidebarTreeView() {
 									}`}
 							>
 								Learn JS
-							</span>
+							</Link>
 						</div>
 						<div className="flex items-center mb-4">
 							<div
@@ -105,7 +106,8 @@ function SidebarTreeView() {
 										: "border-gray-300"
 								}`}
 							></div>
-							<span
+							<Link
+								to={"/contact-us"}
 								onClick={handleClickItem}
 								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium 
 									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
@@ -115,7 +117,7 @@ function SidebarTreeView() {
 									}`}
 							>
 								Contact us
-							</span>
+							</Link>
 						</div>
 					</div>
 				</div>

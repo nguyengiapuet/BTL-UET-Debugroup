@@ -1,0 +1,11 @@
+.correct {
+	background-color: green;
+	color: white;
+}
+.incorrect {
+	background-color: red;
+	color: white;
+}
+p.disabled {
+	pointer-events: none;
+}

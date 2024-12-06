@@ -25,14 +25,23 @@ const SummaryApi = {
 	getPens: {
 		url: `${backendDomain}/api/get-pens`,
 	},
+	restorePen: {
+		url: `${backendDomain}/api/restore-pen`,
+	},
 	deletePens: {
 		url: `${backendDomain}/api/delete-pens`,
+	},
+	deletePenForever: {
+		url: `${backendDomain}/api/delete-pen-forever`,
 	},
 	updatePens: {
 		url: `${backendDomain}/api/update-pens`,
 	},
 	allPens: {
 		url: `${backendDomain}/api/all-pens`,
+	},
+	deletedPens: {
+		url: `${backendDomain}/api/deleted-pens`,
 	},
 	addLike: {
 		url: `${backendDomain}/api/add-like`,
@@ -73,8 +82,23 @@ const SummaryApi = {
 	countFollower: {
 		url: `${backendDomain}/api/follower-count`,
 	},
-	searchUser: {
+	searchUserByName: {
 		url: `${backendDomain}/api/search`,
+	},
+	searchDeletedUserByName: {
+		url: `${backendDomain}/api/search-delete-user`,
+	},
+	searchComment: {
+		url: `${backendDomain}/api/search-comment`,
+	},
+	searchDeleteComment: {
+		url: `${backendDomain}/api/search-delete-comment`,
+	},
+	searchProjectByName: {
+		url: `${backendDomain}/api/search-project`,
+	},
+	searchDeletedProjectByName: {
+		url: `${backendDomain}/api/search-delete-project`,
 	},
 	deleteUserSoft: {
 		url: `${backendDomain}/api/delete-user-soft`,
@@ -94,11 +118,18 @@ const SummaryApi = {
 	getAllCommentsByAdmin: {
 		url: `${backendDomain}/api/admin/all-comments`,
 	},
+	getDeletedComments: {
+		url: `${backendDomain}/api/admin/all-delete-comment`,
+	},
 	deleteCommentByAdmin: {
 		url: `${backendDomain}/api/admin/delete-comments`,
 	},
-	getFollowing: {
-		url: `${backendDomain}/api/get-following`,
+
+	deleteCommentForever: {
+		url: `${backendDomain}/api/admin/delete-comment-forever`,
+	},
+	restoreComment: {
+		url: `${backendDomain}/api/admin/restore-comment`,
 	},
 	changePassword: {
 		url: `${backendDomain}/api/change-password`,
@@ -120,6 +151,13 @@ const SummaryApi = {
 	},
 	markAsReadNotification: {
 		url: `${backendDomain}/api/mark-as-read-notification`,
+	},
+	getListFollowingUser: {
+		url: `${backendDomain}/api/list-following-user`,
+	},
+	//learn
+	getQuestion1: {
+		url: `${backendDomain}/api/learn/question1`,
 	},
 };
 

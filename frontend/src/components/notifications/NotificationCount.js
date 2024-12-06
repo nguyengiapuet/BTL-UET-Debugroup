@@ -21,9 +21,6 @@ function NotificationCount({ markRead }) {
 
 	useEffect(() => {
 		getNotificationUnread();
-		console.log(
-			"---------------------------count repeat--------------------------------"
-		);
 	}, [markRead]);
 
 	return (

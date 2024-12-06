@@ -1,10 +1,12 @@
-const db = require("../../config/db");
+const db = require("../../../config/db");
 
-async function getAllComments(req, res) {
+async function searchComment(req, res) {
+	console.log("req.params", req.params.comment);
+
 	try {
-		db.query(
-			`
-                SELECT 
+		db.query(    
+            `
+             SELECT 
                     comments.id,
                     comments.content, 
                     comments.id_user,
@@ -20,25 +22,24 @@ async function getAllComments(req, res) {
                     account ON comments.id_user = account.id 
                 JOIN
                     pens ON comments.id_project = pens.id
-				WHERE comments.is_delete = 0
+                WHERE LOWER(comments.content) LIKE LOWER(?) AND comments.is_delete = 0
             `,
+			[`%${req.params.comment}%`],
 			function (err, result) {
-				if (err) {
-					throw err;
-				}
+				console.log(result);
 				res.status(200).json({
 					success: true,
-					message: "get all comments successfully",
+					message: "Users fetched successfully",
 					data: result,
 				});
 			}
 		);
 	} catch (err) {
-		res.status(500).json({
+		res.json({
 			message: err.message,
 			success: false,
 		});
 	}
 }
 
-module.exports = getAllComments;
+module.exports = searchComment;

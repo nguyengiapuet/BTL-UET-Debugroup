@@ -116,6 +116,7 @@ function ProjectDetail() {
 				<ListComment
 					project={dataPen}
 					refreshComment={refreshComment}
+					setRefreshComment={setRefreshComment}
 				/>
 			</div>
 		</div>

@@ -32,7 +32,11 @@ export default function Notification({ notification, setOpenNotification }) {
 		>
 			<article
 				className={`flex gap-3 mt-2 items-center rounded-2xl p-5 shadow-sm transition-colors hover:bg-slate-200
-					 ${notification?.read === 1 ? "bg-slate-100" : "bg-blue-200 hover:bg-blue-100"}
+					 ${
+							notification?.isRead === 1
+								? "bg-slate-100"
+								: "bg-blue-200 hover:bg-blue-100"
+						}
 					`}
 			>
 				<div className="my-1">{icon}</div>

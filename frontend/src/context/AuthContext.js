@@ -24,7 +24,7 @@ const AuthContextProvider = ({ children }) => {
 				const response = await axios.get(SummaryApi.getDetailsUser.url);
 
 				if (response.data.success) {
-					console.log(response.data.user);
+					// console.log(response.data.user);
 					setUserData(response.data.user);
 				}
 			} catch (err) {
@@ -37,9 +37,25 @@ const AuthContextProvider = ({ children }) => {
 	useEffect(() => {
 		loadUser();
 	}, []);
+
+	const [infoForm, setInfoForm] = useState({
+		name: "",
+		email: "",
+		phone: "",
+		message: "",
+	});
+
 	return (
 		<AuthContext.Provider
-			value={{ title, setTitle, loadUser, userData, setUserData }}
+			value={{
+				title,
+				setTitle,
+				loadUser,
+				userData,
+				setUserData,
+				infoForm,
+				setInfoForm,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

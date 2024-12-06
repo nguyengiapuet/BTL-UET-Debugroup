@@ -14,6 +14,10 @@ import LoginPage from "../pages/user/user_account/LogIn";
 import SignUp from "../pages/user/user_account/SignUp";
 import ProjectDetail from "../pages/user/user_project/ProjectDetail";
 import AboutUs from "../pages/app/AboutUs";
+import LearnJs from "../pages/user/user_learnJs/LearnJs";
+import Game1 from "../pages/user/user_learnJs/Game1";
+import Contact from "../pages/user/contact-us/Contact";
+import Game2 from "../pages/user/user_learnJs/Game2";
 
 const router = createBrowserRouter([
 	{
@@ -51,6 +55,22 @@ const router = createBrowserRouter([
 						element: <MyProject />,
 					},
 				],
+			},
+			{
+				path: "/learn",
+				element: <LearnJs />,
+			},
+			{
+				path: "/game1",
+				element: <Game1 />,
+			},
+			{
+				path: "/game2",
+				element: <Game2 />,
+			},
+			{
+				path: "/contact-us",
+				element: <Contact />,
 			},
 			{
 				path: "/about-us",
