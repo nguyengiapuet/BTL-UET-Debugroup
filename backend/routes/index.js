@@ -42,6 +42,7 @@ const countNotificationUnread = require("../controllers/notifications/countNotif
 const markAsReadNotification = require("../controllers/notifications/markAsReadNotification");
 const getListFollowingUser = require("../controllers/follower/getListFollowingUser");
 const getQuestion1 = require("../controllers/learnJs/getQuestion1");
+const getQuestion2 = require("../controllers/learnJs/getQuestion2");
 
 const getDeletedPen = require("../controllers/pens/getDeletedPens");
 const deletePenForever = require("../controllers/pens/deletePenForever");
@@ -127,5 +128,7 @@ router.get("/all-notification", verifyToken, getAllNotificationByUser);
 router.get("/count-notification-unread", verifyToken, countNotificationUnread);
 router.post("/mark-as-read-notification", verifyToken, markAsReadNotification);
 //question
+router.get("/learn/question1", verifyToken, getQuestion1);
+router.get("/learn/question2", verifyToken, getQuestion2);
 // router.get("/learn/question1", verifyToken, getQuestion1);
 module.exports = router;

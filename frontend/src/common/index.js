@@ -159,9 +159,6 @@ const SummaryApi = {
 	getQuestion1: {
 		url: `${backendDomain}/api/learn/question1`,
 	},
-	allPensPublic: {
-		url: `${backendDomain}/api/get-all-pens-public`,
-	},
 };
 
 export default SummaryApi;
