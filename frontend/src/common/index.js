@@ -128,6 +128,9 @@ const SummaryApi = {
 	getQuestion1: {
 		url: `${backendDomain}/api/learn/question1`,
 	},
+	getQuestion2: {
+		url: `${backendDomain}/api/learn/question2`,
+	},
 };
 
 export default SummaryApi;

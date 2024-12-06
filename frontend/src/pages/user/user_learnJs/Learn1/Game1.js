@@ -1,5 +1,5 @@
 import axios from "axios";
-import SummaryApi from "../../../common";
+import SummaryApi from "../../../../common";
 import { useEffect, useState } from "react";
 import {
 	FaArrowLeft,
@@ -7,21 +7,8 @@ import {
 	FaThumbsDown,
 	FaThumbsUp,
 } from "react-icons/fa";
-import "../user_learnJs/style.css";
+import "../Learn1/style.css";
 import { Link } from "react-router-dom";
-const question1 = [
-	"visible",
-	"-20px 20px black",
-	"Khi số lần lặp lại không xác định trước",
-	"hello",
-	"Tuỳ vào dữ liệu của toán hạng",
-	"true vì true được chuyển thành 1",
-	"80",
-	"Khai báo ngoài mọi hàm,block module",
-	"Đứng cạnh nhau",
-	"Nhà phát hành trang web",
-];
-
 const Game1 = () => {
 	const [data, setData] = useState([]);
 	const [count, setCount] = useState(0);
@@ -46,15 +33,16 @@ const Game1 = () => {
 	}, []);
 	const item = data[count];
 	const handleClickItem = (e) => {
-		if (e.target.textContent === question1[count]) {
+		if (e.target.textContent === item.result) {
 			e.target.classList.add("correct");
 			setScore(score + 1);
 		} else {
 			const options = document.querySelectorAll("p");
 			e.target.classList.add("incorrect");
-			options.forEach((item) => {
-				if (item.textContent === question1[count]) {
-					item.classList.add("correct");
+			options.forEach((items) => {
+				console.log();
+				if (items.textContent === item.result) {
+					items.classList.add("correct");
 				}
 			});
 		}
@@ -74,7 +62,7 @@ const Game1 = () => {
 	return count > 9 ? (
 		<div className="flex justify-center ">
 			<div className="px-[100px] py-[100px] bg-slate-600 mt-28 rounded-2xl">
-				{score > 6 ? (
+				{score > 5 ? (
 					<FaThumbsUp size={150} className="mx-9" />
 				) : (
 					<FaThumbsDown size={150} className="mx-9" />
