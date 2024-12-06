@@ -22,8 +22,20 @@ function RestoreModal({ isOpen, title, onConfirm, fieldOfDelete, onCancel }) {
 			width={400}
 		>
 			<div className="flex flex-col gap-1 py-4 items-center">
-				<div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center mb-4">
-					<span className="text-2xl text-red-500 font-bold">!</span>
+				<div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mb-4">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth={2}
+							d="M5 13l4 4L19 7"
+						/>
+					</svg>
 				</div>
 				<div>
 					Are you sure you want to restore this {fieldOfDelete}?

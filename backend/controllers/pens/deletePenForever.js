@@ -1,9 +1,9 @@
 const db = require("../../config/db");
 
-async function deletedPen(req, res) {
+async function deletePenForever(req, res) {
 	try {
 		db.query(
-			"UPDATE pens p SET p.is_delete = 1 WHERE p.id = ?",
+			"DELETE FROM pens WHERE id = ?",
 			[req.params.id],
 			function (err, result) {
 				if (err) {
@@ -27,4 +27,4 @@ async function deletedPen(req, res) {
 	}
 }
 
-module.exports = deletedPen;
+module.exports = deletePenForever;

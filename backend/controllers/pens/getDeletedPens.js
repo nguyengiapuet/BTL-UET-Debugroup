@@ -1,6 +1,6 @@
 const db = require("../../config/db");
 
-async function getAllPensPublic(req, res) {
+async function getDeletedPen(req, res) {
 	try {
 		db.query(
 			`
@@ -9,7 +9,7 @@ async function getAllPensPublic(req, res) {
 		    JOIN account a ON p.email = a.email
 		    LEFT JOIN likes l ON p.id = l.id_project
 		    LEFT JOIN comments c ON p.id = c.id_project
-			WHERE p.status = 'public' AND p.is_delete = 0
+			WHERE p.is_delete = 1
 		    GROUP BY p.id
 		`,
 			function (err, result) {
@@ -23,6 +23,7 @@ async function getAllPensPublic(req, res) {
 				});
 			}
 		);
+		console.log("Get successfully");
 	} catch (err) {
 		res.json({
 			message: err.message,
@@ -31,4 +32,4 @@ async function getAllPensPublic(req, res) {
 	}
 }
 
-module.exports = getAllPensPublic;
+module.exports = getDeletedPen;

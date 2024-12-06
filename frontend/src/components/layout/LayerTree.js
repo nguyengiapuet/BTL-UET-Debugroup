@@ -22,7 +22,33 @@ function SidebarTreeView() {
 	};
 
 	useEffect(() => {
-		setActive("trending");
+		const currentUrl = window.location.pathname; // Lấy phần pathname của URL
+		const lastSegment = currentUrl.substring(
+			currentUrl.lastIndexOf("/") + 1
+		);
+
+		if (lastSegment === "popular") {
+			setActive("trending");
+			setTitle("Trending");
+		} else if (lastSegment === "learn") {
+			setActive("learn js");
+			setTitle("Learn js");
+		} else if (lastSegment === "about-us") {
+			setActive("about");
+			setTitle("About");
+		} else if (lastSegment === "contact-us") {
+			setActive("contact us");
+			setTitle("Contact us");
+		} else if (lastSegment === "project-dashboard") {
+			setActive("projects");
+			setTitle("Projects dashboard");
+		} else if (lastSegment === "user-dashboard") {
+			setActive("users");
+			setTitle("Users dashboard");
+		} else if (lastSegment === "comment-dashboard") {
+			setActive("comments");
+			setTitle("Comments dashboard");
+		}
 	}, []);
 
 	return (

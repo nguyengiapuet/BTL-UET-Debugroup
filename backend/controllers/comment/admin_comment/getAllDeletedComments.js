@@ -1,6 +1,6 @@
-const db = require("../../config/db");
+const db = require("../../../config/db");
 
-async function getAllComments(req, res) {
+async function getAllDeleteComments(req, res) {
 	try {
 		db.query(
 			`
@@ -20,7 +20,7 @@ async function getAllComments(req, res) {
                     account ON comments.id_user = account.id 
                 JOIN
                     pens ON comments.id_project = pens.id
-				WHERE comments.is_delete = 0
+				WHERE comments.is_delete = 1
             `,
 			function (err, result) {
 				if (err) {
@@ -41,4 +41,4 @@ async function getAllComments(req, res) {
 	}
 }
 
-module.exports = getAllComments;
+module.exports = getAllDeleteComments;

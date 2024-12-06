@@ -12,6 +12,8 @@ export function usePenData() {
 		js: "",
 		title: "Untitled",
 		output: "",
+		status: "",
+		email: "",
 	});
 
 	const handleOnchanePen = (value, type) => {

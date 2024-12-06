@@ -10,7 +10,7 @@ async function getAllPensUser(req, res) {
             FROM pens p
             JOIN account a ON p.email = a.email
             LEFT JOIN likes l ON p.id = l.id_project
-            WHERE a.username = ?
+            WHERE a.username = ? AND p.is_delete = 0
             GROUP BY p.id
         `,
 			[req.body.username],

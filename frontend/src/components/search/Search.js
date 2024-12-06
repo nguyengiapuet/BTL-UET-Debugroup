@@ -24,7 +24,7 @@ function Search() {
 			setLoading(true);
 
 			const result = await axios.get(
-				`${SummaryApi.searchUser.url}/${searchParams.trim()}`
+				`${SummaryApi.searchUserByName.url}/${searchParams.trim()}`
 			);
 
 			if (result.data.success) {
