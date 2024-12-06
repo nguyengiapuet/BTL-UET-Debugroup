@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import CodeMirror from "@uiw/react-codemirror";
 import EditorPane from "../../user_project/pen_components/EditorPane";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SummaryApi from "../../../../common";

@@ -20,7 +20,7 @@ require("dotenv").config();
 
 const mySqlPool = mysql.createPool({
 	host: "localhost",
-	port: 3307,
+	port: 3306,
 	user: "root",
 	password: process.env.PASSWORD_SQL,
 	database: "btlweb",
