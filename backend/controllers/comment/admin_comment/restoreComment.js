@@ -1,11 +1,11 @@
-const db = require("../../config/db");
+const db = require("../../../config/db");
 
-async function deleteCommentByAdmin(req, res) {
+async function restoreComment(req, res) {
 	try {
 		const { idComment } = req.body;
 
 		db.query(
-			"DELETE FROM comments WHERE id = ?",
+			"UPDATE comments SET is_delete = 0 WHERE id = ?",
 			[idComment],
 			function (err, result) {
 				if (err) {
@@ -13,7 +13,7 @@ async function deleteCommentByAdmin(req, res) {
 				}
 				res.status(200).json({
 					success: true,
-					message: "Remove comment successfully",
+					message: "Restore comment successfully",
 				});
 			}
 		);
@@ -25,4 +25,4 @@ async function deleteCommentByAdmin(req, res) {
 	}
 }
 
-module.exports = deleteCommentByAdmin;
+module.exports = restoreComment;

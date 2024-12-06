@@ -1,12 +1,12 @@
-const db = require("../../config/db");
+const db = require("../../../config/db");
 
-async function deleteCommentByUser(req, res) {
+async function deleteCommentByAdmin(req, res) {
 	try {
 		const { idComment } = req.body;
 
 		db.query(
-			"DELETE FROM comments WHERE id = ? AND id_user = ?",
-			[idComment, req.userId],
+			"UPDATE comments SET is_delete = 1 WHERE id = ?",
+			[idComment],
 			function (err, result) {
 				if (err) {
 					throw err;
@@ -25,4 +25,4 @@ async function deleteCommentByUser(req, res) {
 	}
 }
 
-module.exports = deleteCommentByUser;
+module.exports = deleteCommentByAdmin;

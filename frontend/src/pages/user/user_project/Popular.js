@@ -13,7 +13,7 @@ function Popular() {
 
 	const fetchGetAllPens = async () => {
 		try {
-			const response = await axios.get(SummaryApi.allPens.url);
+			const response = await axios.get(SummaryApi.allPensPublic.url);
 
 			if (response.data.success) {
 				console.log(response.data.data);

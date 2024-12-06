@@ -7,6 +7,7 @@ import { AiFillGithub } from "react-icons/ai";
 import ListFollower from "../followers/ListFollower";
 import { Button, Modal } from "antd";
 import { Link } from "react-router-dom";
+import Search from "./Search";
 
 // Left Sidebar Page
 function Sidebar({ isSidebarOpen }) {
@@ -124,7 +125,7 @@ function Sidebar({ isSidebarOpen }) {
 					</div>
 
 					{/* Search button */}
-					<div
+					{/* <div
 						className={`w-full border-2 rounded-3xl flex items-center px-4 transition-colors duration-300 ${
 							isFocused
 								? "border-[#D68E2F] boder-1"
@@ -143,7 +144,8 @@ function Sidebar({ isSidebarOpen }) {
 							onFocus={() => setIsFocused(true)}
 							onBlur={() => setIsFocused(false)}
 						/>
-					</div>
+					</div> */}
+					<Search isFocused={isFocused} setIsFocused={setIsFocused} />
 
 					{/* Layer tree view */}
 					{activeButton === "Category" ? (

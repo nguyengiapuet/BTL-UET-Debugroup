@@ -12,6 +12,8 @@ export function usePenData() {
 		js: "",
 		title: "Untitled",
 		output: "",
+		status: "",
+		email: "",
 	});
 
 	const handleOnchanePen = (value, type) => {
@@ -42,7 +44,7 @@ export function usePenData() {
 		setDataPen({ ...dataPen, output: content });
 	};
 
-	const handleCreatPens = async () => {
+	const handleCreatPens = async (isPublic) => {
 		try {
 			const response = await axios.post(SummaryApi.createPens.url, {
 				title: dataPen.title,
@@ -50,6 +52,7 @@ export function usePenData() {
 				css: dataPen.css,
 				js: dataPen.js,
 				output: dataPen.output,
+				status: isPublic ? "public" : "private",
 			});
 
 			if (response.data.success) {
@@ -60,10 +63,10 @@ export function usePenData() {
 		}
 	};
 
-	const handleSavePens = async () => {
+	const handleSavePens = async (isPublic) => {
 		try {
 			if (params.id === undefined) {
-				await handleCreatPens();
+				await handleCreatPens(isPublic);
 			} else {
 				const response = await axios.put(
 					`${SummaryApi.updatePens.url}/${params.id}`,
@@ -73,6 +76,7 @@ export function usePenData() {
 						css: dataPen.css,
 						js: dataPen.js,
 						output: dataPen.output,
+						status: isPublic ? "public" : "private",
 					}
 				);
 

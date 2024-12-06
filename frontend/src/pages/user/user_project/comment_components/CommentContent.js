@@ -4,6 +4,7 @@ import { AiOutlineEllipsis } from "react-icons/ai";
 import SummaryApi from "../../../../common";
 import { toast } from "react-toastify";
 import ActionButtonComment from "../../../../components/feature/comments/ActionButtonComment";
+import { FaUserCircle } from "react-icons/fa";
 
 function CommentContent({ comment, setRefreshComment, width }) {
 	const [edit, setEdit] = useState(false);
@@ -76,11 +77,15 @@ function CommentContent({ comment, setRefreshComment, width }) {
 		<div className={`${widthCss} pt-5`}>
 			<div className="flex flex-row gap-3 items-start">
 				{/* Left avatar user */}
-				<img
-					src={comment.avatar}
-					alt="User avatar"
-					className="size-11 rounded-full border border-gray-400"
-				/>
+				{comment.avatar ? (
+					<img
+						src={comment.avatar}
+						alt="User avatar"
+						className="size-11 rounded-full border border-gray-400"
+					/>
+				) : (
+					<FaUserCircle className="size-11" />
+				)}
 				{/* Right content: Username, time, content */}
 				<div className="relative w-full">
 					<div className="flex flex-row justify-between w-full items-center">
