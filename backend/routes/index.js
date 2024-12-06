@@ -42,6 +42,10 @@ const countNotificationUnread = require("../controllers/notifications/countNotif
 const markAsReadNotification = require("../controllers/notifications/markAsReadNotification");
 const getListFollowingUser = require("../controllers/follower/getListFollowingUser");
 const getQuestion1 = require("../controllers/learnJs/getQuestion1");
+const getDeletedPen = require("../controllers/pens/getDeletedPens");
+const deletePenForever = require("../controllers/pens/deletePenForever");
+const restorePen = require("../controllers/pens/restorePen");
+const searchProjectByName = require("../controllers/search/searchProjectByName");
 
 const router = express.Router();
 
@@ -61,12 +65,18 @@ router.get("/search/:username", searchUser);
 router.post("/delete-user-soft/:id", softDelete);
 router.post("/restore-user/:id", RestoreUser);
 
+// Search
+router.get("/search-project/:projectname", searchProjectByName );
+
 // Pens
 router.post("/create-pens", verifyToken, createPens);
 router.post("/getall-pens", getAllPens);
 router.get("/all-pens", getAllPensPublic);
+router.get("/deleted-pens", getDeletedPen);
 router.get("/get-pens/:id", verifyToken, getDetailsPen);
 router.delete("/delete-pens/:id", verifyToken, deletedPen);
+router.put("/restore-pen/:id", verifyToken, restorePen);
+router.delete("/delete-pen-forever/:id", verifyToken, deletePenForever);
 router.put("/update-pens/:id", verifyToken, updatePen);
 
 // Like

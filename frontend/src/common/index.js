@@ -25,14 +25,23 @@ const SummaryApi = {
 	getPens: {
 		url: `${backendDomain}/api/get-pens`,
 	},
+	restorePen: {
+		url: `${backendDomain}/api/restore-pen`,
+	},
 	deletePens: {
 		url: `${backendDomain}/api/delete-pens`,
+	},
+	deletePenForever: {
+		url: `${backendDomain}/api/delete-pen-forever`,
 	},
 	updatePens: {
 		url: `${backendDomain}/api/update-pens`,
 	},
 	allPens: {
 		url: `${backendDomain}/api/all-pens`,
+	},
+	deletedPens: {
+		url: `${backendDomain}/api/deleted-pens`,
 	},
 	addLike: {
 		url: `${backendDomain}/api/add-like`,
@@ -75,6 +84,9 @@ const SummaryApi = {
 	},
 	searchUser: {
 		url: `${backendDomain}/api/search`,
+	},
+	searchProjectByName: {
+		url: `${backendDomain}/api/search-project`,
 	},
 	deleteUserSoft: {
 		url: `${backendDomain}/api/delete-user-soft`,

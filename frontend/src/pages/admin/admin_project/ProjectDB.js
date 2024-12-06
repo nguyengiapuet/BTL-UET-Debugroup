@@ -12,14 +12,44 @@ let PageSize = 10;
 function ProjectDashboard() {
 	const [currentPage, setCurrentPage] = useState(1);
 	// 1 is active, 2 is deleted
-	const [stateOfInfo, setStateOfInfo] = useState(1);
+	const [stateOfInfo, setStateOfInfo] = useState("1");
 	const [getAllPens, setGetAllPens] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
-	const [selectedProject, setSelectedProject] = useState(null);
+	const [openRestoreModal, setOpenRestoreModal] = useState(false);
+	const [selectedIdProject, setSelectedIdProject] = useState(-1);
+	const [searchQuery, setSearchQuery] = useState("");
 
 	const fetchGetAllPens = async () => {
 		try {
 			const response = await axios.get(SummaryApi.allPens.url);
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				setGetAllPens(response.data.data);
+			}
+		} catch (err) {
+			console.log(err.message);
+			return;
+		}
+	};
+	const fetchDeletedPens = async () => {
+		try {
+			const response = await axios.get(SummaryApi.deletedPens.url);
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				setGetAllPens(response.data.data);
+			}
+		} catch (err) {
+			console.log(err.message);
+			return;
+		}
+	};
+	const fetchSearchPens = async (query) => {
+		try {
+			const response = await axios.get(
+				`${SummaryApi.searchProjectByName.url}/${query}`
+			);
 
 			if (response.data.success) {
 				console.log(response.data.data);
@@ -36,6 +66,18 @@ function ProjectDashboard() {
 		const lastPageIndex = firstPageIndex + PageSize;
 		return getAllPens.slice(firstPageIndex, lastPageIndex);
 	}, [currentPage, getAllPens]);
+
+	// search project by name
+	const handleSearchByName = (query) => {
+		console.log(query);
+		setSearchQuery(query);
+		if (query === "") {
+			fetchGetAllPens();
+		}
+	};
+	const handleSubmitSearch = () => {
+		fetchSearchPens(searchQuery);
+	};
 
 	// change state of project: delete or active.
 	const handleOnchangeType = () => {
@@ -74,45 +116,64 @@ function ProjectDashboard() {
 	};
 
 	useEffect(() => {
-		fetchGetAllPens();
-	}, []);
+		if (stateOfInfo === "1") {
+			fetchGetAllPens();
+		} else {
+			fetchDeletedPens();
+		}
+	}, [stateOfInfo]);
 
-	// TODO: handleDeleteProject in active
+	// keep track status of project in active/deleted.
 	const [activeProject, setActiveProject] = useState(true);
-	const handleDeleteActiveProject = (project) => {
-		setActiveProject(true);
+	// isActive is delete project from active. else is project that users have deleted.
+	const handleDeleteProject = (projectId, isActive) => {
+		setActiveProject(isActive);
+		setSelectedIdProject(projectId);
 		setOpenModal(true);
-		setSelectedProject(project);
 	};
 	const onCancel = () => {
 		setOpenModal(false);
 	};
-
 	const handleConfirmDeleteInActive = async () => {
 		setOpenModal(false);
-		deleteActive(selectedProject);
+		if (activeProject) {
+			deleteActive();
+		} else {
+			deleteForever();
+		}
 	};
 
-	// handleDeleteProject in deleted
-	const handleDeleteForever = () => {
-		setActiveProject(false);
-		setOpenModal(true);
-		console.log("Delete this project");
-	};
 	// TODO: handle Restore project.
-	const handleRestoreProject = () => {
-		setOpenModal(true);
-		console.log("Delete this project");
+	const handleRestoreProject = (projectId) => {
+		setOpenRestoreModal(true);
+		setSelectedIdProject(projectId);
 	};
-	const handleConfirmDeleteInDeleted = async () => {
-		setOpenModal(false);
-		// add api.
-		// deleteForever(project)
+
+	const handleConfirmRestore = async () => {
+		setOpenRestoreModal(false);
+		restoreProject();
 	};
-	const deleteActive = async (item) => {
+	const onRestoreCancel = () => {
+		setOpenRestoreModal(false);
+	};
+	const restoreProject = async () => {
+		try {
+			const response = await axios.put(
+				`${SummaryApi.restorePen.url}/${selectedIdProject}`
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				fetchDeletedPens();
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+	const deleteActive = async () => {
 		try {
 			const response = await axios.delete(
-				`${SummaryApi.deletePens.url}/${item.id}`
+				`${SummaryApi.deletePens.url}/${selectedIdProject}`
 			);
 
 			if (response.data.success) {
@@ -123,7 +184,20 @@ function ProjectDashboard() {
 			console.log(error.message);
 		}
 	};
-	const deleteForever = async (item) => {};
+	const deleteForever = async () => {
+		try {
+			const response = await axios.delete(
+				`${SummaryApi.deletePenForever.url}/${selectedIdProject}`
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				fetchDeletedPens();
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
 	return (
 		<div>
 			<DeleteModal
@@ -134,11 +208,11 @@ function ProjectDashboard() {
 				onCancel={onCancel}
 			/>
 			<RestoreModal
-				isOpen={openModal}
+				isOpen={openRestoreModal}
 				title="Restore project"
-				onConfirm={handleConfirmDeleteInDeleted}
+				onConfirm={handleConfirmRestore}
 				fieldOfDelete="project"
-				onCancel={onCancel}
+				onCancel={onRestoreCancel}
 			/>
 
 			<div className="request-container">
@@ -153,6 +227,16 @@ function ProjectDashboard() {
 											className="form-control"
 											type="text"
 											placeholder="Search by name"
+											onChange={(e) =>
+												handleSearchByName(
+													e.target.value
+												)
+											}
+											onKeyPress={(e) => {
+												if (e.key === "Enter") {
+													handleSubmitSearch();
+												}
+											}}
 										/>
 									</div>
 									<div className="col1">
@@ -187,6 +271,7 @@ function ProjectDashboard() {
 										<button
 											className="search-button"
 											type="submit"
+											onClick={handleSubmitSearch}
 										>
 											Search
 										</button>
@@ -279,16 +364,21 @@ function ProjectDashboard() {
 																<div className="delete-body-button">
 																	<button
 																		className="ok-button"
-																		onClick={
-																			handleRestoreProject
+																		onClick={() =>
+																			handleRestoreProject(
+																				item.id
+																			)
 																		}
 																	>
 																		Restore
 																	</button>
 																	<button
 																		className="reject-button"
-																		onClick={
-																			handleDeleteForever
+																		onClick={() =>
+																			handleDeleteProject(
+																				item.id,
+																				false
+																			)
 																		}
 																	>
 																		Delete
@@ -298,11 +388,12 @@ function ProjectDashboard() {
 																<div className="body-row-data2 active-body-button">
 																	<button
 																		className="reject-button"
-																		onClick={() =>
-																			handleDeleteActiveProject(
-																				item
-																			)
-																		}
+																		onClick={() => {
+																			handleDeleteProject(
+																				item.id,
+																				true
+																			);
+																		}}
 																	>
 																		Delete
 																	</button>
