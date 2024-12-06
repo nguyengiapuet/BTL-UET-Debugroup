@@ -1,13 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaHome } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 // Should check if user is not admin, disable Dashboard section
 function SidebarTreeView() {
 	const [active, setActive] = useState("");
 	const { setTitle } = useContext(AuthContext);
+	const params = useParams();
+	console.log("params", params);
 
 	const handleClickItem = (e) => {
 		setActive(e.target.textContent.toLowerCase());
@@ -18,6 +20,10 @@ function SidebarTreeView() {
 		setActive(e.target.textContent.toLowerCase());
 		setTitle(e.target.textContent + " dashboard");
 	};
+
+	useEffect(() => {
+		setActive("trending");
+	}, []);
 
 	return (
 		<div>

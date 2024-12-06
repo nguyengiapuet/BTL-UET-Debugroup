@@ -280,25 +280,46 @@ function UserDashboard() {
 																	{item.updated_at
 																		? new Date(
 																				item.updated_at
-																			).toLocaleDateString(
+																		  ).toLocaleDateString(
 																				"en-GB"
-																			)
+																		  )
 																		: "Haven't updated"}{" "}
 																</span>
 															</div>
 															{stateOfInfo ===
 															"2" ? (
 																<div className="delete-body-button">
-																	<button className="ok-button">
+																	<button
+																		className="ok-button"
+																		onClick={() =>
+																			restoreUser(
+																				item.id
+																			)
+																		}
+																	>
 																		Restore
 																	</button>
-																	<button className="reject-button">
+																	<button
+																		className="reject-button"
+																		onClick={() =>
+																			deleteUser(
+																				item.id
+																			)
+																		}
+																	>
 																		Delete
 																	</button>
 																</div>
 															) : (
 																<div className="body-row-data2 active-body-button">
-																	<button className="reject-button">
+																	<button
+																		className="reject-button"
+																		onClick={() =>
+																			softDeleteUser(
+																				item.id
+																			)
+																		}
+																	>
 																		Delete
 																	</button>
 																</div>

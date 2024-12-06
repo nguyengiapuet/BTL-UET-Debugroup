@@ -15,7 +15,7 @@ function ProjectDashboard() {
 	const [stateOfInfo, setStateOfInfo] = useState(1);
 	const [getAllPens, setGetAllPens] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
-	const [selectedProject, setSelectedProject] = useState(null);
+	const [idProject, setIdProject] = useState();
 
 	const fetchGetAllPens = async () => {
 		try {
@@ -74,23 +74,21 @@ function ProjectDashboard() {
 	};
 
 	useEffect(() => {
+		console.log("ds");
+
 		fetchGetAllPens();
 	}, []);
 
 	// TODO: handleDeleteProject in active
 	const [activeProject, setActiveProject] = useState(true);
-	const handleDeleteActiveProject = (project) => {
+	const handleDeleteActiveProject = (id) => {
+		console.log("dsads", id);
 		setActiveProject(true);
 		setOpenModal(true);
-		setSelectedProject(project);
+		setIdProject(id);
 	};
 	const onCancel = () => {
 		setOpenModal(false);
-	};
-
-	const handleConfirmDeleteInActive = async () => {
-		setOpenModal(false);
-		deleteActive(selectedProject);
 	};
 
 	// handleDeleteProject in deleted
@@ -109,10 +107,12 @@ function ProjectDashboard() {
 		// add api.
 		// deleteForever(project)
 	};
-	const deleteActive = async (item) => {
+	const deleteActive = async (idProject) => {
+		console.log("dasdas");
+
 		try {
 			const response = await axios.delete(
-				`${SummaryApi.deletePens.url}/${item.id}`
+				`${SummaryApi.deletePens.url}/${idProject}`
 			);
 
 			if (response.data.success) {
@@ -128,18 +128,20 @@ function ProjectDashboard() {
 		<div>
 			<DeleteModal
 				isOpen={openModal}
+				setIsOpen={setOpenModal}
+				idProject={idProject}
 				title={activeProject ? "Delete Project" : "Delete Forever"}
-				onConfirm={handleConfirmDeleteInActive}
+				handleDelete={deleteActive}
 				fieldOfDelete="project"
 				onCancel={onCancel}
 			/>
-			<RestoreModal
+			{/* <RestoreModal
 				isOpen={openModal}
 				title="Restore project"
 				onConfirm={handleConfirmDeleteInDeleted}
 				fieldOfDelete="project"
 				onCancel={onCancel}
-			/>
+			/> */}
 
 			<div className="request-container">
 				<div className="request-content">
@@ -277,20 +279,10 @@ function ProjectDashboard() {
 															{stateOfInfo ===
 															"2" ? (
 																<div className="delete-body-button">
-																	<button
-																		className="ok-button"
-																		onClick={
-																			handleRestoreProject
-																		}
-																	>
+																	<button className="ok-button">
 																		Restore
 																	</button>
-																	<button
-																		className="reject-button"
-																		onClick={
-																			handleDeleteForever
-																		}
-																	>
+																	<button className="reject-button">
 																		Delete
 																	</button>
 																</div>
@@ -300,7 +292,7 @@ function ProjectDashboard() {
 																		className="reject-button"
 																		onClick={() =>
 																			handleDeleteActiveProject(
-																				item
+																				item.id
 																			)
 																		}
 																	>

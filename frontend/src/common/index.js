@@ -19,8 +19,8 @@ const SummaryApi = {
 	createPens: {
 		url: `${backendDomain}/api/create-pens`,
 	},
-	getAllPens: {
-		url: `${backendDomain}/api/getall-pens`,
+	getAllPensUser: {
+		url: `${backendDomain}/api/get-all-pens-user`,
 	},
 	getPens: {
 		url: `${backendDomain}/api/get-pens`,
@@ -32,7 +32,7 @@ const SummaryApi = {
 		url: `${backendDomain}/api/update-pens`,
 	},
 	allPens: {
-		url: `${backendDomain}/api/all-pens`,
+		url: `${backendDomain}/api/get-all-pens`,
 	},
 	addLike: {
 		url: `${backendDomain}/api/add-like`,
@@ -127,6 +127,9 @@ const SummaryApi = {
 	//learn
 	getQuestion1: {
 		url: `${backendDomain}/api/learn/question1`,
+	},
+	allPensPublic: {
+		url: `${backendDomain}/api/get-all-pens-public`,
 	},
 };
 

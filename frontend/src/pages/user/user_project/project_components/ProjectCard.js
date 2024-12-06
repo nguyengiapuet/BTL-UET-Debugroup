@@ -93,7 +93,7 @@ function ProjectCard({
 
 const ProjectStatus = ({ isPublic }) => (
 	<div
-		className={`bg-red-400 text-black px-3 py-1 rounded-md max-h-[30px] text-center ${
+		className={`bg-red-400 text-white font-medium px-3 py-1 rounded-md max-h-[30px] text-center ${
 			isPublic ? "bg-green-400" : "bg-red-400"
 		}`}
 	>
@@ -133,7 +133,7 @@ const CardFooter = ({ pen, sortLike }) => (
 					</Link>
 				</div>
 			</div>
-			<ProjectStatus isPublic={true} />
+			<ProjectStatus isPublic={pen.status === "public" ? true : false} />
 		</div>
 		<div className="flex flex-row gap-4">
 			<ButtonLike pen={pen} sortLike={sortLike} />

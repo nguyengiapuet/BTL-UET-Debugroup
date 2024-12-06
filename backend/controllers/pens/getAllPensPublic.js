@@ -9,6 +9,7 @@ async function getAllPensPublic(req, res) {
 		    JOIN account a ON p.email = a.email
 		    LEFT JOIN likes l ON p.id = l.id_project
 		    LEFT JOIN comments c ON p.id = c.id_project
+			WHERE p.status = 'public'
 		    GROUP BY p.id
 		`,
 			function (err, result) {

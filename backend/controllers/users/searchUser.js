@@ -1,8 +1,6 @@
 const db = require("../../config/db");
 
 async function searchUser(req, res) {
-	console.log("req.params.username", req.params.username);
-
 	try {
 		db.query(
 			"SELECT * FROM account WHERE username LIKE ?",

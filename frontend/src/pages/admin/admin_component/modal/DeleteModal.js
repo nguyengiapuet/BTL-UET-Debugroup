@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
 import { Modal } from "antd";
 
-function DeleteModal({ isOpen, title, onConfirm, fieldOfDelete, onCancel }) {
-	const [open, setOpen] = useState();
-	useEffect(() => {
-		setOpen(isOpen);
-	}, [isOpen]);
-
+function DeleteModal({
+	isOpen,
+	title,
+	handleDelete,
+	fieldOfDelete,
+	onCancel,
+	idProject,
+	setIsOpen,
+}) {
 	const handleConfirm = () => {
-		onConfirm();
+		handleDelete(idProject);
+		setIsOpen(false);
 	};
-
 	return (
 		<Modal
 			title={<div className="text-bold text-[18px]">{title}</div>}
-			open={open}
+			open={isOpen}
 			onOk={handleConfirm}
 			onCancel={onCancel}
 			okText="Confirm"
