@@ -1,12 +1,12 @@
-const db = require("../../config/db");
+const db = require("../../../config/db");
 
-async function searchProjectByName(req, res) {
-	console.log("req.params.pr0ject-name", req.params.projectname);
+async function searchUser(req, res) {
+	console.log("req.params.username", req.params.username);
 
 	try {
 		db.query(
-			"SELECT * FROM pens WHERE title LIKE ?",
-			[`%${req.params.projectname}%`],
+			"SELECT * FROM account WHERE LOWER(username) LIKE LOWER(?) AND deleted = 0",
+			[`%${req.params.username}%`],
 			function (err, result) {
 				console.log(result);
 				res.status(200).json({
@@ -24,4 +24,4 @@ async function searchProjectByName(req, res) {
 	}
 }
 
-module.exports = searchProjectByName;
+module.exports = searchUser;

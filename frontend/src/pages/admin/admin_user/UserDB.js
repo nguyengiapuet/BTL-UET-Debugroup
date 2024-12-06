@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import Pagination from "../admin_component/pagination/Pagination";
 import "../admin_component/style/ProjectDB.scss";
-import mockData from "../admin_mockdata/projects.json";
 import axios from "axios";
 import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import DeleteModal from "../admin_component/modal/DeleteModal";
+import RestoreModal from "../admin_component/modal/RestoreModal";
 
 let PageSize = 10;
 
@@ -14,6 +14,13 @@ function UserDashboard() {
 	// 1 is active, 2 is deleted
 	const [stateOfInfo, setStateOfInfo] = useState("1");
 	const [getAllUsers, setGetAllUsers] = useState([]);
+	const [openModal, setOpenModal] = useState(false);
+	const [selectedUser, setSelectedUser] = useState("");
+	const [openRestoreModal, setOpenRestoreModal] = useState(false);
+
+	useEffect(() => {
+		document.title = "User Dashboard";
+	}, []);
 
 	const fetchGetAllUsers = async () => {
 		try {
@@ -43,63 +50,6 @@ function UserDashboard() {
 		}
 	};
 
-	const deleteUser = async (id) => {
-		try {
-			const response = await axios.post(
-				`${SummaryApi.deletedUser.url}/${id}`
-			);
-
-			if (response.data.success) {
-				toast.success(response.data.message);
-				setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
-			}
-		} catch (err) {}
-	};
-
-	const restoreUser = async (id) => {
-		try {
-			const response = await axios.post(
-				`${SummaryApi.restoreUser.url}/${id}`
-			);
-
-			if (response.data.success) {
-				toast.success(response.data.message);
-				setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
-			}
-		} catch (err) {}
-	};
-
-	// const deleteUser = async (id) => {
-	// 	try {
-	// 		const response = await axios.delete(
-	// 			`${SummaryApi.deletedUser.url}/${id}`
-	// 		);
-
-	// 		if (response.data.success) {
-	// 			toast.success(response.data.message);
-	// 			setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
-	// 		}
-	// 	} catch (err) {}
-	// };
-	const softDeleteUser = async (id) => {
-		try {
-			const response = await axios.post(
-				`${SummaryApi.deleteUserSoft.url}/${id}`,
-				{
-					timeNow: new Date()
-						.toISOString()
-						.slice(0, 19)
-						.replace("T", " "),
-				}
-			);
-
-			if (response.data.success) {
-				toast.success(response.data.message);
-				setGetAllUsers(getAllUsers.filter((user) => user.id !== id));
-			}
-		} catch (err) {}
-	};
-
 	const currentTableData = useMemo(() => {
 		const firstPageIndex = (currentPage - 1) * PageSize;
 		const lastPageIndex = firstPageIndex + PageSize;
@@ -112,37 +62,36 @@ function UserDashboard() {
 		setStateOfInfo(e.target.value);
 	};
 
-	const sortUsers = (listUser) => {
-		const sortedList = listUser.sort((a, b) => {
-			const nameComparison = a.username.localeCompare(b.username);
-			if (nameComparison !== 0) {
-				return nameComparison;
-			}
-
-			const dateA = new Date(a.created_at);
-			const dateB = new Date(b.created_at);
-			return dateA - dateB;
-		});
-
-		return sortedList;
+	// function implement sort.
+	const sortUsers = (listUser, sortBy) => {
+		if (sortBy === "username") {
+			return listUser.sort((a, b) =>
+				a.username.localeCompare(b.username)
+			);
+		} else if (sortBy === "date") {
+			return listUser.sort((a, b) => {
+				const dateA = new Date(a.created_at);
+				const dateB = new Date(b.created_at);
+				return dateA - dateB;
+			});
+		}
+		return listUser;
 	};
 
 	const handleOnchangeSort = (e) => {
-		if (e.target.value === "2") {
-			// console.log("e.target.value>>>>>>>>>>>>>>>>>>>>>>", e.target.value);
-			const sortedList = sortUsers([...getAllUsers]);
+		// 2 is sort by title, else is sort by date.
+		const sortValue = e.target.value;
+		let sortedList;
 
-			setGetAllUsers(sortedList);
+		if (sortValue === "2") {
+			// Sort by title
+			sortedList = sortUsers([...getAllUsers], "username");
 		} else {
-			const sortedList = (arr) =>
-				arr.sort((a, b) => {
-					const dateA = new Date(a.created_at);
-					const dateB = new Date(b.created_at);
-					return dateA - dateB;
-				});
-
-			setGetAllUsers(sortedList([...getAllUsers]));
+			// Sort by date
+			sortedList = sortUsers([...getAllUsers], "date");
 		}
+
+		setGetAllUsers(sortedList);
 	};
 
 	useEffect(() => {
@@ -150,12 +99,157 @@ function UserDashboard() {
 			fetchGetAllUsers();
 		} else {
 			fetchGetAllUsersDeleted();
-			console.log("change");
 		}
 	}, [stateOfInfo]);
 
+	// keep track status of project in active/deleted.
+	const [activeUser, setActiveUser] = useState(true);
+	// Delete user
+	const handleDeleteUser = (userId, isActive) => {
+		setActiveUser(isActive);
+		setSelectedUser(userId);
+		setOpenModal(true);
+	};
+	const onCancel = () => {
+		setOpenModal(false);
+	};
+	const handleConfirmDeleteUser = async () => {
+		setOpenModal(false);
+		console.log(activeUser);
+		if (activeUser) {
+			deleteActive();
+		} else {
+			deleteForever();
+		}
+	};
+	const deleteActive = async () => {
+		try {
+			const response = await axios.post(
+				`${SummaryApi.deleteUserSoft.url}/${selectedUser}`,
+				{
+					timeNow: new Date()
+						.toISOString()
+						.slice(0, 19)
+						.replace("T", " "),
+				}
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				fetchGetAllUsers();
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+	const deleteForever = async () => {
+		try {
+			const response = await axios.post(
+				`${SummaryApi.deletedUser.url}/${selectedUser}`
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				fetchGetAllUsersDeleted();
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+	// Restore users
+	const handleRestoreUser = (userId) => {
+		setOpenRestoreModal(true);
+		setSelectedUser(userId);
+	};
+	const restoreUser = async () => {
+		try {
+			const response = await axios.post(
+				`${SummaryApi.restoreUser.url}/${selectedUser}`
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				fetchGetAllUsersDeleted();
+			}
+		} catch (err) {
+			console.log(err.message);
+		}
+	};
+	const handleConfirmRestore = async () => {
+		setOpenRestoreModal(false);
+		restoreUser();
+	};
+	const onRestoreCancel = () => {
+		setOpenRestoreModal(false);
+	};
+
+	// Function to implement search.
+	const [query, setSearchQuery] = useState("");
+
+	const handleSearchUser = (query) => {
+		console.log(query);
+		setSearchQuery(query);
+		if (query === "" && stateOfInfo === "1") {
+			fetchGetAllUsers();
+		}
+		if (query === "" && stateOfInfo === "2") {
+			fetchGetAllUsersDeleted();
+		}
+	};
+	const handleSubmitSearch = () => {
+		if (stateOfInfo === "1") {
+			fetchSearchUsersInActive(query);
+		} else {
+			fetchSearchUsersInDelete(query);
+		}
+	};
+	const fetchSearchUsersInActive = async (query) => {
+		try {
+			const response = await axios.get(
+				`${SummaryApi.searchUserByName.url}/${query}`
+			);
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				setGetAllUsers(response.data.data);
+			}
+		} catch (err) {
+			console.log(err.message);
+			return;
+		}
+	};
+	const fetchSearchUsersInDelete = async (query) => {
+		try {
+			const response = await axios.get(
+				`${SummaryApi.searchDeletedUserByName.url}/${query}`
+			);
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				setGetAllUsers(response.data.data);
+			}
+		} catch (err) {
+			console.log(err.message);
+			return;
+		}
+	};
 	return (
 		<div>
+			<DeleteModal
+				isOpen={openModal}
+				title={activeUser ? "Delete User" : "Delete Forever"}
+				onConfirm={handleConfirmDeleteUser}
+				fieldOfDelete="user"
+				onCancel={onCancel}
+			/>
+			<RestoreModal
+				isOpen={openRestoreModal}
+				title="Restore user"
+				onConfirm={handleConfirmRestore}
+				fieldOfDelete="user"
+				onCancel={onRestoreCancel}
+			/>
+
 			<div className="request-container">
 				<div className="request-content">
 					<div>
@@ -174,6 +268,16 @@ function UserDashboard() {
 											className="form-control"
 											type="text"
 											placeholder="Search by name"
+											onChange={(e) => {
+												handleSearchUser(
+													e.target.value
+												);
+											}}
+											onKeyPress={(e) => {
+												if (e.key === "Enter") {
+													handleSubmitSearch();
+												}
+											}}
 										/>
 									</div>
 									<div className="col1">
@@ -196,7 +300,9 @@ function UserDashboard() {
 											className="form-select"
 											type="text"
 											defaultValue={"1"}
-											onChange={handleOnchangeSort}
+											onChange={(e) =>
+												handleOnchangeSort(e)
+											}
 										>
 											<option value="1">Date</option>
 											<option value="2">Name</option>
@@ -206,6 +312,7 @@ function UserDashboard() {
 										<button
 											className="search-button"
 											type="submit"
+											onClick={handleSubmitSearch}
 										>
 											Search
 										</button>
@@ -289,16 +396,39 @@ function UserDashboard() {
 															{stateOfInfo ===
 															"2" ? (
 																<div className="delete-body-button">
-																	<button className="ok-button">
+																	<button
+																		className="ok-button"
+																		onClick={() =>
+																			handleRestoreUser(
+																				item.id
+																			)
+																		}
+																	>
 																		Restore
 																	</button>
-																	<button className="reject-button">
+																	<button
+																		className="reject-button"
+																		onClick={() =>
+																			handleDeleteUser(
+																				item.id,
+																				false
+																			)
+																		}
+																	>
 																		Delete
 																	</button>
 																</div>
 															) : (
 																<div className="body-row-data2 active-body-button">
-																	<button className="reject-button">
+																	<button
+																		className="reject-button"
+																		onClick={() =>
+																			handleDeleteUser(
+																				item.id,
+																				true
+																			)
+																		}
+																	>
 																		Delete
 																	</button>
 																</div>

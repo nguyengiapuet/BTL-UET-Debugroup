@@ -19,6 +19,10 @@ function ProjectDashboard() {
 	const [selectedIdProject, setSelectedIdProject] = useState(-1);
 	const [searchQuery, setSearchQuery] = useState("");
 
+	useEffect(() => {
+		document.title = "Project Dashboard";
+	}, []);
+
 	const fetchGetAllPens = async () => {
 		try {
 			const response = await axios.get(SummaryApi.allPens.url);
@@ -60,6 +64,21 @@ function ProjectDashboard() {
 			return;
 		}
 	};
+	const fetchSearchDeletedPens = async (query) => {
+		try {
+			const response = await axios.get(
+				`${SummaryApi.searchDeletedProjectByName.url}/${query}`
+			);
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				setGetAllPens(response.data.data);
+			}
+		} catch (err) {
+			console.log(err.message);
+			return;
+		}
+	};
 
 	const currentTableData = useMemo(() => {
 		const firstPageIndex = (currentPage - 1) * PageSize;
@@ -71,12 +90,19 @@ function ProjectDashboard() {
 	const handleSearchByName = (query) => {
 		console.log(query);
 		setSearchQuery(query);
-		if (query === "") {
+		if (query === "" && stateOfInfo === "1") {
 			fetchGetAllPens();
+		}
+		if (query === "" && stateOfInfo === "2") {
+			fetchDeletedPens();
 		}
 	};
 	const handleSubmitSearch = () => {
-		fetchSearchPens(searchQuery);
+		if (stateOfInfo === "1") {
+			fetchSearchPens(searchQuery);
+		} else {
+			fetchSearchDeletedPens(searchQuery);
+		}
 	};
 
 	// change state of project: delete or active.
@@ -134,7 +160,7 @@ function ProjectDashboard() {
 	const onCancel = () => {
 		setOpenModal(false);
 	};
-	const handleConfirmDeleteInActive = async () => {
+	const handleConfirmDeleteProject = async () => {
 		setOpenModal(false);
 		if (activeProject) {
 			deleteActive();
@@ -203,7 +229,7 @@ function ProjectDashboard() {
 			<DeleteModal
 				isOpen={openModal}
 				title={activeProject ? "Delete Project" : "Delete Forever"}
-				onConfirm={handleConfirmDeleteInActive}
+				onConfirm={handleConfirmDeleteProject}
 				fieldOfDelete="project"
 				onCancel={onCancel}
 			/>
@@ -261,7 +287,9 @@ function ProjectDashboard() {
 											className="form-select"
 											type="text"
 											defaultValue={"1"}
-											onChange={handleOnchangeSort}
+											onChange={(e) =>
+												handleOnchangeSort(e)
+											}
 										>
 											<option value="1">Date</option>
 											<option value="2">Name</option>

@@ -4,14 +4,22 @@ import "../admin_component/style/ProjectDB.scss";
 import axios from "axios";
 import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
+import DeleteModal from "../admin_component/modal/DeleteModal";
+import RestoreModal from "../admin_component/modal/RestoreModal";
 
 let PageSize = 10;
 
 function CommentDashboard() {
 	const [currentPage, setCurrentPage] = useState(1);
 	// 1 is active, 2 is deleted
-	const [stateOfInfo, setStateOfInfo] = useState(1);
+	const [stateOfInfo, setStateOfInfo] = useState("1");
 	const [allComments, setAllComments] = useState([]);
+	const [openModal, setOpenModal] = useState(false);
+	const [openRestoreModal, setOpenRestoreModal] = useState(false);
+
+	useEffect(() => {
+		document.title = "Comment Dashboard";
+	}, []);
 
 	const currentTableData = useMemo(() => {
 		const firstPageIndex = (currentPage - 1) * PageSize;
@@ -31,6 +39,18 @@ function CommentDashboard() {
 			);
 
 			if (response.data.success) {
+				console.log(response.data.data);
+				setAllComments(response.data.data);
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+	const fetchDeletedComments = async () => {
+		try {
+			const response = await axios.get(SummaryApi.getDeletedComments.url);
+
+			if (response.data.success) {
 				setAllComments(response.data.data);
 			}
 		} catch (error) {
@@ -38,63 +58,198 @@ function CommentDashboard() {
 		}
 	};
 
-	const handleDeleteComment = async (item) => {
+	// function implement sort.
+	const sortComments = (listComment, sortBy) => {
+		if (sortBy === "username") {
+			return listComment.sort((a, b) =>
+				a.username.localeCompare(b.username)
+			);
+		} else if (sortBy === "date") {
+			return listComment.sort((a, b) => {
+				const dateA = new Date(a.comments_at);
+				const dateB = new Date(b.comments_at);
+				return dateA - dateB;
+			});
+		}
+		return listComment;
+	};
+
+	const handleOnchangeSort = (e) => {
+		// 2 is sort by title, else is sort by date.
+		const sortValue = e.target.value;
+		let sortedList;
+
+		if (sortValue === "2") {
+			// Sort by title
+			sortedList = sortComments([...allComments], "username");
+		} else {
+			// Sort by date
+			sortedList = sortComments([...allComments], "date");
+		}
+
+		setAllComments(sortedList);
+	};
+
+	useEffect(() => {
+		if (stateOfInfo === "1") {
+			getAllComments();
+		} else {
+			fetchDeletedComments();
+		}
+	}, [stateOfInfo]);
+
+	// keep track status of comment in active/deleted.
+	const [activeComment, setActiveComment] = useState(true);
+	const [selectedComment, setSelectedComment] = useState("");
+
+	// handle delete comment
+	const handleDeleteComment = (commentId, isActive) => {
+		setActiveComment(isActive);
+		setSelectedComment(commentId);
+		setOpenModal(true);
+	};
+	const onCancel = () => {
+		setOpenModal(false);
+	};
+	const handleConfirmDeleteComment = async () => {
+		setOpenModal(false);
+		console.log(activeComment);
+		if (activeComment) {
+			deleteActive();
+		} else {
+			deleteForever();
+		}
+	};
+	const deleteActive = async () => {
 		try {
 			const response = await axios.post(
 				SummaryApi.deleteCommentByAdmin.url,
 				{
-					idComment: item.id,
+					idComment: selectedComment,
 				}
 			);
 
 			if (response.data.success) {
-				toast.success("Comment deleted successfully!");
+				toast.success(response.data.message);
 				getAllComments();
 			}
 		} catch (error) {
 			console.log(error.message);
 		}
 	};
+	const deleteForever = async () => {
+		try {
+			const response = await axios.post(
+				SummaryApi.deleteCommentForever.url,
+				{
+					idComment: selectedComment,
+				}
+			);
 
-	const sortProjects = (listProject) => {
-		const sortedList = listProject.sort((a, b) => {
-			const nameComparison = a.title.localeCompare(b.title);
-			if (nameComparison !== 0) {
-				return nameComparison;
+			if (response.data.success) {
+				toast.success(response.data.message);
+				fetchDeletedComments();
 			}
-
-			const dateA = new Date(a.comments_at);
-			const dateB = new Date(b.comments_at);
-			return dateA - dateB;
-		});
-
-		return sortedList;
-	};
-
-	const handleOnchangeSort = (e) => {
-		if (e.target.value === "2") {
-			// console.log("e.target.value>>>>>>>>>>>>>>>>>>>>>>", e.target.value);
-			const sortedList = sortProjects([...allComments]);
-
-			setAllComments(sortedList);
-		} else {
-			const sortedList = (arr) =>
-				arr.sort((a, b) => {
-					const dateA = new Date(a.comments_at);
-					const dateB = new Date(b.comments_at);
-					return dateA - dateB;
-				});
-
-			setAllComments(sortedList([...allComments]));
+		} catch (error) {
+			console.log(error.message);
 		}
 	};
 
-	useEffect(() => {
-		getAllComments();
-	}, []);
+	// handle restore comment.
+	const handleRestoreComment = (commentId) => {
+		setOpenRestoreModal(true);
+		setSelectedComment(commentId);
+	};
+	const handleConfirmRestore = () => {
+		setOpenRestoreModal(false);
+		restoreComment();
+	};
+	const onRestoreCancel = () => {
+		setOpenRestoreModal(false);
+	};
+	const restoreComment = async () => {
+		try {
+			const response = await axios.post(SummaryApi.restoreComment.url, {
+				idComment: selectedComment,
+			});
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				fetchDeletedComments();
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
+	// implement search comments.
+	const [query, setSearchQuery] = useState("");
+
+	const handleSearchComment = (query) => {
+		console.log(query);
+		setSearchQuery(query);
+		if (query === "" && stateOfInfo === "1") {
+			getAllComments();
+		}
+		if (query === "" && stateOfInfo === "2") {
+			fetchDeletedComments();
+		}
+	};
+	const handleSubmitSearch = () => {
+		if (stateOfInfo === "1") {
+			fetchSearchCommentsInActive(query);
+		} else {
+			fetchSearchCommentsInDelete(query);
+		}
+	};
+	const fetchSearchCommentsInActive = async (query) => {
+		try {
+			const response = await axios.get(
+				`${SummaryApi.searchComment.url}/${query}`
+			);
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				setAllComments(response.data.data);
+			}
+		} catch (err) {
+			console.log(err.message);
+			return;
+		}
+	};
+	const fetchSearchCommentsInDelete = async (query) => {
+		try {
+			const response = await axios.get(
+				`${SummaryApi.searchDeleteComment.url}/${query}`
+			);
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				setAllComments(response.data.data);
+			}
+		} catch (err) {
+			console.log(err.message);
+			return;
+		}
+	};
 
 	return (
 		<div>
+			<DeleteModal
+				isOpen={openModal}
+				title={activeComment ? "Delete Comment" : "Delete Forever"}
+				onConfirm={handleConfirmDeleteComment}
+				fieldOfDelete="comment"
+				onCancel={onCancel}
+			/>
+			<RestoreModal
+				isOpen={openRestoreModal}
+				title="Restore comment"
+				onConfirm={handleConfirmRestore}
+				fieldOfDelete="comment"
+				onCancel={onRestoreCancel}
+			/>
+
 			<div className="request-container">
 				<div className="request-content">
 					<div className="request-title">List of comments</div>
@@ -106,7 +261,17 @@ function CommentDashboard() {
 										<input
 											className="form-control"
 											type="text"
-											placeholder="Search by name"
+											placeholder="Search by comment"
+											onChange={(e) => {
+												handleSearchComment(
+													e.target.value
+												);
+											}}
+											onKeyPress={(e) => {
+												if (e.key === "Enter") {
+													handleSubmitSearch();
+												}
+											}}
 										/>
 									</div>
 									<div className="col1">
@@ -134,13 +299,14 @@ function CommentDashboard() {
 											onChange={handleOnchangeSort}
 										>
 											<option value="1">Date</option>
-											<option value="2">Project</option>
+											<option value="2">Username</option>
 										</select>
 									</div>
 									<div className="col1">
 										<button
 											className="search-button"
 											type="submit"
+											onClick={handleSubmitSearch}
 										>
 											Search
 										</button>
@@ -233,10 +399,25 @@ function CommentDashboard() {
 															{stateOfInfo ===
 															"2" ? (
 																<div className="delete-body-button">
-																	<button className="ok-button">
+																	<button
+																		className="ok-button"
+																		onClick={() =>
+																			handleRestoreComment(
+																				item.id
+																			)
+																		}
+																	>
 																		Restore
 																	</button>
-																	<button className="reject-button">
+																	<button
+																		className="reject-button"
+																		onClick={() =>
+																			handleDeleteComment(
+																				item.id,
+																				false
+																			)
+																		}
+																	>
 																		Delete
 																	</button>
 																</div>
@@ -245,7 +426,8 @@ function CommentDashboard() {
 																	<button
 																		onClick={() =>
 																			handleDeleteComment(
-																				item
+																				item.id,
+																				true
 																			)
 																		}
 																		className="reject-button"
