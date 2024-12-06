@@ -2,7 +2,7 @@ import { useState } from "react";
 import SummaryApi from "../../../../common";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FaPaperPlane } from "react-icons/fa";
+import { FaPaperPlane, FaUserCircle } from "react-icons/fa";
 
 function InputComment({ project, setRefreshComment, avatar }) {
 	const [comment, setComment] = useState("");
@@ -26,7 +26,7 @@ function InputComment({ project, setRefreshComment, avatar }) {
 		}
 	};
 	const handleEnter = async (e) => {
-		if (e.key === "Enter") {
+		if (e.key === "Enter" && e.target.value.length > 0) {
 			await handleSendComments();
 		}
 	};
@@ -42,11 +42,15 @@ function InputComment({ project, setRefreshComment, avatar }) {
 				placeholder="Comments"
 				className="h-full text-sm shadow-md bg-[#cad4d57] w-full outline-none rounded-xl px-[55px]"
 			/>
-			<img
-				alt=""
-				src={avatar}
-				className="h-9 w-9 rounded-full bg-gray-300 absolute left-2"
-			/>
+			{avatar ? (
+				<img
+					alt=""
+					src={avatar}
+					className="h-9 w-9 rounded-full bg-gray-300 absolute left-2"
+				/>
+			) : (
+				<FaUserCircle className="size-10  absolute left-2" />
+			)}
 
 			<FaPaperPlane
 				className="text-md cursor-pointer absolute right-5"

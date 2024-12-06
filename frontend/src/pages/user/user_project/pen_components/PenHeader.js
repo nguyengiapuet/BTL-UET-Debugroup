@@ -6,6 +6,7 @@ import { AuthContext } from "../../../../context/AuthContext";
 import { useContext, useState } from "react";
 import { LOCAL_STORAGE_TOKEN_NAME } from "../../../../common/constants";
 import { Modal, message } from "antd";
+import DialogSavePen from "./DialogSavePen";
 
 function ProjectHeader({
 	editTitle,
@@ -22,6 +23,7 @@ function ProjectHeader({
 
 	// Hanlde to show modal.
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isOpenSave, setIsOpenSave] = useState(false);
 	// Handle to toggle status of project.
 	const [isPublic, setIsPublic] = useState(false);
 
@@ -99,14 +101,20 @@ function ProjectHeader({
 						<div>Share</div>
 					</button>
 					{(!params.id || dataPen.email === userData.email) && (
-						<Link
-							to="/"
-							onClick={handleSavePens}
-							className="text-sm flex gap-1 items-center bg-[#9C6317] px-4 py-[3px] rounded text-white hover:bg-opacity-75"
-						>
-							<FaSave />
-							<button>Save</button>
-						</Link>
+						<>
+							<div
+								onClick={() => setIsOpenSave(true)}
+								className="text-sm flex gap-1 items-center bg-[#9C6317] px-4 py-[3px] rounded text-white hover:bg-opacity-75"
+							>
+								<FaSave />
+								<button>Save</button>
+							</div>
+							<DialogSavePen
+								handleSaveProject={handleSavePens}
+								isOpenSave={isOpenSave}
+								setIsOpenSave={setIsOpenSave}
+							/>
+						</>
 					)}
 				</div>
 				<div className="py-[3px] w-[1px] bg-white"></div>

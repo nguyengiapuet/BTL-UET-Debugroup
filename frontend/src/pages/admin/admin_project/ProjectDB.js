@@ -29,7 +29,7 @@ function ProjectDashboard() {
 
 			if (response.data.success) {
 				console.log(response.data.data);
-				setGetAllPens(response.data.data);
+				setGetAllPens([...response.data.data]);
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -83,7 +83,9 @@ function ProjectDashboard() {
 	const currentTableData = useMemo(() => {
 		const firstPageIndex = (currentPage - 1) * PageSize;
 		const lastPageIndex = firstPageIndex + PageSize;
-		return getAllPens.slice(firstPageIndex, lastPageIndex);
+		return getAllPens.length > 0
+			? getAllPens.slice(firstPageIndex, lastPageIndex)
+			: [];
 	}, [currentPage, getAllPens]);
 
 	// search project by name
@@ -106,9 +108,8 @@ function ProjectDashboard() {
 	};
 
 	// change state of project: delete or active.
-	const handleOnchangeType = () => {
-		var e = document.getElementById("status");
-		setStateOfInfo(e.value);
+	const handleOnchangeType = (e) => {
+		setStateOfInfo(e.target.value);
 	};
 
 	// function implement sort.
@@ -271,9 +272,7 @@ function ProjectDashboard() {
 											defaultValue={"1"}
 											className="form-select"
 											type="text"
-											onChange={() =>
-												handleOnchangeType()
-											}
+											onChange={handleOnchangeType}
 										>
 											<option value="1">Active</option>
 											<option value="2">Deleted</option>

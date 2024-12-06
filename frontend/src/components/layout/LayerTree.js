@@ -1,13 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaHome } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 // Should check if user is not admin, disable Dashboard section
 function SidebarTreeView() {
 	const [active, setActive] = useState("");
 	const { setTitle } = useContext(AuthContext);
+	const params = useParams();
+	console.log("params", params);
 
 	const handleClickItem = (e) => {
 		setActive(e.target.textContent.toLowerCase());
@@ -18,6 +20,36 @@ function SidebarTreeView() {
 		setActive(e.target.textContent.toLowerCase());
 		setTitle(e.target.textContent + " dashboard");
 	};
+
+	useEffect(() => {
+		const currentUrl = window.location.pathname; // Lấy phần pathname của URL
+		const lastSegment = currentUrl.substring(
+			currentUrl.lastIndexOf("/") + 1
+		);
+
+		if (lastSegment === "popular") {
+			setActive("trending");
+			setTitle("Trending");
+		} else if (lastSegment === "learn") {
+			setActive("learn js");
+			setTitle("Learn js");
+		} else if (lastSegment === "about-us") {
+			setActive("about");
+			setTitle("About");
+		} else if (lastSegment === "contact-us") {
+			setActive("contact us");
+			setTitle("Contact us");
+		} else if (lastSegment === "project-dashboard") {
+			setActive("projects");
+			setTitle("Projects dashboard");
+		} else if (lastSegment === "user-dashboard") {
+			setActive("users");
+			setTitle("Users dashboard");
+		} else if (lastSegment === "comment-dashboard") {
+			setActive("comments");
+			setTitle("Comments dashboard");
+		}
+	}, []);
 
 	return (
 		<div>

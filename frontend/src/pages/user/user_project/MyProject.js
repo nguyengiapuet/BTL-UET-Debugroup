@@ -16,7 +16,7 @@ function MyProject() {
 
 	const fetchGetAllPens = async () => {
 		try {
-			const response = await axios.post(SummaryApi.getAllPens.url, {
+			const response = await axios.post(SummaryApi.getAllPensUser.url, {
 				username: userData.username,
 			});
 

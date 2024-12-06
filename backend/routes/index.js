@@ -42,6 +42,7 @@ const countNotificationUnread = require("../controllers/notifications/countNotif
 const markAsReadNotification = require("../controllers/notifications/markAsReadNotification");
 const getListFollowingUser = require("../controllers/follower/getListFollowingUser");
 const getQuestion1 = require("../controllers/learnJs/getQuestion1");
+
 const getDeletedPen = require("../controllers/pens/getDeletedPens");
 const deletePenForever = require("../controllers/pens/deletePenForever");
 const restorePen = require("../controllers/pens/restorePen");
@@ -53,6 +54,7 @@ const deleteCommentForever = require("../controllers/comment/admin_comment/delet
 const restoreComment = require("../controllers/comment/admin_comment/restoreComment");
 const searchComment = require("../controllers/search/comment_search/searchComment");
 const searchDeleteComment = require("../controllers/search/comment_search/searchDeleteComment");
+const getAllPensUser = require("../controllers/pens/getAllPensUser");
 
 const router = express.Router();
 
@@ -73,18 +75,20 @@ router.post("/delete-user-soft/:id", softDelete);
 router.post("/restore-user/:id", RestoreUser);
 
 // Search
-router.get("/search-project/:projectname", searchProjectByName );
-router.get("/search-delete-user/:username", searchDeletedUser );
-router.get("/search-delete-project/:projectname", searchDeletedProject );
-router.get("/search-comment/:comment", searchComment );
-router.get("/search-delete-comment/:comment", searchDeleteComment );
+router.get("/search-project/:projectname", searchProjectByName);
+router.get("/search-delete-user/:username", searchDeletedUser);
+router.get("/search-delete-project/:projectname", searchDeletedProject);
+router.get("/search-comment/:comment", searchComment);
+router.get("/search-delete-comment/:comment", searchDeleteComment);
 
 // Pens
 router.post("/create-pens", verifyToken, createPens);
-router.post("/getall-pens", getAllPens);
-router.get("/all-pens", getAllPensPublic);
-router.get("/deleted-pens", getDeletedPen);
+router.post("/get-all-pens-user", getAllPensUser);
+router.get("/get-all-pens", getAllPens);
+router.get("/get-all-pens-public", getAllPensPublic);
+
 router.get("/get-pens/:id", verifyToken, getDetailsPen);
+router.get("/deleted-pens", getDeletedPen);
 router.delete("/delete-pens/:id", verifyToken, deletedPen);
 router.put("/restore-pen/:id", verifyToken, restorePen);
 router.delete("/delete-pen-forever/:id", verifyToken, deletePenForever);
@@ -123,5 +127,5 @@ router.get("/all-notification", verifyToken, getAllNotificationByUser);
 router.get("/count-notification-unread", verifyToken, countNotificationUnread);
 router.post("/mark-as-read-notification", verifyToken, markAsReadNotification);
 //question
-router.get("/learn/question1", verifyToken, getQuestion1);
+// router.get("/learn/question1", verifyToken, getQuestion1);
 module.exports = router;

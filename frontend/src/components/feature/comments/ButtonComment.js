@@ -58,16 +58,17 @@ function ButtonComment({ pen }) {
 					title={<ModalTitle />}
 					onCancel={handleCancel}
 					width={800}
-					style={{
-						top: "50%",
-						transform: "translateY(-50%)",
-						maxHeight: "80vh",
-						display: "flex",
-						flexDirection: "column",
-					}}
-					bodyStyle={{
-						overflow: "auto",
-						maxHeight: "calc(80vh - 110px)",
+					styles={{
+						content: {
+							top: "50%",
+							maxHeight: "80vh",
+							display: "flex",
+							flexDirection: "column",
+						},
+						body: {
+							overflow: "auto",
+							maxHeight: "calc(80vh - 110px)",
+						},
 					}}
 					footer={
 						<FooterModal

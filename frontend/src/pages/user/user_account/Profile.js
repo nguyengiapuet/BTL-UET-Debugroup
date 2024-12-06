@@ -6,9 +6,11 @@ import { toast } from "react-toastify";
 import { Button, Modal, Upload } from "antd";
 import { FaUserCircle } from "react-icons/fa";
 import { UserAvatar } from "../../../components/layout/Header";
+import { useNavigate } from "react-router-dom";
 
 function ProfileModal({ isOpen, onClose }) {
 	const { userData, setUserData } = useContext(AuthContext);
+	const navigate = useNavigate();
 	const [data, setData] = useState({
 		username: userData?.username,
 		avatar: userData?.avatar,
@@ -31,6 +33,23 @@ function ProfileModal({ isOpen, onClose }) {
 		console.log("dataImg", dataImg);
 
 		setData({ ...data, avatar: dataImg });
+	};
+
+	const handleDeleteUser = async () => {
+		try {
+			const response = await axios.post(
+				`${SummaryApi.deletedUser.url}/${userData.id}`
+			);
+
+			if (response.data.success) {
+				toast.success(response.data.message);
+				navigate("/login");
+				window.location.reload();
+				onClose();
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
 	};
 
 	const handleUpdateProfile = async () => {
@@ -93,7 +112,10 @@ function ProfileModal({ isOpen, onClose }) {
 				onCancel={handleCancel}
 				footer={
 					<div className="flex flex-row justify-between items-center z-[999]">
-						<Button className="bg-red-500 text-white font-medium">
+						<Button
+							onClick={handleDeleteUser}
+							className="bg-red-500 text-white font-medium"
+						>
 							Delete
 						</Button>
 						<div className="flex flex-row gap-3">
