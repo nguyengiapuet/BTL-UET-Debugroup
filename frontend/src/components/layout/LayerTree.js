@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 // Should check if user is not admin, disable Dashboard section
 function SidebarTreeView() {
 	const [active, setActive] = useState("");
-	const { setTitle } = useContext(AuthContext);
+	const { setTitle, userData } = useContext(AuthContext);
 
 	const handleClickItem = (e) => {
 		setActive(e.target.textContent.toLowerCase());
@@ -20,188 +20,199 @@ function SidebarTreeView() {
 	};
 
 	return (
-		<div>
-			<div className="w-64 pt-3 rounded-r-lg">
-				{/* Home parent */}
-				<div className="pl-4 mb-4">
-					<div
-						className={`rounded-lg px-3 py-2 flex items-center mb-2`}
-					>
-						<FaHome className="text-[#9C6317] mr-4" />
-						<span className="text-lg font-bold text-[#9C6317]">
-							Home
-						</span>
-					</div>
-					{/* Home childrens */}
-					<div className="pl-4 relative">
-						<div className="absolute top-0 h-full border-l-2 border-gray-300"></div>
-						<div className="flex items-center mb-4">
-							<div
-								className={`w-10 border-t-2 mr-3 ${
-									active === "trending"
-										? "border-[#9C6317]"
-										: "border-gray-300"
-								}`}
-							></div>
-							<Link
-								to={"/popular"}
-								onClick={handleClickItem}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
+		<div className="flex flex-col justify-between">
+			<div>
+				<div className="w-64 pt-3 rounded-r-lg">
+					{/* Home parent */}
+					<div className="pl-4 mb-4">
+						<div
+							className={`rounded-lg px-3 py-2 flex items-center mb-2`}
+						>
+							<FaHome className="text-[#9C6317] mr-4" />
+							<span className="text-lg font-bold text-[#9C6317]">
+								Home
+							</span>
+						</div>
+						{/* Home childrens */}
+						<div className="pl-4 relative">
+							<div className="absolute top-0 h-full border-l-2 border-gray-300"></div>
+							<div className="flex items-center mb-4">
+								<div
+									className={`w-10 border-t-2 mr-3 ${
+										active === "trending"
+											? "border-[#9C6317]"
+											: "border-gray-300"
+									}`}
+								></div>
+								<Link
+									to={"/popular"}
+									onClick={handleClickItem}
+									className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
 									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
 										active === "trending"
 											? "text-[#9C6317]"
 											: "text-gray-500"
 									}`}
-							>
-								Trending
-							</Link>
-						</div>
-						<div className="flex items-center mb-4">
-							<div
-								className={`w-10 border-t-2 mr-3 ${
-									active === "learn js"
-										? "border-[#9C6317]"
-										: "border-gray-300"
-								}`}
-							></div>
-							<Link
-								to={"/learn"}
-								onClick={handleClickItem}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
+								>
+									Trending
+								</Link>
+							</div>
+							<div className="flex items-center mb-4">
+								<div
+									className={`w-10 border-t-2 mr-3 ${
+										active === "learn js"
+											? "border-[#9C6317]"
+											: "border-gray-300"
+									}`}
+								></div>
+								<Link
+									to={"/learn"}
+									onClick={handleClickItem}
+									className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
 									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
 										active === "learn js"
 											? "text-[#9C6317]"
 											: "text-gray-500"
 									}`}
-							>
-								Learn JS
-							</Link>
-						</div>
-						<div className="flex items-center mb-4">
-							<div
-								className={`w-10 border-t-2 mr-3 ${
-									active === "about"
-										? "border-[#9C6317]"
-										: "border-gray-300"
-								}`}
-							></div>
-							<Link
-								to={"/about-us"}
-								onClick={handleClickItem}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
+								>
+									Learn JS
+								</Link>
+							</div>
+							<div className="flex items-center mb-4">
+								<div
+									className={`w-10 border-t-2 mr-3 ${
+										active === "about"
+											? "border-[#9C6317]"
+											: "border-gray-300"
+									}`}
+								></div>
+								<Link
+									to={"/about-us"}
+									onClick={handleClickItem}
+									className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
 									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
 										active === "about"
 											? "text-[#9C6317]"
 											: "text-gray-500"
 									}`}
-							>
-								About
-							</Link>
-						</div>
-						<div className="flex items-center mb-4">
-							<div
-								className={`w-10 border-t-2 mr-3 ${
-									active === "contact us"
-										? "border-[#9C6317]"
-										: "border-gray-300"
-								}`}
-							></div>
-							<Link
-								to={"/contact-us"}
-								onClick={handleClickItem}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium 
+								>
+									About
+								</Link>
+							</div>
+							<div className="flex items-center mb-4">
+								<div
+									className={`w-10 border-t-2 mr-3 ${
+										active === "contact us"
+											? "border-[#9C6317]"
+											: "border-gray-300"
+									}`}
+								></div>
+								<Link
+									to={"/contact-us"}
+									onClick={handleClickItem}
+									className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium 
 									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
 										active === "contact us"
 											? "text-[#9C6317]"
 											: "text-gray-500"
 									}`}
-							>
-								Contact us
-							</Link>
+								>
+									Contact us
+								</Link>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div className="w-64 pt-3 rounded-r-lg">
-				{/* Dashboard parent */}
-				<div className="pl-4 mb-4">
-					<div
-						className={`rounded-lg px-3 py-2 flex items-center mb-2`}
-					>
-						<MdDashboard className="text-[#9C6317] mr-4" />
-						<span className="text-lg font-bold text-[#9C6317]">
-							Dashboard
-						</span>
-					</div>
-					{/* Dashboard childrens */}
-					<div className="pl-4 relative">
-						<div className="absolute top-0 h-full border-l-2 border-gray-300"></div>
-						<div className="flex items-center mb-4 ">
+				{userData.role === "admin" ? (
+					<div className="w-64 pt-1 rounded-r-lg">
+						{/* Dashboard parent */}
+						<div className="pl-4 mb-4">
 							<div
-								className={`w-10 border-t-2 mr-3 ${
-									active === "projects"
-										? "border-[#9C6317]"
-										: "border-gray-300"
-								}`}
-							></div>
-							<Link
-								to={"/admin/project-dashboard"}
-								onClick={handleClickItemAdmin}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
+								className={`rounded-lg px-3 py-2 flex items-center mb-2`}
+							>
+								<MdDashboard className="text-[#9C6317] mr-4" />
+								<span className="text-lg font-bold text-[#9C6317]">
+									Dashboard
+								</span>
+							</div>
+							{/* Dashboard childrens */}
+							<div className="pl-4 relative">
+								<div className="absolute top-0 h-full border-l-2 border-gray-300"></div>
+								<div className="flex items-center mb-4 ">
+									<div
+										className={`w-10 border-t-2 mr-3 ${
+											active === "projects"
+												? "border-[#9C6317]"
+												: "border-gray-300"
+										}`}
+									></div>
+									<Link
+										to={"/admin/project-dashboard"}
+										onClick={handleClickItemAdmin}
+										className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium
 									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
 										active === "projects"
 											? "text-[#9C6317]"
 											: "text-gray-500"
 									}`}
-							>
-								Projects
-							</Link>
-						</div>
-						<div className="flex items-center mb-4">
-							<div
-								className={`w-10 border-t-2 mr-3 ${
-									active === "users"
-										? "border-[#9C6317]"
-										: "border-gray-300"
-								}`}
-							></div>
-							<Link
-								to={"/admin/user-dashboard"}
-								onClick={handleClickItemAdmin}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium 
+									>
+										Projects
+									</Link>
+								</div>
+								<div className="flex items-center mb-4">
+									<div
+										className={`w-10 border-t-2 mr-3 ${
+											active === "users"
+												? "border-[#9C6317]"
+												: "border-gray-300"
+										}`}
+									></div>
+									<Link
+										to={"/admin/user-dashboard"}
+										onClick={handleClickItemAdmin}
+										className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium 
 									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
 										active === "users"
 											? "text-[#9C6317]"
 											: "text-gray-500"
 									}`}
-							>
-								Users
-							</Link>
-						</div>
-						<div className="flex items-center mb-4">
-							<div
-								className={`w-10 border-t-2 mr-3 ${
-									active === "comments"
-										? "border-[#9C6317]"
-										: "border-gray-300"
-								}`}
-							></div>
-							<Link
-								to={"/admin/comment-dashboard"}
-								onClick={handleClickItemAdmin}
-								className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium 
+									>
+										Users
+									</Link>
+								</div>
+								<div className="flex items-center mb-4">
+									<div
+										className={`w-10 border-t-2 mr-3 ${
+											active === "comments"
+												? "border-[#9C6317]"
+												: "border-gray-300"
+										}`}
+									></div>
+									<Link
+										to={"/admin/comment-dashboard"}
+										onClick={handleClickItemAdmin}
+										className={`hover:bg-gray-100 hover:text-opacity-95 cursor-pointer py-1 px-2 rounded-lg w-full font-medium 
 									transition-all duration-200 hover:scale-[1.06] active:scale-95 active:translate-x-1 ${
 										active === "comments"
 											? "text-[#9C6317]"
 											: "text-gray-500"
 									}`}
-							>
-								Comments
-							</Link>
+									>
+										Comments
+									</Link>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
+				) : (
+					<div className="w-64 pt-3 flex items-center">
+						<button className="m-auto w-fit h-fit min-h-[44px] mt-5 bg-[#58a51b] rounded-md px-10 py-2 text-sm text-white font-bold hover:bg-[#58a51b]/80">
+							START CODING
+						</button>
+					</div>
+				)}
 			</div>
+			<div className="text-center text-sm">@Debug-2024</div>
 		</div>
 	);
 }

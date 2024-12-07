@@ -146,11 +146,13 @@ function Sidebar({ isSidebarOpen }) {
 					</div>
 
 					{/* Layer tree view */}
-					{activeButton === "Category" ? (
-						<SidebarTreeView />
-					) : (
-						<ListFollower />
-					)}
+					<div className="flex grow">
+						{activeButton === "Category" ? (
+							<SidebarTreeView />
+						) : (
+							<ListFollower />
+						)}
+					</div>
 				</div>
 			)}
 

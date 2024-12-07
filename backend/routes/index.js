@@ -53,6 +53,7 @@ const deleteCommentForever = require("../controllers/comment/admin_comment/delet
 const restoreComment = require("../controllers/comment/admin_comment/restoreComment");
 const searchComment = require("../controllers/search/comment_search/searchComment");
 const searchDeleteComment = require("../controllers/search/comment_search/searchDeleteComment");
+const getUpvotePen = require("../controllers/pens/getUpvotePen");
 
 const router = express.Router();
 
@@ -89,6 +90,8 @@ router.delete("/delete-pens/:id", verifyToken, deletedPen);
 router.put("/restore-pen/:id", verifyToken, restorePen);
 router.delete("/delete-pen-forever/:id", verifyToken, deletePenForever);
 router.put("/update-pens/:id", verifyToken, updatePen);
+router.get("/get-upvote-pen/:userid", verifyToken, getUpvotePen);
+
 
 // Like
 router.post("/add-like", verifyToken, addLikes);

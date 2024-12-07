@@ -22,6 +22,9 @@ const SummaryApi = {
 	getAllPens: {
 		url: `${backendDomain}/api/getall-pens`,
 	},
+	allUpvotePen: {
+		url: `${backendDomain}/api/get-upvote-pen`,
+	},
 	getPens: {
 		url: `${backendDomain}/api/get-pens`,
 	},
