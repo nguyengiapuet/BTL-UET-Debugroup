@@ -7,6 +7,7 @@ import { Button, Modal, Upload } from "antd";
 import { FaUserCircle } from "react-icons/fa";
 import { UserAvatar } from "../../../components/layout/Header";
 import { useNavigate } from "react-router-dom";
+import { LOCAL_STORAGE_TOKEN_NAME } from "../../../common/constants";
 
 function ProfileModal({ isOpen, onClose }) {
 	const { userData, setUserData } = useContext(AuthContext);
@@ -42,8 +43,17 @@ function ProfileModal({ isOpen, onClose }) {
 			);
 
 			if (response.data.success) {
-				toast.success(response.data.message);
+				localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+				setUserData({
+					id: "",
+					username: "",
+					email: "",
+					password: "",
+					role: "",
+					avatar: "",
+				});
 				navigate("/login");
+				toast.success(response.data.message);
 				window.location.reload();
 				onClose();
 			}

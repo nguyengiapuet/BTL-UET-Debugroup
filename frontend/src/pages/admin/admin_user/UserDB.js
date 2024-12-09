@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import Pagination from "../admin_component/pagination/Pagination";
 import "../admin_component/style/ProjectDB.scss";
 import axios from "axios";
@@ -6,6 +6,10 @@ import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
 import DeleteModal from "../admin_component/modal/DeleteModal";
 import RestoreModal from "../admin_component/modal/RestoreModal";
+import { AuthContext } from "../../../context/AuthContext";
+import { MdArrowBack, MdError } from "react-icons/md";
+import { Link } from "react-router-dom";
+import PageNotFound from "../../../components/template/404page";
 
 let PageSize = 10;
 
@@ -17,6 +21,7 @@ function UserDashboard() {
 	const [openModal, setOpenModal] = useState(false);
 	const [selectedUser, setSelectedUser] = useState("");
 	const [openRestoreModal, setOpenRestoreModal] = useState(false);
+	const { userData } = useContext(AuthContext);
 
 	useEffect(() => {
 		document.title = "User Dashboard";
@@ -233,6 +238,11 @@ function UserDashboard() {
 			return;
 		}
 	};
+
+	if (userData.role !== "admin") {
+		return <PageNotFound />;
+	}
+
 	return (
 		<div>
 			<DeleteModal
