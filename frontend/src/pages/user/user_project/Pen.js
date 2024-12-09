@@ -8,6 +8,7 @@ import ProjectHeader from "./pen_components/PenHeader";
 import { usePenData } from "./pen_components/PenData";
 import CodeEditor from "./pen_components/CodeEditor";
 import { MdArrowBack, MdError } from "react-icons/md";
+import PageNotFound from "../../../components/template/404page";
 
 function Pen() {
 	const inputRef = useRef();
@@ -16,22 +17,10 @@ function Pen() {
 	const { userData } = useContext(AuthContext);
 	const { dataPen, handleOnchanePen, handleSavePens } = usePenData();
 
+	console.log(userData.id === "");
+
 	if (dataPen.status === "private" && userData.email !== dataPen.email) {
-		return (
-			<div className="flex flex-col items-center gap-4 justify-center h-screen  text-xl">
-				<div className="text-3xl font-semibold flex items-center">
-					<MdError className="size-14 text-red-600" />
-					<h1>Not found pens: Status code 404</h1>
-				</div>
-				<Link
-					to={"/"}
-					className="text-sky-600 hover:bg-blue-200 bg-blue-100 rounded-md p-2 flex items-center justify-center"
-				>
-					<MdArrowBack className="size-8 mr-2" />
-					Back to home
-				</Link>
-			</div>
-		);
+		return <PageNotFound />;
 	}
 
 	const handleEdit = () => {
