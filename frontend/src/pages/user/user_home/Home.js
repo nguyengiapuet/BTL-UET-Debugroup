@@ -120,7 +120,7 @@ function Home() {
 				</div>
 			</div>
 
-			{userData.id && (
+			{userData?.role === "admin" && (
 				<div className="w-full flex items-center justify-center">
 					<Link
 						to={"/pen"}

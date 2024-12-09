@@ -59,6 +59,7 @@ function Search() {
 					onFocus={() => setShowResult(true)}
 					className="h-7 w-[400px] z-10 rounded-r-full bg-[#D9E2EF] px-4 outline-none text-sm"
 					placeholder="Search"
+					autoComplete="off"
 				/>
 			</div>
 			{showResult && searchResult.length > 0 && (

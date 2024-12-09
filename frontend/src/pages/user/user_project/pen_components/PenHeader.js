@@ -1,7 +1,11 @@
 import { FaChevronDown, FaEdit, FaSave, FaShare } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { AiFillCode } from "react-icons/ai";
-import { UserAvatar, UserPopup } from "../../../../components/layout/Header";
+import {
+	UserAvatar,
+	UserPopup,
+	UserPopupInPen,
+} from "../../../../components/layout/Header";
 import { AuthContext } from "../../../../context/AuthContext";
 import { useContext, useState } from "react";
 import { LOCAL_STORAGE_TOKEN_NAME } from "../../../../common/constants";
@@ -62,7 +66,9 @@ function ProjectHeader({
 		<div className="h-[60px] bg-[#15222e] flex items-center justify-between border-b border-gray-400">
 			{contextHolder}
 			<div className="h-[60px] flex items-center gap-3 flex-row pl-2 ">
-				<AiFillCode className="text-[#9C6317] text-4xl" />
+				<Link to={"/popular"}>
+					<AiFillCode className="text-[#9C6317] text-4xl" />
+				</Link>
 				<div>
 					<div className="flex items-center gap-3">
 						<input
@@ -249,12 +255,10 @@ const UserSection = () => {
 							/>
 						</div>
 						{openPop && (
-							<UserPopup
+							<UserPopupInPen
 								userData={userData}
 								setOpenPop={setOpenPop}
 								setTitle={setTitle}
-								setIsProfileOpen={setIsProfileOpen}
-								setIsPasswordOpen={setIsPasswordOpen}
 								handleLogout={handleLogout}
 							/>
 						)}
