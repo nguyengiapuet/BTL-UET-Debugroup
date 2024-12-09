@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-
 const LearnJs = () => {
 	return (
 		<div className="bg-purple-400 h-[700px] px-[300px] py-[100px] flex justify-center items-center">
@@ -10,13 +9,13 @@ const LearnJs = () => {
 						to={"/game1"}
 						className="px-10 py-3 bg-slate-400 rounded-lg transition-transform duration-200 hover:scale-105 hover:rounded-lg hover:bg-[#ccc]"
 					>
-						Bài 1
+						Lesson 1
 					</Link>
 					<Link
 						to={"/game2"}
 						className="px-10 py-3 bg-slate-400 rounded-lg transition-transform duration-200 hover:scale-105 hover:rounded-lg hover:bg-[#ccc]"
 					>
-						Bài 2
+						Lesson 2
 					</Link>
 				</div>
 			</div>

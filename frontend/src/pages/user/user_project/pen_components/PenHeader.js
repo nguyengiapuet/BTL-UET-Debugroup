@@ -35,7 +35,12 @@ function ProjectHeader({
 		setIsModalOpen(false);
 	};
 	const handleShareModal = () => {
-		setIsModalOpen(true);
+		if (!userData.id) {
+			localStorage.setItem("savedDataPen", JSON.stringify(dataPen));
+			navigate("/login");
+		} else {
+			setIsModalOpen(true);
+		}
 	};
 	const handleToogleStatus = () => {
 		setIsPublic(!isPublic);
@@ -117,6 +122,7 @@ function ProjectHeader({
 								handleSaveProject={handleSavePens}
 								isOpenSave={isOpenSave}
 								setIsOpenSave={setIsOpenSave}
+								dataPen={dataPen}
 							/>
 						</>
 					)}

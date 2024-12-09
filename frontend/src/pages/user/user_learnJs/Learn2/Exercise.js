@@ -4,10 +4,11 @@ import {
 	FaArrowLeft,
 	FaCheck,
 	FaExclamationCircle,
+	FaPen,
 } from "react-icons/fa";
 import CodeMirror from "@uiw/react-codemirror";
 import EditorPane from "../../user_project/pen_components/EditorPane";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SummaryApi from "../../../../common";
@@ -74,6 +75,15 @@ function Exercise({ dataPen, handleOnChangePen, javascript, setDataPen }) {
 		});
 		setShowAnswer(false);
 	};
+
+	const showReset = () => {
+		setDataPen({
+			...(dataPen || {}),
+			js: item.placeholder,
+		});
+		setShowAnswer(false);
+	};
+
 	return showAnswer ? (
 		<div
 			className="fixed inset-0 z-20 flex items-center justify-center bg-gray-900/65 "
@@ -170,6 +180,15 @@ function Exercise({ dataPen, handleOnChangePen, javascript, setDataPen }) {
 						})()}
 					</div>
 				</div>
+				<p
+					className="absolute right-32 top-16 group"
+					onClick={showReset}
+				>
+					<FaPen className="cursor-pointer" />
+					<span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+						Reset
+					</span>
+				</p>
 
 				<div className="w-[500px] bg-[#15222e] border-2 border-black ">
 					<div className="text-sm py-1 px-3 font-medium text-white  bg-gray-600 flex items-center gap-x-1">

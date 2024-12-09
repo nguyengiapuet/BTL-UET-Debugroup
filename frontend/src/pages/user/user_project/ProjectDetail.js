@@ -105,13 +105,15 @@ function ProjectDetail() {
 			<div className="flex flex-col gap-2 pb-10">
 				<div className="text-md font-bold text-black">Comments</div>
 				<div className="w-full h-[1px] bg-gray-400"></div>
-				<div className="w-3/5 h-12 rounded-xl flex flex-row items-center justify-between relative mt-3 border-[1px] border-gray-200 focus-within:border-[#9CA3AF]">
-					<InputComment
-						project={dataPen}
-						setRefreshComment={setRefreshComment}
-						avatar={userData?.avatar}
-					/>
-				</div>
+				{userData.id && (
+					<div className="w-3/5 h-12 rounded-xl flex flex-row items-center justify-between relative mt-3 border-[1px] border-gray-200 focus-within:border-[#9CA3AF]">
+						<InputComment
+							project={dataPen}
+							setRefreshComment={setRefreshComment}
+							avatar={userData?.avatar}
+						/>
+					</div>
+				)}
 				<LabelComment pen={dataPen} refreshComment={refreshComment} />
 				<ListComment
 					project={dataPen}
