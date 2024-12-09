@@ -387,9 +387,9 @@ function UserDashboard() {
 																	{item.updated_at
 																		? new Date(
 																				item.updated_at
-																			).toLocaleDateString(
+																		  ).toLocaleDateString(
 																				"en-GB"
-																			)
+																		  )
 																		: "Haven't updated"}{" "}
 																</span>
 															</div>

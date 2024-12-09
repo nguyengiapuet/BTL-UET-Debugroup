@@ -6,6 +6,7 @@ import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
 import DeleteModal from "../admin_component/modal/DeleteModal";
 import RestoreModal from "../admin_component/modal/RestoreModal";
+import { Modal } from "antd";
 
 let PageSize = 10;
 
@@ -233,6 +234,18 @@ function CommentDashboard() {
 		}
 	};
 
+	// Modal to view entire comment content
+	const [openViewComment, setOpenViewComment] = useState(false);
+	const [commentContent, setCommentContent] = useState("");
+	const cancelViewComment = () => {
+		setOpenViewComment(false);
+	};
+	const handleShowCommentModal = (content) => {
+		setCommentContent(content);
+		setOpenViewComment(true);
+		console.log(openViewComment);
+		console.log("click");
+	};
 	return (
 		<div>
 			<DeleteModal
@@ -249,6 +262,17 @@ function CommentDashboard() {
 				fieldOfDelete="comment"
 				onCancel={onRestoreCancel}
 			/>
+			<Modal
+				title="Comment detail"
+				open={openViewComment}
+				onOk={cancelViewComment}
+				onCancel={cancelViewComment}
+				width={500}
+			>
+				<div className="max-h-[500px] overflow-y-auto">
+					{commentContent}
+				</div>
+			</Modal>
 
 			<div className="request-container">
 				<div className="request-content">
@@ -346,6 +370,12 @@ function CommentDashboard() {
 														<div
 															key={item.id}
 															className="body-row"
+															onClick={() => {
+																handleShowCommentModal(
+																	item.content
+																);
+															}}
+															title="Click to show comment"
 														>
 															<div className="body-row-data">
 																<span>

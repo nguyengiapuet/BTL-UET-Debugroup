@@ -5,7 +5,6 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
 import ProjectCard from "./project_components/ProjectCard";
-import { FaEdit, FaTrash } from "react-icons/fa";
 
 function MyProject() {
 	const { sortLike } = useOutletContext();
@@ -16,7 +15,7 @@ function MyProject() {
 
 	const fetchGetAllPens = async () => {
 		try {
-			const response = await axios.post(SummaryApi.getAllPens.url, {
+			const response = await axios.post(SummaryApi.getAllPensUser.url, {
 				username: userData.username,
 			});
 

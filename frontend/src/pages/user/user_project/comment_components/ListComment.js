@@ -27,7 +27,7 @@ function ListComment({ project, refreshComment, setRefreshComment }) {
 		<>
 			<div className="w-full flex flex-col mb-16 gap-2 pb-2">
 				{allComments.length > 0 ? (
-					allComments.map((comment, index) => (
+					allComments.map((comment) => (
 						<CommentContent
 							key={comment.id}
 							comment={comment}

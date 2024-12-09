@@ -11,6 +11,7 @@ async function getDetailsPen(req, res) {
                 pens.js,
                 pens.output,
                 pens.email,
+				pens.status,
                 account.username,
 				account.avatar
             FROM 

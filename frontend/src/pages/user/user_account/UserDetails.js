@@ -58,7 +58,7 @@ function UserDetails() {
 
 	const fetchUserProjects = async () => {
 		try {
-			const response = await axios.post(SummaryApi.getAllPens.url, {
+			const response = await axios.post(SummaryApi.getAllPensUser.url, {
 				username: params.username,
 			});
 
@@ -107,10 +107,7 @@ function UserDetails() {
 				`${SummaryApi.getListFollowingUser.url}/${params.username}`
 			);
 			if (response.data.success) {
-				console.log(
-					"response.data.data>>>>>>>>>>>>>>>>>>",
-					response.data.data
-				);
+				console.log(response.data.data);
 				setFollowers(response.data.data);
 			}
 		} catch (error) {

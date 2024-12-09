@@ -1,11 +1,11 @@
 const db = require("../../config/db");
 
 async function updatePen(req, res) {
-	const { html, css, js, output, title } = req.body;
+	const { html, css, js, output, title, status } = req.body;
 	try {
 		db.query(
-			"UPDATE pens SET html = ?, css =?, js =?, output= ?, title =? WHERE id = ?",
-			[html, css, js, output, title, req.params.id],
+			"UPDATE pens SET html = ?, css =?, js =?, output= ?, title =?, status =? WHERE id = ?",
+			[html, css, js, output, title, status, req.params.id],
 			function (err, result) {
 				if (err) {
 					return res.status(500).json({

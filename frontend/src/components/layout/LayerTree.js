@@ -1,13 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaHome } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 // Should check if user is not admin, disable Dashboard section
 function SidebarTreeView() {
 	const [active, setActive] = useState("");
 	const { setTitle, userData } = useContext(AuthContext);
+	const params = useParams();
+	console.log("params", params);
 
 	const handleClickItem = (e) => {
 		setActive(e.target.textContent.toLowerCase());
@@ -18,6 +20,36 @@ function SidebarTreeView() {
 		setActive(e.target.textContent.toLowerCase());
 		setTitle(e.target.textContent + " dashboard");
 	};
+
+	useEffect(() => {
+		const currentUrl = window.location.pathname; // Lấy phần pathname của URL
+		const lastSegment = currentUrl.substring(
+			currentUrl.lastIndexOf("/") + 1
+		);
+
+		if (lastSegment === "popular") {
+			setActive("trending");
+			setTitle("Trending");
+		} else if (lastSegment === "learn") {
+			setActive("learn js");
+			setTitle("Learn js");
+		} else if (lastSegment === "about-us") {
+			setActive("about");
+			setTitle("About");
+		} else if (lastSegment === "contact-us") {
+			setActive("contact us");
+			setTitle("Contact us");
+		} else if (lastSegment === "project-dashboard") {
+			setActive("projects");
+			setTitle("Projects dashboard");
+		} else if (lastSegment === "user-dashboard") {
+			setActive("users");
+			setTitle("Users dashboard");
+		} else if (lastSegment === "comment-dashboard") {
+			setActive("comments");
+			setTitle("Comments dashboard");
+		}
+	}, []);
 
 	return (
 		<div className="flex flex-col justify-between">
@@ -205,10 +237,17 @@ function SidebarTreeView() {
 						</div>
 					</div>
 				) : (
-					<div className="w-64 pt-3 flex items-center">
-						<button className="m-auto w-fit h-fit min-h-[44px] mt-5 bg-[#58a51b] rounded-md px-10 py-2 text-sm text-white font-bold hover:bg-[#58a51b]/80">
-							START CODING
-						</button>
+					<div className="w-64 justify-center items-center flex">
+						<Link
+							to={"/pen"}
+							className="coding-btn animated-button1 fixed h-12 w-48 font-semibold cursor-pointer flex items-center justify-center text-xl text-white bottom-24"
+						>
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+							Start Coding
+						</Link>
 					</div>
 				)}
 			</div>

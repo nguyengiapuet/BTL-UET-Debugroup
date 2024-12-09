@@ -1,12 +1,14 @@
 const backendDomain = "http://localhost:8080";
 
 const SummaryApi = {
+	// Authentication
 	signUp: {
 		url: `${backendDomain}/api/signup`,
 	},
 	logIn: {
 		url: `${backendDomain}/api/signin`,
 	},
+	// Users
 	getDetailsUser: {
 		url: `${backendDomain}/api/user-details`,
 	},
@@ -16,11 +18,12 @@ const SummaryApi = {
 	deletedUser: {
 		url: `${backendDomain}/api/delete-user`,
 	},
+	// Projects || Pens
 	createPens: {
 		url: `${backendDomain}/api/create-pens`,
 	},
-	getAllPens: {
-		url: `${backendDomain}/api/getall-pens`,
+	getAllPensUser: {
+		url: `${backendDomain}/api/get-all-pens-user`,
 	},
 	allUpvotePen: {
 		url: `${backendDomain}/api/get-upvote-pen`,
@@ -41,11 +44,15 @@ const SummaryApi = {
 		url: `${backendDomain}/api/update-pens`,
 	},
 	allPens: {
-		url: `${backendDomain}/api/all-pens`,
+		url: `${backendDomain}/api/get-all-pens`,
 	},
 	deletedPens: {
 		url: `${backendDomain}/api/deleted-pens`,
 	},
+	allPensPublic: {
+		url: `${backendDomain}/api/get-all-pens-public`,
+	},
+	// Like
 	addLike: {
 		url: `${backendDomain}/api/add-like`,
 	},
@@ -58,6 +65,7 @@ const SummaryApi = {
 	totalLike: {
 		url: `${backendDomain}/api/total-like`,
 	},
+	// Comments
 	sendComments: {
 		url: `${backendDomain}/api/send-comments`,
 	},
@@ -67,6 +75,7 @@ const SummaryApi = {
 	totalComments: {
 		url: `${backendDomain}/api/total-comments`,
 	},
+	// Profile
 	updateProfile: {
 		url: `${backendDomain}/api/update-profile`,
 	},
@@ -85,6 +94,7 @@ const SummaryApi = {
 	countFollower: {
 		url: `${backendDomain}/api/follower-count`,
 	},
+	// Search
 	searchUserByName: {
 		url: `${backendDomain}/api/search`,
 	},
@@ -161,6 +171,9 @@ const SummaryApi = {
 	//learn
 	getQuestion1: {
 		url: `${backendDomain}/api/learn/question1`,
+	},
+	getQuestion2: {
+		url: `${backendDomain}/api/learn/question2`,
 	},
 };
 

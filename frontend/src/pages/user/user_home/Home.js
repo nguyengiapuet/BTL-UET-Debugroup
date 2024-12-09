@@ -11,7 +11,7 @@ import { AuthContext } from "../../../context/AuthContext";
 function Home() {
 	const [active, setActive] = useState("popular");
 	const [sort, setSort] = useState(false);
-	const { setTitle } = useContext(AuthContext);
+	const { setTitle, userData } = useContext(AuthContext);
 
 	const navigate = useNavigate();
 
@@ -120,16 +120,20 @@ function Home() {
 				</div>
 			</div>
 
-			<Link
-				to={"/pen"}
-				className="coding-btn animated-button1 fixed h-12 w-48 font-semibold cursor-pointer flex items-center justify-center text-xl text-white bottom-8 right-[45%]"
-			>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				Start Coding
-			</Link>
+			{userData.id && (
+				<div className="w-full flex items-center justify-center">
+					<Link
+						to={"/pen"}
+						className="coding-btn animated-button1 fixed h-12 w-48 font-semibold cursor-pointer flex items-center justify-center text-xl text-white bottom-8"
+					>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+						Start Coding
+					</Link>
+				</div>
+			)}
 		</div>
 	);
 }
