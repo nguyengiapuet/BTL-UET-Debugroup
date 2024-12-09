@@ -14,7 +14,7 @@ function LoginPage() {
 		password: "",
 	});
 
-	const { loadUser, userData } = useContext(AuthContext);
+	const { loadUser, userData, redirectPath } = useContext(AuthContext);
 	if (userData?.id) {
 		return navigate("/popular");
 	}
@@ -36,7 +36,7 @@ function LoginPage() {
 				);
 				await loadUser();
 				toast.success(response.data.message);
-				navigate("/popular");
+				navigate(redirectPath || "/popular");
 			} else toast.error(response.data.message);
 		} catch (err) {
 			console.log(err.message);

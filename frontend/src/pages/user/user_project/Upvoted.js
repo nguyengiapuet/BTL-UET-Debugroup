@@ -13,9 +13,7 @@ function Upvoted() {
 
 	const fetchAllUpvotePens = async () => {
 		try {
-			const response = await axios.get(
-				`${SummaryApi.allUpvotePen.url}/${userData.id}`
-			);
+			const response = await axios.get(SummaryApi.allUpvotePen.url);
 			if (response.data.success) {
 				console.log(response.data.data);
 				if (sortLike) setUpvotePen(sortLike(response.data.data));

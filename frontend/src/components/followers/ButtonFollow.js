@@ -6,6 +6,10 @@ import { MdAdd, MdEdit, MdRemove } from "react-icons/md";
 
 function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 	const handleFollower = async () => {
+		if (!currentUser.id) {
+			toast.error("Please login to follow a user.");
+			return;
+		}
 		try {
 			const response = await axios.post(SummaryApi.createFollower.url, {
 				followingId: dataUser.id,

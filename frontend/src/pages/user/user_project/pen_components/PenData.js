@@ -1,12 +1,14 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import SummaryApi from "../../../../common";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../../../../context/AuthContext";
 import { message } from "antd";
 
 export function usePenData() {
 	const params = useParams();
+	const { userData } = useContext(AuthContext);
 	const [dataPen, setDataPen] = useState({
 		html: "",
 		css: "",
@@ -16,12 +18,14 @@ export function usePenData() {
 		status: "",
 		email: "",
 	});
+	const navigate = useNavigate();
 
 	const handleOnchanePen = (value, type) => {
 		setDataPen({ ...dataPen, [type]: value });
+		console.log("dataPen>>>>>>>>", dataPen);
 	};
 
-	console.log("dataPen", dataPen);
+	// console.log("dataPen", dataPen);
 
 	const editCode = () => {
 		const content = `
@@ -80,6 +84,11 @@ export function usePenData() {
 		}
 	};
 	const handleSavePens = async (isPublic) => {
+		if (!userData.id) {
+			toast.error("Please login to create your pens");
+			navigate("/login", { replace: true });
+			return;
+		}
 		try {
 			if (params.id === undefined) {
 				// if duplicate isDuplicate = "Duplicated" else  = "Non duplicate"
@@ -141,6 +150,7 @@ export function usePenData() {
 
 	return {
 		dataPen,
+		setDataPen,
 		handleOnchanePen,
 		handleSavePens,
 	};
