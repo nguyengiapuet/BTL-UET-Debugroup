@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { message, Modal } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,10 +10,16 @@ function DialogSavePen({ handleSaveProject, isOpenSave, setIsOpenSave }) {
 		setIsOpenSave(false);
 	};
 
-	const handleOK = () => {
-		handleSaveProject(isPublic);
+	const handleOK = async () => {
+		const status = await handleSaveProject(isPublic);
 		setIsOpenSave(false);
-		navigate("/");
+		console.log("Status ok:", status);
+		if (status === "Duplicated") {
+			message.error("Duplicated name of project");
+			return;
+		} else {
+			navigate("/");
+		}
 	};
 
 	const handleToogleStatus = () => {

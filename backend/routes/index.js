@@ -57,6 +57,7 @@ const searchComment = require("../controllers/search/comment_search/searchCommen
 const searchDeleteComment = require("../controllers/search/comment_search/searchDeleteComment");
 const getUpvotePen = require("../controllers/pens/getUpvotePen");
 const getAllPensUser = require("../controllers/pens/getAllPensUser");
+const checkDuplicatePen = require("../controllers/pens/checkDuplicatePen");
 
 const router = express.Router();
 
@@ -88,6 +89,7 @@ router.post("/create-pens", verifyToken, createPens);
 router.post("/get-all-pens-user", getAllPensUser);
 router.get("/get-all-pens", getAllPens);
 router.get("/get-all-pens-public", getAllPensPublic);
+router.post("/check-duplicate-pen", verifyToken, checkDuplicatePen);
 
 router.get("/get-pens/:id", verifyToken, getDetailsPen);
 router.get("/deleted-pens", getDeletedPen);

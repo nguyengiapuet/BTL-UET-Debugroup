@@ -237,7 +237,7 @@ function SidebarTreeView() {
 						</div>
 					</div>
 				) : (
-					<div className="w-64 justify-center items-center flex">
+					<div className="w-64  max-h-12 justify-center items-center flex">
 						<Link
 							to={"/pen"}
 							className="coding-btn animated-button1 fixed h-12 w-48 font-semibold cursor-pointer flex items-center justify-center text-xl text-white bottom-24"

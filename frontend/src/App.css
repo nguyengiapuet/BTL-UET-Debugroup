@@ -104,8 +104,7 @@
 	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-.animated-button1::before {
-	content: "";
+/* .animated-button1::before {
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -113,9 +112,9 @@
 	height: 100%;
 	background-color: #ad8585;
 	opacity: 0;
-	/* -webkit-transition: 0.2s opacity ease-in-out;
-	transition: 0.2s opacity ease-in-out; */
-}
+	-webkit-transition: 0.2s opacity ease-in-out;
+	transition: 0.2s opacity ease-in-out;
+} */
 
 .animated-button1:hover {
 	cursor: pointer;
