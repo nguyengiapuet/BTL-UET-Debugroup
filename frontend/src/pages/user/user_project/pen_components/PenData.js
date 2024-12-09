@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import SummaryApi from "../../../../common";
 import { useParams } from "react-router-dom";
+import { message } from "antd";
 
 export function usePenData() {
 	const params = useParams();
@@ -56,16 +57,37 @@ export function usePenData() {
 			});
 
 			if (response.data.success) {
-				toast.success(response.data.message);
+				message.success(response.data.message);
 			}
 		} catch (err) {
 			console.log(err.message);
 		}
 	};
 
+	// Handle save pen: check duplicate name of project by user, if ok -> save pen.
+	const handleCheckDuplicatePen = async () => {
+		try {
+			const response = await axios.post(
+				SummaryApi.checkDuplicatePen.url,
+				{
+					title: dataPen.title,
+				}
+			);
+			const temp = await response.data;
+			return temp.message;
+		} catch (err) {
+			console.log(err.message);
+		}
+	};
 	const handleSavePens = async (isPublic) => {
 		try {
 			if (params.id === undefined) {
+				// if duplicate isDuplicate = "Duplicated" else  = "Non duplicate"
+				const isDuplcicate = await handleCheckDuplicatePen();
+				console.log("Test duplicate:", isDuplcicate);
+				if (isDuplcicate === "Duplicated") {
+					return isDuplcicate;
+				}
 				await handleCreatPens(isPublic);
 			} else {
 				const response = await axios.put(
