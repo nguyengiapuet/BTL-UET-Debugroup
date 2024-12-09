@@ -1,9 +1,13 @@
 import { Modal } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../../context/AuthContext";
+import { toast } from "react-toastify";
 
 function DialogSavePen({ handleSaveProject, isOpenSave, setIsOpenSave }) {
 	const [isPublic, setIsPublic] = useState(false);
+
+	const { userData } = useContext(AuthContext);
 	const navigate = useNavigate();
 
 	const handleCancel = () => {
@@ -11,9 +15,14 @@ function DialogSavePen({ handleSaveProject, isOpenSave, setIsOpenSave }) {
 	};
 
 	const handleOK = () => {
-		handleSaveProject(isPublic);
-		setIsOpenSave(false);
-		navigate("/");
+		if (!userData.id) {
+			toast.error("Please login to create your pens");
+			setIsOpenSave(false);
+		} else {
+			handleSaveProject(isPublic);
+			setIsOpenSave(false);
+			navigate("/");
+		}
 	};
 
 	const handleToogleStatus = () => {

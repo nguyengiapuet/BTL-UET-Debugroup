@@ -33,7 +33,7 @@ function Header({ toggleNav }) {
 			role: "",
 			avatar: "",
 		});
-		navigate("/login");
+		navigate("/");
 	};
 
 	const [isProfileOpen, setIsProfileOpen] = useState(false);

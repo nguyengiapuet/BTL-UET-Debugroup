@@ -1,11 +1,13 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import SummaryApi from "../../../../common";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../../../../context/AuthContext";
 
 export function usePenData() {
 	const params = useParams();
+	const { userData } = useContext(AuthContext);
 	const [dataPen, setDataPen] = useState({
 		html: "",
 		css: "",
@@ -64,6 +66,10 @@ export function usePenData() {
 	};
 
 	const handleSavePens = async (isPublic) => {
+		if (!userData.id) {
+			toast.error("Please login to create your pens");
+			return;
+		}
 		try {
 			if (params.id === undefined) {
 				await handleCreatPens(isPublic);

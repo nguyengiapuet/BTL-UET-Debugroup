@@ -8,6 +8,7 @@ import ProjectHeader from "./pen_components/PenHeader";
 import { usePenData } from "./pen_components/PenData";
 import CodeEditor from "./pen_components/CodeEditor";
 import { MdArrowBack, MdError } from "react-icons/md";
+import { ToastContainer } from "react-toastify";
 
 function Pen() {
 	const inputRef = useRef();
@@ -74,6 +75,11 @@ function Pen() {
 				html={html}
 				css={css}
 				javascript={javascript}
+			/>
+			<ToastContainer
+				className="mt-10"
+				position="top-right"
+				autoClose={2000}
 			/>
 		</div>
 	);
