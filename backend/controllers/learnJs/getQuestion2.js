@@ -2,7 +2,7 @@ const db = require("../../config/db");
 
 async function getQuestion2(req, res) {
 	try {
-		db.query("SELECT * FROM question2  ", function (err, result) {
+		db.query("SELECT * FROM practices  ", function (err, result) {
 			if (err) {
 				throw err;
 			}
