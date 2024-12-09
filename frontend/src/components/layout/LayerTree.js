@@ -155,7 +155,7 @@ function SidebarTreeView() {
 						</div>
 					</div>
 				</div>
-				{userData.role === "admin" ? (
+				{userData && userData.role === "admin" ? (
 					<div className="w-64 pt-1 rounded-r-lg">
 						{/* Dashboard parent */}
 						<div className="pl-4 mb-4">

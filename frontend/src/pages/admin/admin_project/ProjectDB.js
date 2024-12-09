@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import Pagination from "../admin_component/pagination/Pagination";
 import "../admin_component/style/ProjectDB.scss";
 import axios from "axios";
@@ -6,6 +6,8 @@ import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
 import DeleteModal from "../admin_component/modal/DeleteModal";
 import RestoreModal from "../admin_component/modal/RestoreModal";
+import { AuthContext } from "../../../context/AuthContext";
+import PageNotFound from "../../../components/template/404page";
 
 let PageSize = 10;
 
@@ -18,6 +20,7 @@ function ProjectDashboard() {
 	const [openRestoreModal, setOpenRestoreModal] = useState(false);
 	const [selectedIdProject, setSelectedIdProject] = useState(-1);
 	const [searchQuery, setSearchQuery] = useState("");
+	const { userData } = useContext(AuthContext);
 
 	useEffect(() => {
 		document.title = "Project Dashboard";
@@ -225,6 +228,11 @@ function ProjectDashboard() {
 			console.log(error.message);
 		}
 	};
+
+	if (userData.role !== "admin") {
+		return <PageNotFound />;
+	}
+
 	return (
 		<div>
 			<DeleteModal

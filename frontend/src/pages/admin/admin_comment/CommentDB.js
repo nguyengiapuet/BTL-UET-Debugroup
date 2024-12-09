@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import Pagination from "../admin_component/pagination/Pagination";
 import "../admin_component/style/ProjectDB.scss";
 import axios from "axios";
@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import DeleteModal from "../admin_component/modal/DeleteModal";
 import RestoreModal from "../admin_component/modal/RestoreModal";
 import { Modal } from "antd";
+import { AuthContext } from "../../../context/AuthContext";
+import PageNotFound from "../../../components/template/404page";
 
 let PageSize = 10;
 
@@ -17,6 +19,7 @@ function CommentDashboard() {
 	const [allComments, setAllComments] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
 	const [openRestoreModal, setOpenRestoreModal] = useState(false);
+	const { userData } = useContext(AuthContext);
 
 	useEffect(() => {
 		document.title = "Comment Dashboard";
@@ -246,6 +249,10 @@ function CommentDashboard() {
 		console.log(openViewComment);
 		console.log("click");
 	};
+
+	if (userData.role !== "admin") {
+		return <PageNotFound />;
+	}
 	return (
 		<div>
 			<DeleteModal
