@@ -4,7 +4,10 @@ async function getQuestion2(req, res) {
 	try {
 		db.query("SELECT * FROM practices  ", function (err, result) {
 			if (err) {
-				throw err;
+				return res.status(500).json({
+					message: err.message,
+					success: false,
+				});
 			}
 			res.status(200).json({
 				success: true,

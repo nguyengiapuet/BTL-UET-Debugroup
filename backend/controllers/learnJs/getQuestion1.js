@@ -4,7 +4,10 @@ async function getQuestion1(req, res) {
 	try {
 		db.query("SELECT * FROM multi_choice  ", function (err, result) {
 			if (err) {
-				throw err;
+				return res.status(500).json({
+					message: err.message,
+					success: false,
+				});
 			}
 			res.status(200).json({
 				success: true,

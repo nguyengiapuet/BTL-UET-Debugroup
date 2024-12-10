@@ -11,7 +11,10 @@ async function editCommentByUser(req, res) {
 			[content, timeNow, idComment, req.userId],
 			function (err, result) {
 				if (err) {
-					throw err;
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
 				}
 				res.status(200).json({
 					success: true,
