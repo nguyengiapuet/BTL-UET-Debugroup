@@ -14,7 +14,10 @@ async function getDeletedPen(req, res) {
 		`,
 			function (err, result) {
 				if (err) {
-					console.log(err);
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
 				}
 				res.status(200).json({
 					success: true,

@@ -4,8 +4,8 @@ async function searchComment(req, res) {
 	console.log("req.params", req.params.comment);
 
 	try {
-		db.query(    
-            `
+		db.query(
+			`
              SELECT 
                     comments.id,
                     comments.content, 
@@ -26,7 +26,12 @@ async function searchComment(req, res) {
             `,
 			[`%${req.params.comment}%`],
 			function (err, result) {
-				console.log(result);
+				if (err) {
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
+				}
 				res.status(200).json({
 					success: true,
 					message: "Users fetched successfully",

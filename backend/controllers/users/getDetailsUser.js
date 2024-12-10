@@ -6,7 +6,12 @@ async function getDetailsUser(req, res) {
 			"SELECT id, username, email, role, created_at, avatar FROM account WHERE id = ?",
 			[req.userId],
 			function (err, result) {
-				console.log("result>>>>>>>>>>>>>", result);
+				if (err) {
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
+				}
 
 				res.json({
 					success: true,

@@ -8,7 +8,10 @@ async function checkDuplicatePen(req, res) {
 			[title, req.email],
 			function (err, result) {
 				if (err) {
-					throw err;
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
 				}
 				console.log("Test a9999", result);
 				if (result.length === 0) {

@@ -5,7 +5,7 @@ async function searchDeleteComment(req, res) {
 
 	try {
 		db.query(
-            `
+			`
              SELECT 
                     comments.id,
                     comments.content, 
@@ -24,9 +24,14 @@ async function searchDeleteComment(req, res) {
                     pens ON comments.id_project = pens.id
                 WHERE LOWER(comments.content) LIKE LOWER(?) AND comments.is_delete = 1
             `,
-            [`%${req.params.comment}%`],
+			[`%${req.params.comment}%`],
 			function (err, result) {
-				console.log(result);
+				if (err) {
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
+				}
 				res.status(200).json({
 					success: true,
 					message: "Users fetched successfully",
