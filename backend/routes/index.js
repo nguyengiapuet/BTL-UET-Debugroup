@@ -135,4 +135,5 @@ router.post("/mark-as-read-notification", verifyToken, markAsReadNotification);
 // router.get("/learn/question1", verifyToken, getQuestion1);
 // router.get("/learn/question2", verifyToken, getQuestion2);
 // router.get("/learn/question1", verifyToken, getQuestion1);
+// router.get("/learn/question2", verifyToken, getQuestion2);
 module.exports = router;

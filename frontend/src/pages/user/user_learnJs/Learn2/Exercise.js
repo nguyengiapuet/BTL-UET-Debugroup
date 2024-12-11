@@ -212,7 +212,7 @@ function Exercise({ dataPen, handleOnChangePen, javascript, setDataPen }) {
 							className="px-4 py-2 bg-slate-500 rounded-xl  cursor-pointer hover:scale-110"
 							onClick={handleClickAnswer}
 						>
-							Xem đáp án
+							Answer
 						</p>
 						<p
 							className="px-4 py-2 bg-[#2150de] rounded-xl  cursor-pointer hover:scale-110"
