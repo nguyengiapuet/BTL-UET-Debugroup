@@ -6,7 +6,12 @@ async function getAllUsersDeleted(req, res) {
 			"SELECT * FROM account WHERE deleted = ?",
 			[1],
 			function (err, result) {
-				console.log(result);
+				if (err) {
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
+				}
 				res.status(200).json({
 					success: true,
 					message: "Users fetched successfully",

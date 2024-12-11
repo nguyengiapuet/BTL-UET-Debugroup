@@ -1,17 +1,17 @@
 const db = require("../../config/db");
 
-async function getDeletedPen(req, res) {
+async function getUpvotePen(req, res) {
 	try {
 		db.query(
 			`
-		   SELECT p.*, a.avatar, a.username, COUNT(distinct l.id) AS total_likes, COUNT(distinct c.id) AS total_comments
-		    FROM pens p
-		    JOIN account a ON p.email = a.email
-		    LEFT JOIN likes l ON p.id = l.id_project
-		    LEFT JOIN comments c ON p.id = c.id_project
-			WHERE p.is_delete = 1
-		    GROUP BY p.id
+		    SELECT p.*, a.avatar, a.username, COUNT(l.id_project) AS total_likes
+            FROM pens p
+            JOIN account a ON p.email = a.email
+            LEFT JOIN likes l ON p.id = l.id_project
+            WHERE p.is_delete = 0 AND l.id_user = ?
+            GROUP BY p.id
 		`,
+			[req.userId],
 			function (err, result) {
 				if (err) {
 					return res.status(500).json({
@@ -35,4 +35,4 @@ async function getDeletedPen(req, res) {
 	}
 }
 
-module.exports = getDeletedPen;
+module.exports = getUpvotePen;

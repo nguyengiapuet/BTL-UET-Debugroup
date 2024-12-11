@@ -8,7 +8,10 @@ async function createPens(req, res) {
 			[title, req.email, html, css, js, output, status],
 			function (err, result) {
 				if (err) {
-					throw err;
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
 				}
 
 				return res.json({

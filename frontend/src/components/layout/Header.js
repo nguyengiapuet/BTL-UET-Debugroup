@@ -18,7 +18,8 @@ import Notifications from "../notifications/Notifications";
 import NotificationCount from "../notifications/NotificationCount";
 
 function Header({ toggleNav }) {
-	const { userData, setUserData, title, setTitle } = useContext(AuthContext);
+	const { userData, setUserData, title, setTitle, setRedirectPath } =
+		useContext(AuthContext);
 	const [openPop, setOpenPop] = useState(false);
 	const [openNotification, setOpenNotification] = useState(false);
 	const navigate = useNavigate();
@@ -33,7 +34,8 @@ function Header({ toggleNav }) {
 			role: "",
 			avatar: "",
 		});
-		navigate("/login");
+		setRedirectPath(null);
+		navigate("/");
 	};
 
 	const [isProfileOpen, setIsProfileOpen] = useState(false);

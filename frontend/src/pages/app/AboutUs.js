@@ -94,20 +94,7 @@ function AboutUs() {
 			</div>
 
 			<div className="w-full h-fit bg-indigo-100 mt-10">
-				<div className="m-auto my-10 pb-10 pt-5 flex flex-col gap-5 justify-center items-center max-w-[700px]">
-					<div className="text-[28px] font-bold">
-						<Link
-							to={"/pen"}
-							className="coding-btn animated-button1 h-12 w-48 font-semibold cursor-pointer flex items-center justify-center text-xl text-white"
-						>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-							Start Coding
-						</Link>
-					</div>
-				</div>
+				<div className="m-auto my-10 pb-10 pt-5 flex flex-col gap-5 justify-center items-center max-w-[700px]"></div>
 			</div>
 		</div>
 	);

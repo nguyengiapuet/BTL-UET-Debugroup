@@ -148,11 +148,13 @@ function Sidebar({ isSidebarOpen }) {
 					<Search isFocused={isFocused} setIsFocused={setIsFocused} />
 
 					{/* Layer tree view */}
-					{activeButton === "Category" ? (
-						<SidebarTreeView />
-					) : (
-						<ListFollower />
-					)}
+					<div className="flex grow">
+						{activeButton === "Category" ? (
+							<SidebarTreeView />
+						) : (
+							<ListFollower />
+						)}
+					</div>
 				</div>
 			)}
 

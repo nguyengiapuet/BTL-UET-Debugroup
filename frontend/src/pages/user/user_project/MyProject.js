@@ -5,7 +5,6 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
 import ProjectCard from "./project_components/ProjectCard";
-import { FaEdit, FaTrash } from "react-icons/fa";
 
 function MyProject() {
 	const { sortLike } = useOutletContext();
@@ -58,18 +57,25 @@ function MyProject() {
 
 	return (
 		<div className="w-full flex flex-wrap gap-x-[30px] gap-y-10 h-fit py-4 pb-32">
-			{getAllPens.length !== 0 &&
-				getAllPens.map((pen, index) => (
-					<ProjectCard
-						key={index}
-						pen={pen}
-						userData={userData}
-						sortLike={sortLike}
-						owner={true}
-						handleClickPens={handleClickPens}
-						handleRemove={handleRemove}
-					/>
-				))}
+			{getAllPens.length === 0 ? (
+				<div className="text-3xl text-gray-500 text-center w-full mt-4">
+					You don't have any projects yet!
+				</div>
+			) : (
+				<>
+					{getAllPens.map((pen, index) => (
+						<ProjectCard
+							key={index}
+							pen={pen}
+							userData={userData}
+							sortLike={sortLike}
+							owner={true}
+							handleClickPens={handleClickPens}
+							handleRemove={handleRemove}
+						/>
+					))}
+				</>
+			)}
 		</div>
 	);
 }

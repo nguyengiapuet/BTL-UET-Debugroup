@@ -71,12 +71,14 @@ function ButtonComment({ pen }) {
 						},
 					}}
 					footer={
-						<FooterModal
-							project={project}
-							setRefreshComment={setRefreshComment}
-							userData={userData}
-							refreshComment={refreshComment}
-						/>
+						userData.id ? (
+							<FooterModal
+								project={project}
+								setRefreshComment={setRefreshComment}
+								userData={userData}
+								refreshComment={refreshComment}
+							/>
+						) : null
 					}
 				>
 					<ModalContent

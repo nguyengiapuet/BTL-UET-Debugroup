@@ -6,6 +6,7 @@ import { LOCAL_STORAGE_TOKEN_NAME } from "../../../common/constants";
 import { AuthContext } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
 import appLogo from "../../../asset/image.png";
+import { FaTriangleExclamation } from "react-icons/fa6";
 
 function LoginPage() {
 	const navigate = useNavigate();
@@ -13,8 +14,9 @@ function LoginPage() {
 		email: "",
 		password: "",
 	});
+	const [error, setError] = useState(null);
 
-	const { loadUser, userData } = useContext(AuthContext);
+	const { loadUser, userData, redirectPath } = useContext(AuthContext);
 	if (userData?.id) {
 		return navigate("/popular");
 	}
@@ -36,8 +38,10 @@ function LoginPage() {
 				);
 				await loadUser();
 				toast.success(response.data.message);
-				navigate("/popular");
-			} else toast.error(response.data.message);
+				navigate(redirectPath || "/popular");
+			} else {
+				setError(response.data.message);
+			}
 		} catch (err) {
 			console.log(err.message);
 			toast.error(err.message);
@@ -60,6 +64,12 @@ function LoginPage() {
 
 				<div className="bg-[#f5f6f9] mx-5 w-full rounded-xl">
 					<div className="my-8 mx-5 flex flex-col gap-1">
+						{error && (
+							<div className="text-red-600 flex items-center break-words gap-2 text-start text-base w-full">
+								<FaTriangleExclamation />
+								{error}
+							</div>
+						)}
 						<label className="text-[16px] text-[#001452] font-medium">
 							Email:
 						</label>

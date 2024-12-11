@@ -7,6 +7,7 @@ import { Button, Modal, Upload } from "antd";
 import { FaUserCircle } from "react-icons/fa";
 import { UserAvatar } from "../../../components/layout/Header";
 import { useNavigate } from "react-router-dom";
+import { LOCAL_STORAGE_TOKEN_NAME } from "../../../common/constants";
 
 function ProfileModal({ isOpen, onClose }) {
 	const { userData, setUserData } = useContext(AuthContext);
@@ -42,8 +43,17 @@ function ProfileModal({ isOpen, onClose }) {
 			);
 
 			if (response.data.success) {
-				toast.success(response.data.message);
+				localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+				setUserData({
+					id: "",
+					username: "",
+					email: "",
+					password: "",
+					role: "",
+					avatar: "",
+				});
 				navigate("/login");
+				toast.success(response.data.message);
 				window.location.reload();
 				onClose();
 			}
@@ -159,7 +169,8 @@ function ProfileModal({ isOpen, onClose }) {
 						<input
 							name="email"
 							type="text"
-							placeholder={data.email}
+							disabled
+							placeholder={userData.email}
 							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
 						/>
 					</div>

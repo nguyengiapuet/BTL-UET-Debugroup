@@ -1,5 +1,5 @@
-import { useContext, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { html } from "@codemirror/lang-html";
 import { javascript } from "@codemirror/lang-javascript";
@@ -8,15 +8,37 @@ import ProjectHeader from "./pen_components/PenHeader";
 import { usePenData } from "./pen_components/PenData";
 import CodeEditor from "./pen_components/CodeEditor";
 import { MdArrowBack, MdError } from "react-icons/md";
+import { ToastContainer } from "react-toastify";
 
 function Pen() {
 	const inputRef = useRef();
 	const params = useParams();
 	const [editTitle, setEditTitle] = useState(true);
-	const { userData } = useContext(AuthContext);
-	const { dataPen, handleOnchanePen, handleSavePens } = usePenData();
+	const { userData, setRedirectPath } = useContext(AuthContext);
+	const { dataPen, setDataPen, handleOnchanePen, handleSavePens } =
+		usePenData();
+	const location = useLocation();
+	var savedData = null;
 
-	if (dataPen.status === "private" && userData.email !== dataPen.email) {
+	useEffect(() => {
+		if (!userData.id) {
+			setRedirectPath(location.pathname);
+		}
+		if (localStorage["savedDataPen"]) {
+			savedData = JSON.parse(localStorage.getItem("savedDataPen"));
+			localStorage.removeItem("savedDataPen");
+		}
+		setDataPen({
+			...dataPen,
+			...savedData,
+		});
+	}, []);
+
+	console.log(!userData.id);
+	if (
+		dataPen.status === "private" &&
+		(userData.email !== dataPen.email || !userData.id)
+	) {
 		return (
 			<div className="flex flex-col items-center gap-4 justify-center h-screen  text-xl">
 				<div className="text-3xl font-semibold flex items-center">
@@ -74,6 +96,11 @@ function Pen() {
 				html={html}
 				css={css}
 				javascript={javascript}
+			/>
+			<ToastContainer
+				className="mt-10"
+				position="top-right"
+				autoClose={2000}
 			/>
 		</div>
 	);

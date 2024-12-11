@@ -8,7 +8,12 @@ async function searchDeletedUser(req, res) {
 			"SELECT * FROM account WHERE LOWER(username) LIKE LOWER(?) AND deleted = 1",
 			[`%${req.params.username}%`],
 			function (err, result) {
-				console.log(result);
+				if (err) {
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
+				}
 				res.status(200).json({
 					success: true,
 					message: "Users fetched successfully",

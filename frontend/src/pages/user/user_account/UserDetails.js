@@ -92,8 +92,6 @@ function UserDetails() {
 			);
 
 			if (response.data.success) {
-				console.log("response.data.message", response.data.data);
-
 				setFollow(response.data.data);
 			}
 		} catch (error) {
@@ -118,14 +116,14 @@ function UserDetails() {
 	useEffect(() => {
 		fetchUserDetails();
 		fetchUserProjects();
-		fetchCountFollower();
 		getListFollowingUser();
 	}, [dataUser.id, location]);
 
 	useEffect(() => {
 		fetchCountFollower();
 		getListFollowingUser();
-	}, [isFollowing]);
+		fetchCountFollower();
+	}, [isFollowing, dataUser.id]);
 
 	return (
 		<div className="bg-white w-full h-[100vh] overflow-y-scroll pb-20 border-l-2 border-gray-300">
