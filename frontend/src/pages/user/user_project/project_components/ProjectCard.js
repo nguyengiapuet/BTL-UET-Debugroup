@@ -71,7 +71,10 @@ function ProjectCard({
 					</div>
 				}
 				open={open}
-				onOk={() => handleRemove(pen)}
+				onOk={() => {
+					handleRemove(pen);
+					setOpen(false);
+				}}
 				onCancel={hideModal}
 				okText="Confirm"
 				cancelText="Cancel"

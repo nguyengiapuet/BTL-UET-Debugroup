@@ -21,7 +21,7 @@ async function getAllPensUser(req, res) {
 						success: false,
 					});
 				}
-				res.status(200).json({
+				return res.status(200).json({
 					success: true,
 					message: "Pens fetched successfully",
 					data: result,
@@ -29,7 +29,7 @@ async function getAllPensUser(req, res) {
 			}
 		);
 	} catch (err) {
-		res.json({
+		return res.json({
 			message: err.message,
 			success: false,
 		});

@@ -132,7 +132,7 @@ router.get("/all-notification", verifyToken, getAllNotificationByUser);
 router.get("/count-notification-unread", verifyToken, countNotificationUnread);
 router.post("/mark-as-read-notification", verifyToken, markAsReadNotification);
 //question
-router.get("/learn/question1", verifyToken, getQuestion1);
-router.get("/learn/question2", verifyToken, getQuestion2);
+router.get("/learn/question1", getQuestion1);
+router.get("/learn/question2", getQuestion2);
 
 module.exports = router;

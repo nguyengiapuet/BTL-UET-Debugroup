@@ -59,6 +59,7 @@ function Search({ isFocused, setIsFocused }) {
 			<input
 				type="text"
 				name="search"
+				autoComplete="off"
 				onChange={handleOnChange}
 				placeholder="Enter your text"
 				className="w-full rounded-full font-normal text-sm py-2 px-2 outline-none"

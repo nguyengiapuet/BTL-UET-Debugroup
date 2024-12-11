@@ -13,14 +13,14 @@ async function markAsReadNotification(req, res) {
 						success: false,
 					});
 				}
-				res.status(200).json({
+				return res.status(200).json({
 					success: true,
 					message: "Notification marked as read",
 				});
 			}
 		);
 	} catch (err) {
-		res.status(500).json({
+		return res.status(500).json({
 			message: err.message,
 			success: false,
 		});

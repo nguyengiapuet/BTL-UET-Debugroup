@@ -47,8 +47,10 @@ function Exercise({ dataPen, handleOnChangePen, javascript, setDataPen }) {
 				const response = await axios.get(
 					`${SummaryApi.getQuestion2.url}`
 				);
+				const remp = await response.data;
+				console.log("test data", remp);
 				if (response.data.success) {
-					setData(response.data.data);
+					setData(remp.data);
 				} else {
 					console.log("response.data.message", response.data.message);
 				}

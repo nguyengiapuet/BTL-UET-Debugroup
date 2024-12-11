@@ -33,6 +33,12 @@ function DialogSavePen({
 			const status = await handleSaveProject(isPublic);
 			setIsOpenSave(false);
 			console.log("Status ok:", status);
+			if (status === "delete_dup") {
+				message.error(
+					"Trùng tên với project đã xoá, vui lòng liên hệ admin khôi phục hoặc xoá"
+				);
+				return;
+			}
 			if (status === "Duplicated") {
 				message.error("Duplicated name of project");
 				return;

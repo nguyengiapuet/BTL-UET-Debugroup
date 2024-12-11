@@ -13,7 +13,7 @@ async function deletePenForever(req, res) {
 					});
 				}
 
-				res.json({
+				return res.json({
 					success: true,
 					message: "Deleted successfully",
 				});

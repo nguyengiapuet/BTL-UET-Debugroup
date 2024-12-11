@@ -22,7 +22,7 @@ async function deleteFollower(req, res) {
 			}
 		);
 	} catch (err) {
-		res.status(500).json({
+		return res.status(500).json({
 			success: false,
 			message: "Error",
 		});

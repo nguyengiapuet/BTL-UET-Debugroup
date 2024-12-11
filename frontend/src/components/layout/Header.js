@@ -7,6 +7,7 @@ import {
 	FaUser,
 	FaUserCircle,
 	FaChevronDown,
+	FaHome,
 } from "react-icons/fa";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -107,6 +108,47 @@ export const PopupMenuItem = ({ to, onClick, icon: Icon, children }) => (
 		{children}
 	</div>
 );
+export const UserPopupInPen = ({
+	userData,
+	setOpenPop,
+	setTitle,
+	handleLogout,
+}) => {
+	const navigate = useNavigate();
+	return (
+		<div
+			className="z-[999] absolute flex flex-col w-[250px] px-4 py-1 bg-white h-fit rounded-md top-8 -left-3
+		transform transition-all duration-200 origin-top opacity-100 scale-100 translate-y-0"
+		>
+			<div className="flex flex-row justify-end items-center gap-3 py-2">
+				<div className="text-sm font-medium flex flex-col items-end gap-1">
+					<div className="text-md font-bold">{userData.username}</div>
+					<div className="text-sm font-medium">{userData.email}</div>
+				</div>
+				<UserAvatar avatar={userData.avatar} size="size-10" />
+			</div>
+			<PopupMenuItem
+				onClick={() => {
+					navigate("/popular");
+					setOpenPop(false);
+				}}
+				icon={FaHome}
+			>
+				Trang chủ
+			</PopupMenuItem>
+			<PopupMenuItem
+				onClick={() => {
+					setTitle("Quản lý tài khoản");
+					handleLogout();
+					setOpenPop(false);
+				}}
+				icon={FaSignOutAlt}
+			>
+				Đăng Xuất
+			</PopupMenuItem>
+		</div>
+	);
+};
 
 export const UserPopup = ({
 	userData,

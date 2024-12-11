@@ -1,7 +1,11 @@
 import { FaChevronDown, FaEdit, FaSave, FaShare } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AiFillCode } from "react-icons/ai";
-import { UserAvatar, UserPopup } from "../../../../components/layout/Header";
+import {
+	UserAvatar,
+	UserPopup,
+	UserPopupInPen,
+} from "../../../../components/layout/Header";
 import { AuthContext } from "../../../../context/AuthContext";
 import { useContext, useState } from "react";
 import { LOCAL_STORAGE_TOKEN_NAME } from "../../../../common/constants";
@@ -259,7 +263,7 @@ const UserSection = () => {
 							/>
 						</div>
 						{openPop && (
-							<UserPopup
+							<UserPopupInPen
 								userData={userData}
 								setOpenPop={setOpenPop}
 								setTitle={setTitle}

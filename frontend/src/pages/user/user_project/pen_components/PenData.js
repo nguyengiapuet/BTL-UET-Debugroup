@@ -78,6 +78,7 @@ export function usePenData() {
 				}
 			);
 			const temp = await response.data;
+			console.log(temp.message);
 			return temp.message;
 		} catch (err) {
 			console.log(err.message);
@@ -94,7 +95,7 @@ export function usePenData() {
 				// if duplicate isDuplicate = "Duplicated" else  = "Non duplicate"
 				const isDuplcicate = await handleCheckDuplicatePen();
 				console.log("Test duplicate:", isDuplcicate);
-				if (isDuplcicate === "Duplicated") {
+				if (isDuplcicate !== "Non Duplicated") {
 					return isDuplcicate;
 				}
 				await handleCreatPens(isPublic);

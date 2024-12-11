@@ -26,13 +26,14 @@ async function getAllCommentsByProject(req, res) {
 			[req.params.id],
 			function (err, result) {
 				if (err) {
+					console.log("Error from get all comments by project", err);
 					return res.status(500).json({
 						message: err.message,
 						success: false,
 					});
 				}
 
-				res.status(200).json({
+				return res.status(200).json({
 					success: true,
 					message: "get all comments successfully",
 					data: result,
@@ -40,7 +41,7 @@ async function getAllCommentsByProject(req, res) {
 			}
 		);
 	} catch (err) {
-		res.status(500).json({
+		return res.status(500).json({
 			message: err.message,
 			success: false,
 		});

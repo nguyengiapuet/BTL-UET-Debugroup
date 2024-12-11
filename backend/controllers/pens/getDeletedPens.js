@@ -19,7 +19,7 @@ async function getDeletedPen(req, res) {
 						success: false,
 					});
 				}
-				res.status(200).json({
+				return res.status(200).json({
 					success: true,
 					message: "Get successfully",
 					data: result,
@@ -28,7 +28,7 @@ async function getDeletedPen(req, res) {
 		);
 		console.log("Get successfully");
 	} catch (err) {
-		res.json({
+		return res.json({
 			message: err.message,
 			success: false,
 		});

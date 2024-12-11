@@ -13,7 +13,7 @@ async function updatePen(req, res) {
 						success: false,
 					});
 				}
-				res.status(200).json({
+				return res.status(200).json({
 					success: true,
 					message: "Update pen successfully",
 					data: result,
@@ -21,7 +21,7 @@ async function updatePen(req, res) {
 			}
 		);
 	} catch (err) {
-		res.json({
+		return res.json({
 			message: err.message,
 			success: false,
 		});
