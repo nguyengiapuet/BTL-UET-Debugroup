@@ -24,7 +24,10 @@ function NotificationCount({ markRead }) {
 	}, [markRead]);
 
 	return (
-		<div className="absolute bottom-2 left-2 bg-red-600 px-1.5 text-white text-sm font-medium rounded-full">
+		<div
+			className="absolute bottom-2 left-2 bg-red-600 px-1.5 text-white text-sm font-medium rounded-full"
+			style={{ userSelect: "none" }}
+		>
 			{countNotification}
 		</div>
 	);

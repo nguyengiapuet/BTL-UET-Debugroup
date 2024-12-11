@@ -124,27 +124,6 @@ function Sidebar({ isSidebarOpen }) {
 						</button>
 					</div>
 
-					{/* Search button */}
-					{/* <div
-						className={`w-full border-2 rounded-3xl flex items-center px-4 transition-colors duration-300 ${
-							isFocused
-								? "border-[#D68E2F] boder-1"
-								: "border-[#D9D9D9]"
-						}`}
-					>
-						<FaSearch
-							className={`${
-								isFocused ? "text-sky-600" : "text-[#D9D9D9]"
-							}`}
-						/>
-						<input
-							type="text"
-							placeholder="Enter your text"
-							className="w-full rounded-full font-normal text-sm py-2 px-2 outline-none"
-							onFocus={() => setIsFocused(true)}
-							onBlur={() => setIsFocused(false)}
-						/>
-					</div> */}
 					<Search isFocused={isFocused} setIsFocused={setIsFocused} />
 
 					{/* Layer tree view */}

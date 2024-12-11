@@ -61,7 +61,7 @@ function Search({ isFocused, setIsFocused }) {
 				name="search"
 				autoComplete="off"
 				onChange={handleOnChange}
-				placeholder="Enter your text"
+				placeholder="Search following"
 				className="w-full rounded-full font-normal text-sm py-2 px-2 outline-none"
 				onFocus={() => {
 					setShowResult(true);

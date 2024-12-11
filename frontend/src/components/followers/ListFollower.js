@@ -27,9 +27,15 @@ function ListFollower() {
 
 	return (
 		<div className="w-full flex flex-col gap-2">
-			<span className="text-xl font-semibold px-2 flex items-center gap-2 text-gray-600">
-				<FaList /> Following:
-			</span>
+			<div className="text-lg font-bold flex items-center gap-2 text-black pl-3 pb-1 mb-3 border-b">
+				{/* <FaList className="text-sm" /> */}
+				<div className="grow flex flex-row justify-between items-center">
+					<div> Following list</div>
+					<div className="text-sm font-medium">
+						({listFollowing.length} accounts)
+					</div>
+				</div>
+			</div>
 			{listFollowing.length > 0 ? (
 				<>
 					{listFollowing.map((item, index) => (

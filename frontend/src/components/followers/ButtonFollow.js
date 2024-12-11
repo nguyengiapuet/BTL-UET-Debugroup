@@ -77,7 +77,7 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 			{!isFollowing ? (
 				<button
 					onClick={handleFollower}
-					className="px-3 py-[5px] bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
+					className="z-10 text-sm px-3 py-[5px] bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
 				>
 					<MdAdd />
 					Follow
@@ -85,7 +85,7 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 			) : (
 				<button
 					onClick={handleUnFollower}
-					className="px-3 py-[5px] bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
+					className="z-10 px-3 py-[5px] text-sm bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
 				>
 					<MdRemove />
 					Unfollow
