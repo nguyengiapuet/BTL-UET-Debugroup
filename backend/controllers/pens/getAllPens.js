@@ -14,9 +14,12 @@ async function getAllPens(req, res) {
 		`,
 			function (err, result) {
 				if (err) {
-					console.log(err);
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
 				}
-				res.status(200).json({
+				return res.status(200).json({
 					success: true,
 					message: "Get successfully",
 					data: result,
@@ -25,7 +28,7 @@ async function getAllPens(req, res) {
 		);
 		console.log("Get successfully");
 	} catch (err) {
-		res.json({
+		return res.json({
 			message: err.message,
 			success: false,
 		});

@@ -29,7 +29,7 @@ async function getDetailsPen(req, res) {
 					});
 				}
 
-				res.json({
+				return res.json({
 					success: true,
 					data: result[0],
 					message: "successfully",

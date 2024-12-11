@@ -109,7 +109,12 @@ function Home() {
 							onClick={() => setSort(!sort)}
 							className="hover:bg-gray-200 hover:text-white border-[1px] border-gray-600 py-1 px-4 cursor-pointer rounded-lg font-medium text-[#626262] text-md gap-2 flex items-center"
 						>
-							<p className="text-sm text-black font-bold">Sort</p>
+							<div
+								className="text-sm text-black font-bold"
+								style={{ userSelect: "none" }}
+							>
+								Sort
+							</div>
 							<FaSortAlphaDown className="text-[#9c6317]" />
 						</div>
 					</div>

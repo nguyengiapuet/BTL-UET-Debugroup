@@ -47,8 +47,10 @@ function Exercise({ dataPen, handleOnChangePen, javascript, setDataPen }) {
 				const response = await axios.get(
 					`${SummaryApi.getQuestion2.url}`
 				);
+				const remp = await response.data;
+				console.log("test data", remp);
 				if (response.data.success) {
-					setData(response.data.data);
+					setData(remp.data);
 				} else {
 					console.log("response.data.message", response.data.message);
 				}
@@ -212,7 +214,7 @@ function Exercise({ dataPen, handleOnChangePen, javascript, setDataPen }) {
 							className="px-4 py-2 bg-slate-500 rounded-xl  cursor-pointer hover:scale-110"
 							onClick={handleClickAnswer}
 						>
-							Xem đáp án
+							Answer
 						</p>
 						<p
 							className="px-4 py-2 bg-[#2150de] rounded-xl  cursor-pointer hover:scale-110"

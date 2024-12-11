@@ -94,6 +94,9 @@ const SummaryApi = {
 	getFollower: {
 		url: `${backendDomain}/api/follower`,
 	},
+	getFollowing: {
+		url: `${backendDomain}/api/get-following`,
+	},
 	countFollower: {
 		url: `${backendDomain}/api/follower-count`,
 	},

@@ -5,6 +5,7 @@ import SummaryApi from "../../../common";
 import { toast } from "react-toastify";
 import appLogo from "../../../asset/image.png";
 import { AuthContext } from "../../../context/AuthContext";
+import { FaTriangleExclamation } from "react-icons/fa6";
 
 function SignUp() {
 	const navigate = useNavigate();
@@ -15,6 +16,7 @@ function SignUp() {
 		password: "",
 		confirmPassword: "",
 	});
+	const [error, setError] = useState(null);
 
 	if (userData?.id) {
 		navigate("/popular");
@@ -26,7 +28,7 @@ function SignUp() {
 	const handleOnSubmit = async (e) => {
 		e.preventDefault();
 		if (data.password !== data.confirmPassword) {
-			alert("Passwords do not match");
+			setError("Passwords do not match");
 			return;
 		}
 
@@ -36,9 +38,12 @@ function SignUp() {
 			if (response.data.success) {
 				toast.success(response.data.message);
 				navigate("/login");
+			} else {
+				setError(response.data.message);
 			}
 		} catch (err) {
 			console.log(err.message);
+			toast.error(err.message);
 		}
 	};
 
@@ -58,6 +63,13 @@ function SignUp() {
 
 				<div className="bg-[#f5f6f9] mx-5 w-full rounded-xl">
 					<div className="my-5 mx-5 flex flex-col gap-1">
+						{error && (
+							<div className="text-red-600 flex items-center break-words gap-2 text-start text-base w-full">
+								<FaTriangleExclamation />
+								{error}
+							</div>
+						)}
+
 						<label className="text-[16px] text-[#001452] font-medium">
 							Username:
 						</label>

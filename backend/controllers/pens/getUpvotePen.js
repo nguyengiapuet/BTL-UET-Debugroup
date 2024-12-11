@@ -4,19 +4,22 @@ async function getUpvotePen(req, res) {
 	try {
 		db.query(
 			`
-		    SELECT p.*, a.avatar, a.username, COUNT(distinct l.id) AS total_likes, COUNT(distinct c.id) AS total_comments
-		    FROM likes l
-            JOIN pens p ON l.id_project = p.id
-            JOIN account a ON l.id_user = a.id
-            LEFT JOIN comments c ON c.id_project = p.id
-            WHERE l.id_user = a.id and a.id = ?
-            GROUP BY p.id, a.id
-		`, [req.params.userid],
+		    SELECT p.*, a.avatar, a.username, COUNT(l.id_project) AS total_likes
+            FROM pens p
+            JOIN account a ON p.email = a.email
+            LEFT JOIN likes l ON p.id = l.id_project
+            WHERE p.is_delete = 0 AND l.id_user = ?
+            GROUP BY p.id
+		`,
+			[req.userId],
 			function (err, result) {
 				if (err) {
-					console.log(err);
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
 				}
-				res.status(200).json({
+				return res.status(200).json({
 					success: true,
 					message: "Get successfully",
 					data: result,
@@ -25,7 +28,7 @@ async function getUpvotePen(req, res) {
 		);
 		console.log("Get successfully");
 	} catch (err) {
-		res.json({
+		return res.json({
 			message: err.message,
 			success: false,
 		});

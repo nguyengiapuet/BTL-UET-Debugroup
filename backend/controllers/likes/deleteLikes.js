@@ -10,7 +10,11 @@ async function deleteLikes(req, res) {
 			[req.userId, idProject],
 			function (err, result) {
 				if (err) {
-					throw err;
+					console.log("Error from delete like", err);
+					return res.status(200).json({
+						success: true,
+						message: err,
+					});
 				}
 				res.status(200).json({
 					success: true,

@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SummaryApi from "../../../../common";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaPaperPlane, FaUserCircle } from "react-icons/fa";
+import { AuthContext } from "../../../../context/AuthContext";
 
 function InputComment({ project, setRefreshComment, avatar }) {
 	const [comment, setComment] = useState("");
+	const { userData } = useContext(AuthContext);
 
 	const handleSendComments = async () => {
+		if (!userData.id) {
+			toast.error("Please log in to comment!");
+			return;
+		}
 		try {
 			const response = await axios.post(SummaryApi.sendComments.url, {
 				idProject: project.id,

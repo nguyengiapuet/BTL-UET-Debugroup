@@ -2,9 +2,13 @@ const db = require("../../config/db");
 
 async function getQuestion2(req, res) {
 	try {
-		db.query("SELECT * FROM question2  ", function (err, result) {
+		db.query("SELECT * FROM practices", function (err, result) {
 			if (err) {
-				throw err;
+				console.log(err);
+				return res.status(500).json({
+					message: err.message,
+					success: false,
+				});
 			}
 			res.status(200).json({
 				success: true,
@@ -13,6 +17,8 @@ async function getQuestion2(req, res) {
 			});
 		});
 	} catch (err) {
+		console.log(err);
+
 		res.status(500).json({
 			message: err.message,
 			success: false,

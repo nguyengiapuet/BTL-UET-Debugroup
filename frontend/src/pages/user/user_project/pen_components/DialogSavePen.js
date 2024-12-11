@@ -1,9 +1,21 @@
 import { message, Modal } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../../context/AuthContext";
+import { toast } from "react-toastify";
+import { usePenData } from "./PenData";
 
-function DialogSavePen({ handleSaveProject, isOpenSave, setIsOpenSave }) {
+function DialogSavePen({
+	handleSaveProject,
+	isOpenSave,
+	setIsOpenSave,
+	dataPen,
+}) {
 	const [isPublic, setIsPublic] = useState(false);
+
+	// console.log("dataPenCC>>>>", dataPen);
+
+	const { userData } = useContext(AuthContext);
 	const navigate = useNavigate();
 
 	const handleCancel = () => {
@@ -11,14 +23,28 @@ function DialogSavePen({ handleSaveProject, isOpenSave, setIsOpenSave }) {
 	};
 
 	const handleOK = async () => {
-		const status = await handleSaveProject(isPublic);
-		setIsOpenSave(false);
-		console.log("Status ok:", status);
-		if (status === "Duplicated") {
-			message.error("Duplicated name of project");
-			return;
+		if (!userData.id) {
+			localStorage.setItem("savedDataPen", JSON.stringify(dataPen));
+			toast.error("Please login to create your pens");
+			navigate("/login");
+
+			setIsOpenSave(false);
 		} else {
-			navigate("/");
+			const status = await handleSaveProject(isPublic);
+			setIsOpenSave(false);
+			console.log("Status ok:", status);
+			if (status === "delete_dup") {
+				message.error(
+					"Trùng tên với project đã xoá, vui lòng liên hệ admin khôi phục hoặc xoá"
+				);
+				return;
+			}
+			if (status === "Duplicated") {
+				message.error("Duplicated name of project");
+				return;
+			} else {
+				navigate("/");
+			}
 		}
 	};
 

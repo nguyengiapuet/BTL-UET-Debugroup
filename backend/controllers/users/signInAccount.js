@@ -5,6 +5,20 @@ async function signInAccount(req, res) {
 	try {
 		const { email, password } = req.body;
 
+		if (email === "") {
+			return res.json({
+				success: false,
+				message: "Email is required",
+			});
+		}
+
+		if (password === "") {
+			return res.json({
+				success: false,
+				message: "Password is required",
+			});
+		}
+
 		console.log(req.body);
 
 		const user = await db
@@ -18,7 +32,7 @@ async function signInAccount(req, res) {
 		if (user[0].length === 0) {
 			return res.json({
 				success: false,
-				message: "User not found",
+				message: "Email or password incorrect",
 			});
 		}
 
@@ -33,7 +47,7 @@ async function signInAccount(req, res) {
 		if (!checkPassword) {
 			return res.json({
 				success: false,
-				message: "Incorrect password",
+				message: "Email or password incorrect",
 			});
 		}
 

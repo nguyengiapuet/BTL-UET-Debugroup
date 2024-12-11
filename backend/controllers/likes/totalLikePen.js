@@ -9,17 +9,21 @@ async function totalLikePen(req, res) {
 			[req.params.penId],
 			function (err, result) {
 				if (err) {
-					throw err;
+					console.log("Error from get all like by user", err);
+					return res.status(200).json({
+						success: true,
+						message: err,
+					});
 				}
 
-				res.status(200).json({
+				return res.status(200).json({
 					success: true,
 					data: result[0].total_likes,
 				});
 			}
 		);
 	} catch (err) {
-		res.status(500).json({
+		return res.status(500).json({
 			message: err.message,
 			success: false,
 		});

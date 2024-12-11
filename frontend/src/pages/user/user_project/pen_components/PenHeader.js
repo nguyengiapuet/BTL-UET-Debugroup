@@ -1,5 +1,5 @@
 import { FaChevronDown, FaEdit, FaSave, FaShare } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AiFillCode } from "react-icons/ai";
 import {
 	UserAvatar,
@@ -30,6 +30,7 @@ function ProjectHeader({
 	const [isOpenSave, setIsOpenSave] = useState(false);
 	// Handle to toggle status of project.
 	const [isPublic, setIsPublic] = useState(false);
+	const navigate = useNavigate();
 
 	const handleCancel = () => {
 		setIsModalOpen(false);
@@ -38,7 +39,12 @@ function ProjectHeader({
 		setIsModalOpen(false);
 	};
 	const handleShareModal = () => {
-		setIsModalOpen(true);
+		if (!userData.id) {
+			localStorage.setItem("savedDataPen", JSON.stringify(dataPen));
+			navigate("/login");
+		} else {
+			setIsModalOpen(true);
+		}
 	};
 	const handleToogleStatus = () => {
 		setIsPublic(!isPublic);
@@ -66,9 +72,10 @@ function ProjectHeader({
 		<div className="h-[60px] bg-[#15222e] flex items-center justify-between border-b border-gray-400">
 			{contextHolder}
 			<div className="h-[60px] flex items-center gap-3 flex-row pl-2 ">
-				<Link to={"/popular"}>
-					<AiFillCode className="text-[#9C6317] text-4xl" />
-				</Link>
+				<AiFillCode
+					onClick={() => navigate("/popular")}
+					className="text-[#9C6317] cursor-pointer text-4xl"
+				/>
 				<div>
 					<div className="flex items-center gap-3">
 						<input
@@ -119,6 +126,7 @@ function ProjectHeader({
 								handleSaveProject={handleSavePens}
 								isOpenSave={isOpenSave}
 								setIsOpenSave={setIsOpenSave}
+								dataPen={dataPen}
 							/>
 						</>
 					)}

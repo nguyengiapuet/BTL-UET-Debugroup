@@ -16,6 +16,7 @@ const AuthContextProvider = ({ children }) => {
 		avatar: "",
 	});
 	const [title, setTitle] = useState("Home");
+	const [redirectPath, setRedirectPath] = useState(null);
 
 	const loadUser = async () => {
 		if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
@@ -55,6 +56,8 @@ const AuthContextProvider = ({ children }) => {
 				setUserData,
 				infoForm,
 				setInfoForm,
+				redirectPath,
+				setRedirectPath,
 			}}
 		>
 			{children}

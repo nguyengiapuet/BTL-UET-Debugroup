@@ -9,7 +9,10 @@ async function deleteFollower(req, res) {
 			[req.userId, followingId],
 			function (err, result) {
 				if (err) {
-					throw err;
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
 				}
 
 				return res.json({
@@ -19,7 +22,7 @@ async function deleteFollower(req, res) {
 			}
 		);
 	} catch (err) {
-		res.status(500).json({
+		return res.status(500).json({
 			success: false,
 			message: "Error",
 		});

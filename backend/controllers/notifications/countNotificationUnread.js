@@ -9,16 +9,19 @@ async function countNotificationUnread(req, res) {
 			[req.userId, 0],
 			function (err, result) {
 				if (err) {
-					throw err;
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
 				}
-				res.status(200).json({
+				return res.status(200).json({
 					success: true,
 					data: result[0].total_notification,
 				});
 			}
 		);
 	} catch (err) {
-		res.status(500).json({
+		return res.status(500).json({
 			message: err.message,
 			success: false,
 		});

@@ -48,18 +48,32 @@ function Search() {
 		return () => document.removeEventListener("click", handleClickOutside);
 	}, []);
 
+	const [isFocused, setIsFocused] = useState(false);
+
 	return (
 		<div className="hidden lg:block relative h-fit z-10 search-container">
-			<div className="flex items-center bg-[#D9E2EF] rounded-full py-[2px] px-4">
-				<FaSearch className="text-gray-500 text-sm" />
+			<div
+				className={`flex border-[2px] transition-colors duration-300 items-center bg-[#D9E2EF] rounded-full py-[2px] px-4 ${
+					isFocused ? "border-[#D68E2F] border-1" : "border-[#D9D9D9]"
+				}`}
+			>
+				<FaSearch
+					className={`text-gray-500 text-sm ${
+						isFocused ? "text-sky-600" : "text-[#D9D9D9]"
+					}`}
+				/>
 				<input
 					onChange={handleOnChange}
 					type="text"
 					name="search"
-					onFocus={() => setShowResult(true)}
+					autoComplete="off"
+					onFocus={() => {
+						setShowResult(true);
+						setIsFocused(true);
+					}}
 					className="h-7 w-[400px] z-10 rounded-r-full bg-[#D9E2EF] px-4 outline-none text-sm"
 					placeholder="Search"
-					autoComplete="off"
+					onBlur={() => setIsFocused(false)}
 				/>
 			</div>
 			{showResult && searchResult.length > 0 && (

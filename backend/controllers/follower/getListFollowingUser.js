@@ -25,7 +25,10 @@ async function getListFollowingUser(req, res) {
 			[id],
 			function (err, result) {
 				if (err) {
-					throw err;
+					return res.status(500).json({
+						message: err.message,
+						success: false,
+					});
 				}
 
 				return res.json({
@@ -36,7 +39,7 @@ async function getListFollowingUser(req, res) {
 			}
 		);
 	} catch (err) {
-		res.status(500).json({
+		return res.status(500).json({
 			success: false,
 			message: "Error",
 		});
