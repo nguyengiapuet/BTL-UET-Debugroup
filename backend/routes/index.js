@@ -58,6 +58,8 @@ const searchDeleteComment = require("../controllers/search/comment_search/search
 const getUpvotePen = require("../controllers/pens/getUpvotePen");
 const getAllPensUser = require("../controllers/pens/getAllPensUser");
 const checkDuplicatePen = require("../controllers/pens/checkDuplicatePen");
+const sendRateApp = require("../controllers/app/sendRateApp");
+const getRateApp = require("../controllers/app/getRateApp");
 
 const router = express.Router();
 
@@ -105,6 +107,10 @@ router.post("/delete-like", verifyToken, deleteLikes);
 router.get("/total-like", totalLike);
 router.get("/total-like-pen/:penId", totalLikePen);
 router.get("/all-like", verifyToken, getAllLikeByUser);
+
+// app
+router.post("/send-rate-app", sendRateApp);
+router.get("/get-all-review", getRateApp);
 
 // Comments
 router.post("/send-comments", verifyToken, sendComments);

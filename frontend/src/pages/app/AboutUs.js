@@ -1,8 +1,28 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
 import javascriptDemo from "../../asset/javascript_demo.webm";
 import fastLiveView from "../../asset/live_code.webm";
-import CommentContent from "../user/user_project/comment_components/CommentContent";
+import SummaryApi from "../../common";
+import ReviewCard from "./components/ReviewCard";
+import { message } from "antd";
+import { useEffect, useState } from "react";
 function AboutUs() {
+	const [reviews, setReviews] = useState([]);
+
+	const getAllReview = async () => {
+		try {
+			const response = await axios.get(SummaryApi.getAllReview.url);
+			if (response.data.success) {
+				setReviews(response.data.data);
+				return response.data.data;
+			}
+		} catch (err) {
+			console.log(err.message);
+			message.error(err.message);
+		}
+	};
+	useEffect(() => {
+		getAllReview();
+	}, []);
 	return (
 		<div className="h-screen overflow-y-auto">
 			{/* Top section */}
@@ -93,8 +113,23 @@ function AboutUs() {
 				</div>
 			</div>
 
-			<div className="w-full h-fit bg-indigo-100 mt-10">
-				<div className="m-auto my-10 pb-10 pt-5 flex flex-col gap-5 justify-center items-center max-w-[700px]"></div>
+			<div className="w-full bg-indigo-100 mt-10 min-h-screen">
+				<div className="m-auto mt-10 pb-10 pt-5 flex flex-col gap-5 justify-center items-center max-w-[700px]">
+					<div className="text-3xl font-bold">Reviews app</div>
+				</div>
+				<div className="container mx-auto p-6">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+						{reviews.length === 0 ? (
+							<div className="text-center">
+								Waiting get reviews...
+							</div>
+						) : (
+							reviews.map((item, index) => (
+								<ReviewCard data={item} key={index} />
+							))
+						)}
+					</div>
+				</div>
 			</div>
 		</div>
 	);

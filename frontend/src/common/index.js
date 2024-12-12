@@ -1,6 +1,13 @@
 const backendDomain = "http://localhost:8080";
 
 const SummaryApi = {
+	// App
+	getAllReview: {
+		url: `${backendDomain}/api/get-all-review`,
+	},
+	sendRateComment: {
+		url: `${backendDomain}/api/send-rate-app`,
+	},
 	// Authentication
 	signUp: {
 		url: `${backendDomain}/api/signup`,
@@ -72,6 +79,7 @@ const SummaryApi = {
 	sendComments: {
 		url: `${backendDomain}/api/send-comments`,
 	},
+
 	allComments: {
 		url: `${backendDomain}/api/all-comments`,
 	},
