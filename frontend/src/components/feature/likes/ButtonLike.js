@@ -29,6 +29,11 @@ function ButtonLike({ pen, sortLike }) {
 	};
 
 	const handleLike = async (pen) => {
+		if (!userData.id) {
+			toast.error("Please login and try again");
+			return;
+		}
+
 		try {
 			const response = await axios.post(SummaryApi.addLike.url, {
 				idProject: pen.id,
