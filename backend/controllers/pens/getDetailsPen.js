@@ -13,7 +13,8 @@ async function getDetailsPen(req, res) {
                 pens.email,
 				pens.status,
                 account.username,
-				account.avatar
+				account.avatar,
+				account.id AS userId
             FROM 
                 pens
             LEFT JOIN 

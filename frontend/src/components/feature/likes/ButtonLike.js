@@ -4,6 +4,9 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import SummaryApi from "../../../common";
 import { AuthContext } from "../../../context/AuthContext";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:8080");
 
 function ButtonLike({ pen, sortLike }) {
 	const [allLike, setAllLike] = useState([]);
@@ -35,6 +38,18 @@ function ButtonLike({ pen, sortLike }) {
 				toast.success("Like added successfully!");
 				getAllLikeByUser();
 				setTotalLike((prev) => prev + 1);
+				console.log(
+					"response.data.data.recipientId",
+					response.data.data
+				);
+
+				socket.emit("notification", {
+					idProject: pen.id,
+					issuerId: userData.id,
+					issuerName: userData.username,
+					recipientId: response.data.data,
+					type: "LIKE",
+				});
 			}
 		} catch (err) {
 			console.log(err.message);

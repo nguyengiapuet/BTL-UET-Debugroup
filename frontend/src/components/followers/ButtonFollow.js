@@ -3,7 +3,9 @@ import SummaryApi from "../../common";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { MdAdd, MdEdit, MdRemove } from "react-icons/md";
+import { io } from "socket.io-client";
 
+const socket = io("http://localhost:8080");
 function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 	const handleFollower = async () => {
 		if (!currentUser.id) {
@@ -18,6 +20,12 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 			if (response.data.success) {
 				toast.success(response.data.message);
 				setIsFollowing(true);
+				socket.emit("notification", {
+					issuerId: currentUser.id,
+					issuerName: currentUser.username,
+					recipientId: dataUser.id,
+					type: "FOLLOW",
+				});
 			}
 		} catch (err) {
 			console.log(err.message);

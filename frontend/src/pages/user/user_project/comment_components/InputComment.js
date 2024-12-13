@@ -4,6 +4,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { FaPaperPlane, FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../../../../context/AuthContext";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:8080");
 
 function InputComment({ project, setRefreshComment, avatar }) {
 	const [comment, setComment] = useState("");
@@ -26,6 +29,14 @@ function InputComment({ project, setRefreshComment, avatar }) {
 				// getAllCommentsByProject();
 				setRefreshComment((prev) => !prev);
 				setComment("");
+
+				socket.emit("notification", {
+					idProject: project.id,
+					issuerId: userData.id,
+					issuerName: userData.username,
+					recipientId: project.userId,
+					type: "COMMENT",
+				});
 			}
 		} catch (err) {
 			console.log(err.message);
