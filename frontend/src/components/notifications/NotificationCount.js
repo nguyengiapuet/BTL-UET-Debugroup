@@ -41,8 +41,10 @@ function NotificationCount({ markRead }) {
 			} else if (data.type === "FOLLOW") {
 				toast.info(`User ${data.issuerName} follow you`);
 			}
-			console.log("okkkkkkkkkkkkkkkkkkkkkkk???????????");
 		});
+		return () => {
+			socket.disconnect();
+		};
 	}, [socket]);
 	return (
 		<div

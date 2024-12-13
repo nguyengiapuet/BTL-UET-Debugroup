@@ -20,9 +20,13 @@ app.use(cors());
 app.use("/api", router);
 
 let activeUsers = [];
+
 io.on("connection", (socket) => {
 	socket.on("register", (userId) => {
-		if (!activeUsers.some((user) => user.userId === userId)) {
+		if (
+			!activeUsers.some((user) => user.userId === userId) &&
+			userId !== null
+		) {
 			activeUsers.push({ userId: userId, socketId: socket.id });
 		}
 	});

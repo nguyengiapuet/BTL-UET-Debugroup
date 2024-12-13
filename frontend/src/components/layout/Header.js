@@ -17,6 +17,9 @@ import ProfileModal from "../../pages/user/user_account/Profile";
 import ChangePasswordModal from "../../pages/user/user_account/ChangePassword";
 import Notifications from "../notifications/Notifications";
 import NotificationCount from "../notifications/NotificationCount";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:8080");
 
 function Header({ toggleNav }) {
 	const { userData, setUserData, title, setTitle, setRedirectPath } =
@@ -35,6 +38,7 @@ function Header({ toggleNav }) {
 			role: "",
 			avatar: "",
 		});
+		socket.disconnect();
 		setRedirectPath(null);
 		navigate("/");
 	};
