@@ -1,6 +1,10 @@
 const backendDomain = "http://localhost:8080";
 
 const SummaryApi = {
+	// Project
+	checkOwnerPoject: {
+		url: `${backendDomain}/api/check-owner`,
+	},
 	// App
 	getAllReview: {
 		url: `${backendDomain}/api/get-all-review`,

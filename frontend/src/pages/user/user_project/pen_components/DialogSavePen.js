@@ -26,7 +26,9 @@ function DialogSavePen({
 		if (!userData.id) {
 			localStorage.setItem("savedDataPen", JSON.stringify(dataPen));
 			toast.error("Please login to create your pens");
-			navigate("/login");
+			setTimeout(() => {
+				navigate("/login");
+			}, 1000);
 
 			setIsOpenSave(false);
 		} else {

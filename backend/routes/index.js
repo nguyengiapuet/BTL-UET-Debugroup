@@ -60,6 +60,7 @@ const getAllPensUser = require("../controllers/pens/getAllPensUser");
 const checkDuplicatePen = require("../controllers/pens/checkDuplicatePen");
 const sendRateApp = require("../controllers/app/sendRateApp");
 const getRateApp = require("../controllers/app/getRateApp");
+const checkOwnerPen = require("../controllers/pens/checkOwnerPen");
 
 const router = express.Router();
 
@@ -100,6 +101,7 @@ router.put("/restore-pen/:id", verifyToken, restorePen);
 router.delete("/delete-pen-forever/:id", verifyToken, deletePenForever);
 router.put("/update-pens/:id", verifyToken, updatePen);
 router.get("/get-upvote-pen", verifyToken, getUpvotePen);
+router.post("/check-owner", checkOwnerPen);
 
 // Like
 router.post("/add-like", verifyToken, addLikes);

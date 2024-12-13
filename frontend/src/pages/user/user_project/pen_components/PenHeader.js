@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { AiFillCode } from "react-icons/ai";
 import {
 	UserAvatar,
-	UserPopup,
 	UserPopupInPen,
 } from "../../../../components/layout/Header";
 import { AuthContext } from "../../../../context/AuthContext";
@@ -11,6 +10,8 @@ import { useContext, useState } from "react";
 import { LOCAL_STORAGE_TOKEN_NAME } from "../../../../common/constants";
 import { Modal, message } from "antd";
 import DialogSavePen from "./DialogSavePen";
+import axios from "axios";
+import SummaryApi from "../../../../common";
 
 function ProjectHeader({
 	editTitle,
@@ -28,6 +29,7 @@ function ProjectHeader({
 	// Hanlde to show modal.
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isOpenSave, setIsOpenSave] = useState(false);
+	const [isOwner, setIsOwner] = useState(false);
 	// Handle to toggle status of project.
 	const [isPublic, setIsPublic] = useState(false);
 	const navigate = useNavigate();
@@ -38,13 +40,27 @@ function ProjectHeader({
 	const handleOK = () => {
 		setIsModalOpen(false);
 	};
-	const handleShareModal = () => {
-		if (!userData.id) {
-			localStorage.setItem("savedDataPen", JSON.stringify(dataPen));
-			navigate("/login");
-		} else {
-			setIsModalOpen(true);
+
+	// Check if not owner of project => disable set private/public.
+	const checkOwnerProject = async (user_email, project_id) => {
+		try {
+			const response = await axios.post(SummaryApi.checkOwnerPoject.url, {
+				user_email: user_email,
+				project_id: project_id,
+			});
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				setIsOwner(response.data.data);
+			}
+		} catch (error) {
+			console.log(error.message);
 		}
+	};
+	const handleShareModal = () => {
+		const isOwner = checkOwnerProject(userData.email, dataPen.id);
+		console.log("Test owner", isOwner);
+		setIsModalOpen(true);
 	};
 	const handleToogleStatus = () => {
 		setIsPublic(!isPublic);
@@ -116,7 +132,9 @@ function ProjectHeader({
 					{(!params.id || dataPen.email === userData.email) && (
 						<>
 							<div
-								onClick={() => setIsOpenSave(true)}
+								onClick={() => {
+									setIsOpenSave(true);
+								}}
 								className="text-sm flex gap-1 items-center bg-[#9C6317] px-4 py-[3px] rounded text-white hover:bg-opacity-75"
 							>
 								<FaSave />
@@ -142,55 +160,58 @@ function ProjectHeader({
 				onOk={handleOK}
 			>
 				<div className="flex flex-col gap-4 p-4">
-					<div className="flex items-center justify-between">
-						<span className="text-sm font-medium">
-							Project Status:
-						</span>
-						<button
-							className="relative w-24 h-8 rounded-2xl transition-all duration-300 ease-in-out flex items-center px-2 outline-none overflow-hidden"
-							style={{
-								backgroundColor: isPublic
-									? "#22c55e"
-									: "#ef4444",
-							}}
-							onClick={handleToogleStatus}
-						>
-							<span
-								className="text-white text-sm font-medium select-none absolute transition-all duration-300 ease-in-out transform"
-								style={{
-									left: isPublic ? "8px" : "-100%",
-									opacity: isPublic ? 1 : 0,
-									transform: `translateX(${
-										isPublic ? "0" : "20px"
-									})`,
-								}}
-							>
-								Public
+					{userData.id && isOwner && (
+						<div className="flex items-center justify-between">
+							<span className="text-sm font-medium">
+								Project Status:
 							</span>
-
-							<span
-								className="text-white text-sm font-medium select-none absolute transition-all duration-300 ease-in-out transform"
+							<button
+								className="relative w-24 h-8 rounded-2xl transition-all duration-300 ease-in-out flex items-center px-2 outline-none overflow-hidden"
 								style={{
-									right: !isPublic ? "8px" : "-100%",
-									opacity: !isPublic ? 1 : 0,
-									transform: `translateX(${
-										!isPublic ? "0" : "-20px"
-									})`,
+									backgroundColor: isPublic
+										? "#22c55e"
+										: "#ef4444",
 								}}
+								disabled
+								onClick={handleToogleStatus}
 							>
-								Private
-							</span>
+								<span
+									className="text-white text-sm font-medium select-none absolute transition-all duration-300 ease-in-out transform"
+									style={{
+										left: isPublic ? "8px" : "-100%",
+										opacity: isPublic ? 1 : 0,
+										transform: `translateX(${
+											isPublic ? "0" : "20px"
+										})`,
+									}}
+								>
+									Public
+								</span>
 
-							<span
-								className="absolute w-6 h-6 bg-white rounded-full shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl"
-								style={{
-									transform: `translateX(${
-										isPublic ? "54px" : "0"
-									})`,
-								}}
-							/>
-						</button>
-					</div>
+								<span
+									className="text-white text-sm font-medium select-none absolute transition-all duration-300 ease-in-out transform"
+									style={{
+										right: !isPublic ? "8px" : "-100%",
+										opacity: !isPublic ? 1 : 0,
+										transform: `translateX(${
+											!isPublic ? "0" : "-20px"
+										})`,
+									}}
+								>
+									Private
+								</span>
+
+								<span
+									className="absolute w-6 h-6 bg-white rounded-full shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl"
+									style={{
+										transform: `translateX(${
+											isPublic ? "54px" : "0"
+										})`,
+									}}
+								/>
+							</button>
+						</div>
+					)}
 					<div className="flex flex-col gap-2">
 						<span className="text-sm font-medium">Share URL:</span>
 						<div className="flex gap-2">
@@ -215,19 +236,10 @@ function ProjectHeader({
 }
 
 const UserSection = () => {
-	// Change ui if user is logged in
-	// TODO
-
 	const { userData, setUserData, setTitle } = useContext(AuthContext);
 	const [openPop, setOpenPop] = useState(false);
 	const [isProfileOpen, setIsProfileOpen] = useState(false);
 	const [isPasswordOpen, setIsPasswordOpen] = useState(false);
-	// const handleClosePassword = () => {
-	// 	setIsPasswordOpen(false);
-	// };
-	// const handleCloseProfile = () => {
-	// 	setIsProfileOpen(false);
-	// };
 
 	const handleLogout = () => {
 		localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
