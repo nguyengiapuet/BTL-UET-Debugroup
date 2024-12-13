@@ -52,7 +52,7 @@ function Header({ toggleNav }) {
 		setIsPasswordOpen(false);
 	};
 	return (
-		<div className="w-full bg-[#f4f8ff] shadow-md py-2 flex flex-row justify-between items-center">
+		<div className="w-full max-h-[56px] bg-[#f4f8ff] shadow-md py-2 flex flex-row justify-between items-center">
 			<MenuSection title={title} toggleNav={toggleNav} />
 			<Search />
 			<AuthSection
