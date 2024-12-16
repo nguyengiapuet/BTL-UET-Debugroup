@@ -61,6 +61,7 @@ const checkDuplicatePen = require("../controllers/pens/checkDuplicatePen");
 const sendRateApp = require("../controllers/app/sendRateApp");
 const getRateApp = require("../controllers/app/getRateApp");
 const checkOwnerPen = require("../controllers/pens/checkOwnerPen");
+const getAllPensPublicUser = require("../controllers/users/getAllPenPublicUser");
 
 const router = express.Router();
 
@@ -91,6 +92,7 @@ router.get("/search-delete-comment/:comment", searchDeleteComment);
 router.post("/create-pens", verifyToken, createPens);
 router.post("/get-all-pens-user", getAllPensUser);
 router.get("/get-all-pens", getAllPens);
+router.post("/get-all-pen-public-user", getAllPensPublicUser);
 router.get("/get-all-pens-public", getAllPensPublic);
 router.post("/check-duplicate-pen", verifyToken, checkDuplicatePen);
 

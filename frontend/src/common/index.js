@@ -33,6 +33,9 @@ const SummaryApi = {
 	createPens: {
 		url: `${backendDomain}/api/create-pens`,
 	},
+	getAllPensPublicUser: {
+		url: `${backendDomain}/api/get-all-pen-public-user`,
+	},
 	getAllPensUser: {
 		url: `${backendDomain}/api/get-all-pens-user`,
 	},

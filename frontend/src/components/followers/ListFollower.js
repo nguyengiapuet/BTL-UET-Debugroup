@@ -29,7 +29,7 @@ function ListFollower() {
 		<div className="w-full flex flex-col gap-2">
 			<div className="text-lg font-bold flex items-center gap-2 text-black pl-3 pb-1 mb-3 border-b">
 				{/* <FaList className="text-sm" /> */}
-				<div className="grow flex flex-row justify-between items-center">
+				<div className="min-w-[280px] grow flex flex-row justify-between items-center">
 					<div> Following list</div>
 					<div className="text-sm font-medium">
 						({listFollowing.length} accounts)

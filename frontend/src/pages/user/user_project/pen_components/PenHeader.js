@@ -6,7 +6,7 @@ import {
 	UserPopupInPen,
 } from "../../../../components/layout/Header";
 import { AuthContext } from "../../../../context/AuthContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LOCAL_STORAGE_TOKEN_NAME } from "../../../../common/constants";
 import { Modal, message } from "antd";
 import DialogSavePen from "./DialogSavePen";
@@ -50,18 +50,27 @@ function ProjectHeader({
 			});
 
 			if (response.data.success) {
-				console.log(response.data.data);
+				console.log("Test data", response.data.data);
 				setIsOwner(response.data.data);
+				return response.data.data;
 			}
 		} catch (error) {
 			console.log(error.message);
 		}
 	};
-	const handleShareModal = () => {
-		const isOwner = checkOwnerProject(userData.email, dataPen.id);
-		console.log("Test owner", isOwner);
+	const handleShareModal = async () => {
+		if (!dataPen.id) {
+			message.error("Save this project to share for everyone!");
+			return;
+		}
+		console.log("Test id pen: ", dataPen.id);
+		await checkOwnerProject(userData.email, dataPen.id);
+
 		setIsModalOpen(true);
 	};
+	useEffect(() => {
+		console.log("Test owner1", isOwner);
+	}, [isOwner]);
 	const handleToogleStatus = () => {
 		setIsPublic(!isPublic);
 	};
@@ -125,6 +134,7 @@ function ProjectHeader({
 					<button
 						className="max-h-[30px] text-sm flex gap-1 items-center bg-[#9C6317] px-4 py-[3px] rounded text-white hover:bg-opacity-75"
 						onClick={handleShareModal}
+						// disabled={dataPen.id !== ""}
 					>
 						<FaShare className="text-sm" />
 						<div>Share</div>
@@ -133,6 +143,10 @@ function ProjectHeader({
 						<>
 							<div
 								onClick={() => {
+									console.log(
+										"Test:",
+										dataPen.email === userData.email
+									);
 									setIsOpenSave(true);
 								}}
 								className="text-sm flex gap-1 items-center bg-[#9C6317] px-4 py-[3px] rounded text-white hover:bg-opacity-75"
@@ -172,7 +186,6 @@ function ProjectHeader({
 										? "#22c55e"
 										: "#ef4444",
 								}}
-								disabled
 								onClick={handleToogleStatus}
 							>
 								<span

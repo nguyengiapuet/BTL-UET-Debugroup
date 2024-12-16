@@ -58,9 +58,13 @@ function UserDetails() {
 
 	const fetchUserProjects = async () => {
 		try {
-			const response = await axios.post(SummaryApi.getAllPensUser.url, {
-				username: params.username,
-			});
+			console.log("Yest", params.username);
+			const response = await axios.post(
+				SummaryApi.getAllPensPublicUser.url,
+				{
+					username: params.username,
+				}
+			);
 
 			if (response.data.success) {
 				setProjectsUser(response.data.data);

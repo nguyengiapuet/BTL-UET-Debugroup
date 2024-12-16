@@ -30,26 +30,30 @@ function Sidebar({ isSidebarOpen }) {
 		setOpen(true);
 	};
 
-	const handleOk = () => {
+	const handleOk = async () => {
 		if (rating === 0 || content === "") {
 			message.error("Please rate stars and write a comment!");
 			return;
 		}
 		setLoading(true);
-		const isSuccess = sendRateComment();
-		setOpen(false);
+		const isSuccess = await sendRateComment();
+
+		if (!isSuccess) {
+			setLoading(false);
+		}
+
 		if (isSuccess) {
 			message.success("Rate app successfully");
 			setLoading(false);
+			setOpen(false);
 			return;
 		}
-		message.error("Something went wrong!");
-		setLoading(false);
+		// message.error("Something went wrong!");
 	};
 	const sendRateComment = async () => {
 		if (!userData.id) {
 			message.error("Please log in to rate app!");
-			return;
+			return false;
 		}
 		try {
 			console.log(content);
