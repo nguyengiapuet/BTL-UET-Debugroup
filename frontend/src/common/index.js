@@ -66,6 +66,9 @@ const SummaryApi = {
 	allPensPublic: {
 		url: `${backendDomain}/api/get-all-pens-public`,
 	},
+	searchPenPublic: {
+		url: `${backendDomain}/api/search-all-pens-public`,
+	},
 	checkDuplicatePen: {
 		url: `${backendDomain}/api/check-duplicate-pen`,
 	},

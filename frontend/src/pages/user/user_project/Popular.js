@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useLocation } from "react-router-dom";
 import SummaryApi from "../../../common";
 import axios from "axios";
 import ProjectCard from "./project_components/ProjectCard";
@@ -7,9 +7,9 @@ import { AuthContext } from "../../../context/AuthContext";
 
 function Popular() {
 	const { sortLike } = useOutletContext();
-
 	const { userData } = useContext(AuthContext);
 	const [getAllPens, setGetAllPens] = useState([]);
+	const location = useLocation();
 
 	const fetchGetAllPens = async () => {
 		try {
@@ -26,9 +26,31 @@ function Popular() {
 		}
 	};
 
+	const searchPenByName = async (query) => {
+		try {
+			const response = await axios.post(SummaryApi.searchPenPublic.url, {
+				query: query,
+			});
+
+			if (response.data.success) {
+				console.log(response.data.data);
+				if (sortLike) setGetAllPens(sortLike(response.data.data));
+				else setGetAllPens(response.data.data);
+			}
+		} catch (err) {
+			console.log(err.message);
+			return;
+		}
+	};
+
 	useEffect(() => {
-		fetchGetAllPens();
-	}, [sortLike]);
+		const queryParams = new URLSearchParams(location.search);
+		const query = queryParams.get("query");
+		console.log("Test query", query);
+		if (query) {
+			searchPenByName(query);
+		} else fetchGetAllPens();
+	}, [sortLike, location.search]);
 
 	console.log("getAllPens", getAllPens);
 

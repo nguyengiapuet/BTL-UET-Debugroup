@@ -8,18 +8,18 @@ function UserItem({ data, setShowResult }) {
 				navigate(`/info/${data.username}`);
 				setShowResult(false);
 			}}
-			className="flex items-center gap-2 cursor-pointer w-full hover:bg-slate-100 p-2 rounded-xl transition-all duration-150"
+			className="flex items-center gap-2 bg-gray-100 cursor-pointer w-full hover:bg-slate-300 p-2 rounded-xl shadow-md transition-all duration-150"
 		>
 			{data.avatar ? (
 				<img
-					className="rounded-full size-12"
+					className="rounded-full size-10"
 					src={data.avatar}
 					alt={data.username}
 				/>
 			) : (
-				<FaUserCircle className="size-12" />
+				<FaUserCircle className="size-10" />
 			)}
-			<span className="text-lg font-semibold">{data.username}</span>
+			<span className="text-md font-medium">{data.username}</span>
 		</div>
 	);
 }
