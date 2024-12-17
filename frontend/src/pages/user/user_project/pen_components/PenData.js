@@ -32,16 +32,30 @@ export function usePenData() {
       <!DOCTYPE html>
       <html>
         <head>
-          <style>body{color: white}${dataPen.css}</style>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body {
+              color: white;
+              background-color: #000; /* Optional: Set a background color */
+            }
+            ${dataPen.css}
+          </style>
         </head>
         <body>
           ${dataPen.html}
           <script>
-            try {
-              ${dataPen.js}
-            } catch(err) {
-              console.error(err);
-            }
+            // Ensure the script runs after the DOM is fully loaded
+            document.addEventListener('DOMContentLoaded', () => {
+              try {
+               
+                // Your drawing logic here...
+                // Example: ctx.fillStyle = 'red'; ctx.fillRect(10, 10, 50, 50);
+                ${dataPen.js}
+              } catch (err) {
+                console.error(err);
+              }
+            });
           </script>
         </body>
       </html>

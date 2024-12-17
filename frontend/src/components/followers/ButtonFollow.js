@@ -4,9 +4,13 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { MdAdd, MdEdit, MdRemove } from "react-icons/md";
 import { io } from "socket.io-client";
+import { useDispatch } from "react-redux";
+import { addFollower, removeFollower } from "../../actions/followersActions";
 
 const socket = io("http://localhost:8080");
 function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
+	const dispatch = useDispatch();
+
 	const handleFollower = async () => {
 		if (!currentUser.id) {
 			toast.error("Please login to follow a user.");
@@ -26,6 +30,7 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 					recipientId: dataUser.id,
 					type: "FOLLOW",
 				});
+				dispatch(addFollower(dataUser.id));
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -41,6 +46,7 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 			if (response.data.success) {
 				toast.success(response.data.message);
 				setIsFollowing(false);
+				dispatch(removeFollower(dataUser.id));
 			}
 		} catch (err) {
 			console.log(err.message);

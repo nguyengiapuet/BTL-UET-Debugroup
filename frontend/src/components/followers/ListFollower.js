@@ -2,10 +2,12 @@ import axios from "axios";
 import SummaryApi from "../../common";
 import { useEffect, useState } from "react";
 import FollowerItem from "./FollowerItem";
-import { FaList } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 
 function ListFollower() {
 	const [listFollowing, setListFollowing] = useState([]);
+	const dispatch = useDispatch();
+	const followers = useSelector((state) => state.followers.followers);
 
 	const getAllFollowing = async () => {
 		try {
@@ -13,7 +15,6 @@ function ListFollower() {
 
 			if (response.data.success) {
 				console.log(response.data.data);
-
 				setListFollowing(response.data.data);
 			}
 		} catch (error) {
@@ -25,10 +26,14 @@ function ListFollower() {
 		getAllFollowing();
 	}, []);
 
+	useEffect(() => {
+		// setListFollowing(followers);
+		getAllFollowing();
+	}, [followers]);
+
 	return (
 		<div className="w-full flex flex-col gap-2">
 			<div className="text-lg font-bold flex items-center gap-2 text-black pl-3 pb-1 mb-3 border-b">
-				{/* <FaList className="text-sm" /> */}
 				<div className="min-w-[280px] grow flex flex-row justify-between items-center">
 					<div> Following list</div>
 					<div className="text-sm font-medium">
