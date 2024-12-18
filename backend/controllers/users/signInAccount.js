@@ -1,23 +1,12 @@
 const db = require("../../config/db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
+const TOKEN_SECRET_KEY = "SECRET_KEY"
+
 async function signInAccount(req, res) {
 	try {
 		const { email, password } = req.body;
-
-		if (email === "") {
-			return res.json({
-				success: false,
-				message: "Email is required",
-			});
-		}
-
-		if (password === "") {
-			return res.json({
-				success: false,
-				message: "Password is required",
-			});
-		}
 
 		console.log(req.body);
 
@@ -32,7 +21,7 @@ async function signInAccount(req, res) {
 		if (user[0].length === 0) {
 			return res.json({
 				success: false,
-				message: "Email or password incorrect",
+				message: "User not found",
 			});
 		}
 
@@ -47,7 +36,7 @@ async function signInAccount(req, res) {
 		if (!checkPassword) {
 			return res.json({
 				success: false,
-				message: "Email or password incorrect",
+				message: "Incorrect password",
 			});
 		}
 
@@ -56,7 +45,7 @@ async function signInAccount(req, res) {
 			email: email,
 		};
 
-		const token = jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY);
+		const token = jwt.sign(tokenData, TOKEN_SECRET_KEY);
 
 		return res.json({
 			success: true,

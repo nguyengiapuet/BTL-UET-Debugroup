@@ -1,4 +1,4 @@
-const backendDomain = "http://localhost:8080";
+const backendDomain = "http://fall2024c8g3.int3306.freeddns.org";
 
 const SummaryApi = {
 	// Project
