@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import SummaryApi from "../../common";
 import UserItem from "./UserItem";
+import { useNavigate } from "react-router-dom";
+import debounce from "lodash/debounce";
 
 function Search() {
 	const [searchParams, setSearchParams] = useState("");
@@ -10,8 +12,23 @@ function Search() {
 	const [searchResult, setSearchResult] = useState([]);
 	const [loading, setLoading] = useState(false);
 
+	const navigate = useNavigate();
+
+	const handleSearch = (e) => {
+		navigate(`?query=${e.target.value}`); // Update the URL with the new query
+	};
+
+	const debouncedNavigate = useCallback(
+		debounce((value) => {
+			navigate(`?query=${value}`); // Update the URL with the new query
+		}, 500),
+		[]
+	);
+
 	const handleOnChange = (e) => {
-		setSearchParams(e.target.value);
+		const value = e.target.value;
+		setSearchParams(value);
+		debouncedNavigate(value); // Call the debounced function
 	};
 
 	useEffect(() => {
@@ -72,12 +89,13 @@ function Search() {
 						setIsFocused(true);
 					}}
 					className="h-7 w-[400px] z-10 rounded-r-full bg-[#D9E2EF] px-4 outline-none text-sm"
-					placeholder="Search"
+					placeholder="Type here and enter to search"
 					onBlur={() => setIsFocused(false)}
+					onKeyPress={(e) => e.key === "Enter" && handleSearch(e)} // Trigger search on Enter
 				/>
 			</div>
 			{showResult && searchResult.length > 0 && (
-				<div className="search-container flex flex-col bg-white shadow-md rounded-xl absolute top-12 w-full items-start p-2 max-h-[250px] overflow-y-scroll">
+				<div className="search-container flex flex-col gap-3 bg-white shadow-md rounded-xl absolute top-12 w-full items-start p-2 max-h-[250px] overflow-y-scroll">
 					{searchResult.length > 0 &&
 						searchResult.map((user) => (
 							<UserItem

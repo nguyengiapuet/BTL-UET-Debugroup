@@ -246,8 +246,6 @@ function CommentDashboard() {
 	const handleShowCommentModal = (content) => {
 		setCommentContent(content);
 		setOpenViewComment(true);
-		console.log(openViewComment);
-		console.log("click");
 	};
 
 	if (userData.role !== "admin") {
@@ -377,14 +375,16 @@ function CommentDashboard() {
 														<div
 															key={item.id}
 															className="body-row"
-															onClick={() => {
-																handleShowCommentModal(
-																	item.content
-																);
-															}}
 															title="Click to show comment"
 														>
-															<div className="body-row-data">
+															<div
+																className="body-row-data"
+																onClick={() => {
+																	handleShowCommentModal(
+																		item.content
+																	);
+																}}
+															>
 																<span>
 																	{index +
 																		(currentPage -
@@ -393,13 +393,27 @@ function CommentDashboard() {
 																		1}
 																</span>
 															</div>
-															<div className="body-row-data2">
+															<div
+																className="body-row-data2"
+																onClick={() => {
+																	handleShowCommentModal(
+																		item.content
+																	);
+																}}
+															>
 																<span>
 																	{item.title}
 																</span>
 															</div>
 
-															<div className="body-row-data2">
+															<div
+																className="body-row-data2"
+																onClick={() => {
+																	handleShowCommentModal(
+																		item.content
+																	);
+																}}
+															>
 																<span>
 																	{
 																		item.username
@@ -407,7 +421,14 @@ function CommentDashboard() {
 																</span>
 															</div>
 
-															<div className="body-row-data1">
+															<div
+																className="body-row-data1"
+																onClick={() => {
+																	handleShowCommentModal(
+																		item.content
+																	);
+																}}
+															>
 																<span className="line-clamp-2 break-words">
 																	{
 																		item.content
@@ -415,7 +436,14 @@ function CommentDashboard() {
 																</span>
 															</div>
 
-															<div className="body-row-data2 flex-wrap overflow-hidden">
+															<div
+																className="body-row-data2 flex-wrap overflow-hidden"
+																onClick={() => {
+																	handleShowCommentModal(
+																		item.content
+																	);
+																}}
+															>
 																<span>
 																	{new Date(
 																		item.comments_at
@@ -424,7 +452,14 @@ function CommentDashboard() {
 																	)}
 																</span>
 															</div>
-															<div className="body-row-data2">
+															<div
+																className="body-row-data2"
+																onClick={() => {
+																	handleShowCommentModal(
+																		item.content
+																	);
+																}}
+															>
 																<span>
 																	{new Date(
 																		item.update_at

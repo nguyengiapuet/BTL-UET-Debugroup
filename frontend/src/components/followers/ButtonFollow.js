@@ -3,11 +3,18 @@ import SummaryApi from "../../common";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { MdAdd, MdEdit, MdRemove } from "react-icons/md";
+import { io } from "socket.io-client";
+import { useDispatch } from "react-redux";
+import { addFollower, removeFollower } from "../../actions/followersActions";
+import { message } from "antd";
 
+const socket = io("http://localhost:8080");
 function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
+	const dispatch = useDispatch();
+
 	const handleFollower = async () => {
 		if (!currentUser.id) {
-			toast.error("Please login to follow a user.");
+			message.error("Please login to follow a user.");
 			return;
 		}
 		try {
@@ -16,8 +23,15 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 			});
 
 			if (response.data.success) {
-				toast.success(response.data.message);
+				message.success(response.data.message);
 				setIsFollowing(true);
+				socket.emit("notification", {
+					issuerId: currentUser.id,
+					issuerName: currentUser.username,
+					recipientId: dataUser.id,
+					type: "FOLLOW",
+				});
+				dispatch(addFollower(dataUser.id));
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -31,8 +45,9 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 			);
 
 			if (response.data.success) {
-				toast.success(response.data.message);
+				message.success(response.data.message);
 				setIsFollowing(false);
+				dispatch(removeFollower(dataUser.id));
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -77,7 +92,7 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 			{!isFollowing ? (
 				<button
 					onClick={handleFollower}
-					className="px-3 py-[5px] bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
+					className="z-10 text-sm px-3 py-[5px] bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
 				>
 					<MdAdd />
 					Follow
@@ -85,7 +100,7 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 			) : (
 				<button
 					onClick={handleUnFollower}
-					className="px-3 py-[5px] bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
+					className="z-10 px-3 py-[5px] text-sm bg-[#9C6317] rounded-md hover:bg-[#9C6317]/80 text-white font-semibold hover:text-slate-100 flex items-center gap-1"
 				>
 					<MdRemove />
 					Unfollow

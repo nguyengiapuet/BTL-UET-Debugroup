@@ -44,8 +44,6 @@ function ChangePasswordModal({ isOpen, onClose }) {
 				password: dataPassword.passwordNew,
 			});
 
-			console.log("response.data.message>>>", response.data.message);
-
 			if (response.data.success) {
 				toast.success(response.data.message);
 				setDataPassword({ passwordCurrent: "", passwordNew: "" });

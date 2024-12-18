@@ -1,6 +1,17 @@
 const backendDomain = "http://localhost:8080";
 
 const SummaryApi = {
+	// Project
+	checkOwnerPoject: {
+		url: `${backendDomain}/api/check-owner`,
+	},
+	// App
+	getAllReview: {
+		url: `${backendDomain}/api/get-all-review`,
+	},
+	sendRateComment: {
+		url: `${backendDomain}/api/send-rate-app`,
+	},
 	// Authentication
 	signUp: {
 		url: `${backendDomain}/api/signup`,
@@ -21,6 +32,9 @@ const SummaryApi = {
 	// Projects || Pens
 	createPens: {
 		url: `${backendDomain}/api/create-pens`,
+	},
+	getAllPensPublicUser: {
+		url: `${backendDomain}/api/get-all-pen-public-user`,
 	},
 	getAllPensUser: {
 		url: `${backendDomain}/api/get-all-pens-user`,
@@ -52,6 +66,9 @@ const SummaryApi = {
 	allPensPublic: {
 		url: `${backendDomain}/api/get-all-pens-public`,
 	},
+	searchPenPublic: {
+		url: `${backendDomain}/api/search-all-pens-public`,
+	},
 	checkDuplicatePen: {
 		url: `${backendDomain}/api/check-duplicate-pen`,
 	},
@@ -72,6 +89,7 @@ const SummaryApi = {
 	sendComments: {
 		url: `${backendDomain}/api/send-comments`,
 	},
+
 	allComments: {
 		url: `${backendDomain}/api/all-comments`,
 	},

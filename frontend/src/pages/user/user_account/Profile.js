@@ -30,16 +30,13 @@ function ProfileModal({ isOpen, onClose }) {
 
 			reader.onerror = (error) => reject(error);
 		});
-
-		console.log("dataImg", dataImg);
-
 		setData({ ...data, avatar: dataImg });
 	};
 
 	const handleDeleteUser = async () => {
 		try {
 			const response = await axios.post(
-				`${SummaryApi.deletedUser.url}/${userData.id}`
+				`${SummaryApi.deleteUserSoft.url}/${userData.id}`
 			);
 
 			if (response.data.success) {

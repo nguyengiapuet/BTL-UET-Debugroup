@@ -6,7 +6,7 @@ async function getAllPensUser(req, res) {
 
 		db.query(
 			`
-            SELECT p.*, a.avatar, a.username, COUNT(l.id_project) AS total_likes
+            SELECT p.*, a.avatar, a.username, a.id AS userId, COUNT(l.id_project) AS total_likes
             FROM pens p
             JOIN account a ON p.email = a.email
             LEFT JOIN likes l ON p.id = l.id_project

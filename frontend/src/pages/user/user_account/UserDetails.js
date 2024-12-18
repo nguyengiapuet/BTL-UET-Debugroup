@@ -58,9 +58,12 @@ function UserDetails() {
 
 	const fetchUserProjects = async () => {
 		try {
-			const response = await axios.post(SummaryApi.getAllPensUser.url, {
-				username: params.username,
-			});
+			const response = await axios.post(
+				SummaryApi.getAllPensPublicUser.url,
+				{
+					username: params.username,
+				}
+			);
 
 			if (response.data.success) {
 				setProjectsUser(response.data.data);
@@ -77,7 +80,6 @@ function UserDetails() {
 			);
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				setDataUser({ ...dataUser, ...response.data.data });
 			}
 		} catch (err) {
@@ -105,7 +107,6 @@ function UserDetails() {
 				`${SummaryApi.getListFollowingUser.url}/${params.username}`
 			);
 			if (response.data.success) {
-				console.log(response.data.data);
 				setFollowers(response.data.data);
 			}
 		} catch (error) {
@@ -134,11 +135,11 @@ function UserDetails() {
 					{dataUser?.avatar ? (
 						<img
 							alt=""
-							className="object-cover h-20 w-20 rounded-full bottom-10 relative mx-auto ring-4 ring-white"
+							className="object-cover h-20 w-20 rounded-full bottom-10 relative mx-auto ring-4 ring-transparent"
 							src={dataUser?.avatar}
 						/>
 					) : (
-						<FaUserCircle className="h-20 w-20 rounded-full bottom-10 relative mx-auto ring-4 ring-white" />
+						<FaUserCircle className="h-20 w-20 rounded-full bottom-10 relative mx-auto ring-4 ring-transparent" />
 					)}
 				</div>
 				<div className="-my-7 text-lg font-bold">
@@ -246,13 +247,18 @@ const SocialOfUser = ({
 }) => {
 	return (
 		<div className="bg-white flex flex-col gap-6 items-center justify-center mt-7 text-sm text-gray-700">
-			<div className="flex flex-col justify-center items-center text-center max-w-[600px]">
-				<div>Follow for daily coding tips, memes and freebies</div>
-				<div>
+			<div className="flex flex-col justify-center items-center text-center max-w-[600px] p-4 border rounded-lg shadow-lg bg-white">
+				<h2 className="text-2xl font-bold mb-2">
+					Welcome to <i>{dataUser.username}</i> Profile!
+				</h2>
+				<p className="text-gray-600 mb-4">
+					Follow for daily coding tips, memes, and freebies!
+				</p>
+				<p className="text-gray-800 mb-4">
 					Since 2009, Dribbble has been the go-to destination for
-					millions of designers worldwide to find inspiration, grow
+					millions of designers worldwide to find inspiration and grow
 					their portfolios.
-				</div>
+				</p>
 			</div>
 
 			<div className="flex flex-row gap-2 items-center justify-center">
@@ -286,38 +292,38 @@ const ProfileTab = ({ dataUser, followers }) => {
 		<div className="w-full flex flex-row justify-between items-start gap-4">
 			{/* Bio of users */}
 			<div className="max-w-2xl w-[60%] max-h-[400px] overflow-y-auto text-gray-700 leading-relaxed bg-gray-50 rounded-lg p-6 shadow-sm">
-				{dataUser?.bio ? (
-					<span>
-						<span className="font-medium">Hi there! </span>
-						I'm a passionate developer who loves creating beautiful
-						and functional web applications. With expertise in
-						frontend technologies like React , I enjoy bringing
-						ideas to life through code.
-						<br />
-						<br />
-						When I'm not coding, you can find me exploring new
-						technologies, contributing to open source projects, or
-						sharing knowledge with the developer community. When I'm
-						not coding, you can find me exploring new technologies,
-						contributing to open source projects, or sharing
-						knowledge with the developer community. When I'm not
-						coding, you can find me exploring new technologies,
-						contributing to open source projects, or sharing
-						knowledge with the developer community. When I'm not
-						coding, you can find me exploring new technologies,
-						contributing to open source projects, or sharing
-						knowledge with the developer community.
-						<br />
-						<br />
-						<span className="italic font-medium">
-							Let's build something amazing together!
-						</span>
+				{/* {dataUser?.bio ? */}(
+				<span>
+					<span className="font-medium">Hi there! </span>
+					I'm a passionate developer who loves creating beautiful and
+					functional web applications. With expertise in frontend
+					technologies like React , I enjoy bringing ideas to life
+					through code.
+					<br />
+					<br />
+					When I'm not coding, you can find me exploring new
+					technologies, contributing to open source projects, or
+					sharing knowledge with the developer community. When I'm not
+					coding, you can find me exploring new technologies,
+					contributing to open source projects, or sharing knowledge
+					with the developer community. When I'm not coding, you can
+					find me exploring new technologies, contributing to open
+					source projects, or sharing knowledge with the developer
+					community. When I'm not coding, you can find me exploring
+					new technologies, contributing to open source projects, or
+					sharing knowledge with the developer community.
+					<br />
+					<br />
+					<span className="italic font-medium">
+						Let's build something amazing together!
 					</span>
-				) : (
-					<div className="text-center text-xl text-gray-400 font-medium">
-						No bio available
-					</div>
-				)}
+				</span>
+				)
+				{/* : ( {" "}
+				<div className="text-center text-xl text-gray-400 font-medium">
+					// No bio available //{" "}
+				</div>
+				)} */}
 			</div>
 			<div className="max-h-[400px] overflow-y-auto grow bg-gray-50 rounded-lg shadow-sm">
 				<div className="p-3 w-full gap-8 flex flex-col items-center justify-center">

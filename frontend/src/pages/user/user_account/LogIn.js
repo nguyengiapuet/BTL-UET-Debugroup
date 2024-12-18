@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SummaryApi from "../../../common";
@@ -7,6 +7,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
 import appLogo from "../../../asset/image.png";
 import { FaTriangleExclamation } from "react-icons/fa6";
+import Loading from "../../../components/animations/Loading";
 
 function LoginPage() {
 	const navigate = useNavigate();
@@ -15,6 +16,11 @@ function LoginPage() {
 		password: "",
 	});
 	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
+		document.title = "Login";
+	}, []);
 
 	const { loadUser, userData, redirectPath } = useContext(AuthContext);
 	if (userData?.id) {
@@ -29,6 +35,7 @@ function LoginPage() {
 		e.preventDefault();
 
 		try {
+			setLoading(true);
 			const response = await axios.post(SummaryApi.logIn.url, data);
 
 			if (response.data.success) {
@@ -37,10 +44,12 @@ function LoginPage() {
 					response.data.accessToken
 				);
 				await loadUser();
+				setLoading(false);
 				toast.success(response.data.message);
 				navigate(redirectPath || "/popular");
 			} else {
 				setError(response.data.message);
+				setLoading(false);
 			}
 		} catch (err) {
 			console.log(err.message);
@@ -115,6 +124,7 @@ function LoginPage() {
 					</Link>
 				</div>
 			</form>
+			{loading && <Loading />}
 		</div>
 	);
 }

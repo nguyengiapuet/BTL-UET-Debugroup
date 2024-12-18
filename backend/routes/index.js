@@ -58,6 +58,11 @@ const searchDeleteComment = require("../controllers/search/comment_search/search
 const getUpvotePen = require("../controllers/pens/getUpvotePen");
 const getAllPensUser = require("../controllers/pens/getAllPensUser");
 const checkDuplicatePen = require("../controllers/pens/checkDuplicatePen");
+const sendRateApp = require("../controllers/app/sendRateApp");
+const getRateApp = require("../controllers/app/getRateApp");
+const checkOwnerPen = require("../controllers/pens/checkOwnerPen");
+const getAllPensPublicUser = require("../controllers/users/getAllPenPublicUser");
+const searchPenPublic = require("../controllers/pens/searchPenPublic");
 
 const router = express.Router();
 
@@ -88,7 +93,9 @@ router.get("/search-delete-comment/:comment", searchDeleteComment);
 router.post("/create-pens", verifyToken, createPens);
 router.post("/get-all-pens-user", getAllPensUser);
 router.get("/get-all-pens", getAllPens);
+router.post("/get-all-pen-public-user", getAllPensPublicUser);
 router.get("/get-all-pens-public", getAllPensPublic);
+router.post("/search-all-pens-public", searchPenPublic);
 router.post("/check-duplicate-pen", verifyToken, checkDuplicatePen);
 
 router.get("/get-pens/:id", getDetailsPen);
@@ -98,6 +105,7 @@ router.put("/restore-pen/:id", verifyToken, restorePen);
 router.delete("/delete-pen-forever/:id", verifyToken, deletePenForever);
 router.put("/update-pens/:id", verifyToken, updatePen);
 router.get("/get-upvote-pen", verifyToken, getUpvotePen);
+router.post("/check-owner", checkOwnerPen);
 
 // Like
 router.post("/add-like", verifyToken, addLikes);
@@ -105,6 +113,10 @@ router.post("/delete-like", verifyToken, deleteLikes);
 router.get("/total-like", totalLike);
 router.get("/total-like-pen/:penId", totalLikePen);
 router.get("/all-like", verifyToken, getAllLikeByUser);
+
+// app
+router.post("/send-rate-app", sendRateApp);
+router.get("/get-all-review", getRateApp);
 
 // Comments
 router.post("/send-comments", verifyToken, sendComments);

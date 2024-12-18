@@ -7,17 +7,17 @@ export default function Notification({ notification, setOpenNotification }) {
 	const notificationTypeMap = {
 		FOLLOW: {
 			message: `${notification?.issuerUsername} followed you`,
-			icon: <FaUser className="size-7 " />,
+			icon: <FaUser className="size-3 text-white" />,
 			href: `/info/${notification?.issuerUsername}`,
 		},
 		COMMENT: {
 			message: `${notification?.issuerUsername} commented on your post`,
-			icon: <MdMessage className="size-7 " />,
+			icon: <MdMessage className="size-3 text-white" />,
 			href: `/project-detail/${notification?.postId}`,
 		},
 		LIKE: {
 			message: `${notification?.issuerUsername} liked your post`,
-			icon: <FaHeart className="size-7" />,
+			icon: <FaHeart className="size-3 text-red-400" />,
 			href: `/project-detail/${notification?.postId}`,
 		},
 	};
@@ -28,33 +28,43 @@ export default function Notification({ notification, setOpenNotification }) {
 		<Link
 			to={href}
 			onClick={() => setOpenNotification(false)}
-			className="block"
+			className="block pb-3"
 		>
 			<article
-				className={`flex gap-3 mt-2 items-center rounded-2xl p-5 shadow-sm transition-colors hover:bg-slate-200
-					 ${
-							notification?.isRead === 1
-								? "bg-slate-100"
-								: "bg-blue-200 hover:bg-blue-100"
-						}
-					`}
+				className={`flex gap-3 items-center px-4 py-3 rounded-lg shadow-md transition-colors cursor-pointer 
+    ${
+		notification?.isRead === 1
+			? "bg-gray-50 text-gray-500"
+			: "bg-blue-200 hover:bg-blue-200"
+	}
+	hover:bg-gray-100
+  `}
 			>
-				<div className="my-1">{icon}</div>
-
-				<div className="border-l-2 pl-2 border-gray-400 space-y-3 flex items-center gap-4">
+				{/* Avatar with Stacked Icon */}
+				<div className="relative flex-shrink-0">
 					<UserAvatar
 						avatar={notification?.issuerAvatar}
-						size={"size-10"}
+						size={"size-12"}
+						className="w-14 h-14 rounded-full"
 					/>
-					<div className="flex flex-col justify-center gap-1">
-						<span className="font-bold">
+					<div className="absolute bottom-0 right-0 w-6 h-6 bg-sky-500 rounded-full flex items-center justify-center shadow-md">
+						{icon}
+					</div>
+				</div>
+
+				{/* Notification Content */}
+				<div className="flex-1 space-y-1">
+					<div className="text-sm">
+						<span className="font-semibold">
 							{notification?.issuerUsername}
 						</span>{" "}
-						<div className=" overflow-hidden break-words">
-							<div className="line-clamp-2 whitespace-pre-line text-muted-foreground">
-								{message} {notification?.postTitle}
-							</div>
-						</div>
+						<span>{message}</span>{" "}
+						<span className="font-semibold">
+							{notification?.postTitle}
+						</span>
+					</div>
+					<div className="text-xs text-gray-500">
+						{notification?.timestamp}
 					</div>
 				</div>
 			</article>

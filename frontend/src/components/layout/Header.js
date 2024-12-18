@@ -17,6 +17,9 @@ import ProfileModal from "../../pages/user/user_account/Profile";
 import ChangePasswordModal from "../../pages/user/user_account/ChangePassword";
 import Notifications from "../notifications/Notifications";
 import NotificationCount from "../notifications/NotificationCount";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:8080");
 
 function Header({ toggleNav }) {
 	const { userData, setUserData, title, setTitle, setRedirectPath } =
@@ -35,6 +38,7 @@ function Header({ toggleNav }) {
 			role: "",
 			avatar: "",
 		});
+		socket.disconnect();
 		setRedirectPath(null);
 		navigate("/");
 	};
@@ -48,7 +52,7 @@ function Header({ toggleNav }) {
 		setIsPasswordOpen(false);
 	};
 	return (
-		<div className="w-full bg-[#f4f8ff] shadow-md py-2 flex flex-row justify-between items-center">
+		<div className="w-full max-h-[56px] bg-[#f4f8ff] shadow-md py-2 flex flex-row justify-between items-center">
 			<MenuSection title={title} toggleNav={toggleNav} />
 			<Search />
 			<AuthSection
@@ -252,10 +256,6 @@ const AuthSection = ({
 						)}
 					</div>
 					<div className="h-6 w-[2px] bg-gray-400" />
-					{/* <<<<<<< HEAD
-				<div className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative">
-					<UserAvatar avatar={userData.avatar} size="size-10" />
-======= */}
 					<div
 						className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative"
 						onClick={() => setOpenPop(!openPop)}

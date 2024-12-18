@@ -10,31 +10,41 @@ function FollowerItem({ user }) {
 
 	return (
 		<>
-			<div className="min-w-full flex gap-4 items-center justify-between hover:bg-gray-200 p-1 rounded-md">
+			<div className="min-w-[280px] bg-gray-50 flex items-center justify-between py-2 px-2 rounded-lg shadow-md hover:bg-gray-200 transition-colors">
+				{/* User Info */}
 				<Link
 					to={`/info/${user.username}`}
-					className="flex items-center gap-1.5 cursor-pointer"
+					className="flex items-center gap-3 cursor-pointer"
 				>
+					{/* Avatar */}
 					{user?.avatar ? (
 						<img
-							alt=""
+							alt={`${user.username}'s avatar`}
 							src={user.avatar}
-							className="size-12 rounded-full border shadow-sm"
+							className="w-10 h-10 rounded-full border-2 border-gray-200 shadow"
 						/>
 					) : (
-						<FaUserCircle className="size-12" />
+						<FaUserCircle className="w-10 h-10" />
 					)}
-					<span className="text-xl max-w-24 truncate font-semibold overflow-hidden ">
-						{user.username}
-					</span>
+					{/* Username */}
+					<div className="flex flex-col items-left">
+						<span className="text-sm font-bold text-black truncate max-w-sm">
+							{user.username}
+						</span>
+						<div className="text-sm text-gray-500">5 upvoted</div>
+					</div>
 				</Link>
+
+				{/* Follow Button */}
 				<ButtonFollow
 					dataUser={user}
 					currentUser={userData}
 					setIsFollowing={setIsFollowing}
 					isFollowing={isFollowing}
+					// className="py-2 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md transition-colors"
 				/>
 			</div>
+
 			<hr />
 		</>
 	);

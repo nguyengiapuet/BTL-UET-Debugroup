@@ -43,6 +43,14 @@ async function addLikes(req, res) {
 				"INSERT INTO notification (issuerId, recipientId,postId, type) VALUES (?, ?, ?, ?)",
 				[req.userId, recipientId, idProject, "LIKE"]
 			);
+
+			// // Gửi thông báo qua socket.io
+			// req.io.to(`user-${recipientId}`).emit("notification", {
+			// 	issuerId: req.userId,
+			// 	recipientId,
+			// 	postId: idProject,
+			// 	type: "LIKE",
+			// });
 		}
 
 		await connection.commit();
@@ -50,6 +58,7 @@ async function addLikes(req, res) {
 		return res.json({
 			success: true,
 			message: "Like successfully",
+			data: recipientId,
 		});
 	} catch (err) {
 		await connection.rollback();

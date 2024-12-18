@@ -1,18 +1,21 @@
-import { FaSearch } from "react-icons/fa";
 import { AiFillAppstore, AiFillStar } from "react-icons/ai";
 import jsLogo from "../../asset/image.png";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SidebarTreeView from "./LayerTree";
 import { AiFillGithub } from "react-icons/ai";
 import ListFollower from "../followers/ListFollower";
-import { Button, Modal } from "antd";
+import { Button, message, Modal } from "antd";
 import { Link } from "react-router-dom";
 import Search from "./Search";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
+import SummaryApi from "../../common";
 
 // Left Sidebar Page
 function Sidebar({ isSidebarOpen }) {
 	const [activeButton, setActiveButton] = useState("Category");
 	const [isFocused, setIsFocused] = useState(false);
+	const { userData } = useContext(AuthContext);
 
 	// Implement modal for rating Web.
 	const [loading, setLoading] = useState(false);
@@ -21,17 +24,56 @@ function Sidebar({ isSidebarOpen }) {
 	// Add state for rating
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(0);
+	const [content, setContent] = useState("");
 
 	const showModal = () => {
 		setOpen(true);
 	};
 
-	const handleOk = () => {
+	const handleOk = async () => {
+		if (rating === 0 || content === "") {
+			message.error("Please rate stars and write a comment!");
+			return;
+		}
 		setLoading(true);
-		setTimeout(() => {
+		const isSuccess = await sendRateComment();
+
+		if (!isSuccess) {
+			setLoading(false);
+		}
+
+		if (isSuccess) {
+			message.success("Rate app successfully");
 			setLoading(false);
 			setOpen(false);
-		}, 3000);
+			return;
+		}
+		// message.error("Something went wrong!");
+	};
+	const sendRateComment = async () => {
+		if (!userData.id) {
+			message.error("Please log in to rate app!");
+			return false;
+		}
+		try {
+			console.log(content);
+			const response = await axios.post(SummaryApi.sendRateComment.url, {
+				id: userData.id,
+				content: content,
+				number_star: rating,
+			});
+
+			if (response.data.success) {
+				return true;
+			}
+		} catch (err) {
+			console.log(err.message);
+			return false;
+		}
+	};
+	const handleOnchangeComment = (content) => {
+		setContent(content);
+		console.log(content);
 	};
 
 	const handleCancel = () => {
@@ -45,6 +87,12 @@ function Sidebar({ isSidebarOpen }) {
 			setRating(star);
 		}
 	};
+
+	useEffect(() => {
+		if (activeButton === "Category") {
+			document.title = "Debug App";
+		} else document.title = "Follow";
+	}, [activeButton]);
 
 	return (
 		<div>
@@ -124,27 +172,6 @@ function Sidebar({ isSidebarOpen }) {
 						</button>
 					</div>
 
-					{/* Search button */}
-					{/* <div
-						className={`w-full border-2 rounded-3xl flex items-center px-4 transition-colors duration-300 ${
-							isFocused
-								? "border-[#D68E2F] boder-1"
-								: "border-[#D9D9D9]"
-						}`}
-					>
-						<FaSearch
-							className={`${
-								isFocused ? "text-sky-600" : "text-[#D9D9D9]"
-							}`}
-						/>
-						<input
-							type="text"
-							placeholder="Enter your text"
-							className="w-full rounded-full font-normal text-sm py-2 px-2 outline-none"
-							onFocus={() => setIsFocused(true)}
-							onBlur={() => setIsFocused(false)}
-						/>
-					</div> */}
 					<Search isFocused={isFocused} setIsFocused={setIsFocused} />
 
 					{/* Layer tree view */}
@@ -212,6 +239,7 @@ function Sidebar({ isSidebarOpen }) {
 				<textarea
 					className="w-full min-h-20 border-2 rounded-md p-2"
 					placeholder="Add a comment"
+					onChange={(e) => handleOnchangeComment(e.target.value)}
 				></textarea>
 			</Modal>
 		</div>

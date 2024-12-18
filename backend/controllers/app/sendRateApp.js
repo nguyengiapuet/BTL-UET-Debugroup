@@ -1,12 +1,14 @@
 const db = require("../../config/db");
 
-async function deletedUser(req, res) {
+async function sendRateApp(req, res) {
+	const { id, content, number_star } = req.body;
 	try {
 		db.query(
-			"DELETE FROM account WHERE id = ?",
-			[req.params.id],
+			"INSERT INTO rate(user_id, content, number_star) VALUES (?, ?, ?)",
+			[id, content, number_star],
 			function (err, result) {
 				if (err) {
+					console.log(err);
 					return res.status(500).json({
 						message: err.message,
 						success: false,
@@ -14,11 +16,12 @@ async function deletedUser(req, res) {
 				}
 				return res.status(200).json({
 					success: true,
-					message: "User deleted successfully",
+					message: "Rate successfully",
 				});
 			}
 		);
 	} catch (err) {
+		console.log(err);
 		return res.status(500).json({
 			message: err.message,
 			success: false,
@@ -26,4 +29,4 @@ async function deletedUser(req, res) {
 	}
 }
 
-module.exports = deletedUser;
+module.exports = sendRateApp;

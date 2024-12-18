@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import SummaryApi from "../../common";
 import Notification from "./Notification";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 function Notifications({ setOpenNotification }) {
 	const [notifications, setNotifications] = useState([]);
@@ -41,7 +42,13 @@ function Notifications({ setOpenNotification }) {
 	}, []);
 
 	return (
-		<div className=" absolute -translate-y-1 bg-white rounded-lg p-2 -bottom-96 -left-52 shadow-md w-[25vw] min-h-[50vh] max-h-[50vh] overflow-y-scroll z-[1000]">
+		<div className="absolute bg-white rounded-xl -bottom-90 p-2 -left-52 shadow-md w-[25vw] min-h-[50vh] max-h-[50vh] overflow-y-auto z-[1000]">
+			<div className="flex flex-row justify-between items-center py-3">
+				<div className="text-xl font-bold">Notifications</div>
+				<div className="h-7 w-7 bg-gray-200 rounded-full flex justify-center items-center cursor-pointer hover:bg-gray-300">
+					<HiOutlineDotsHorizontal className="m-auto text-black" />
+				</div>
+			</div>
 			{notifications.length > 0 ? (
 				<>
 					{notifications.map((notification, index) => (

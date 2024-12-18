@@ -4,6 +4,8 @@ import SummaryApi from "../../../common";
 import axios from "axios";
 import ProjectCard from "./project_components/ProjectCard";
 import { AuthContext } from "../../../context/AuthContext";
+import { message } from "antd";
+import { FaInfoCircle } from "react-icons/fa";
 
 function Upvoted() {
 	const { sortLike } = useOutletContext();
@@ -15,12 +17,11 @@ function Upvoted() {
 		try {
 			const response = await axios.get(SummaryApi.allUpvotePen.url);
 			if (response.data.success) {
-				console.log(response.data.data);
 				if (sortLike) setUpvotePen(sortLike(response.data.data));
 				else setUpvotePen(response.data.data);
 			}
 		} catch (err) {
-			console.log(err.message);
+			message.info("Login to upvote and store your interest project!");
 			return;
 		}
 	};
@@ -28,6 +29,19 @@ function Upvoted() {
 	useEffect(() => {
 		fetchAllUpvotePens();
 	}, [sortLike]);
+
+	useEffect(() => {
+		document.title = "Upvote";
+	}, []);
+
+	if (!userData.id || allUpvotePen.length === 0) {
+		return (
+			<div className="text-md justify-center flex flex-row items-center gap-2 w-full mt-8">
+				<FaInfoCircle className="text-yellow-600" />
+				You don't have any upvoted projects yet!
+			</div>
+		);
+	}
 
 	return (
 		<div className=" h-fit py-4 pb-44">
