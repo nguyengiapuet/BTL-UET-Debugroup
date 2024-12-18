@@ -6,6 +6,7 @@ import { MdAdd, MdEdit, MdRemove } from "react-icons/md";
 import { io } from "socket.io-client";
 import { useDispatch } from "react-redux";
 import { addFollower, removeFollower } from "../../actions/followersActions";
+import { message } from "antd";
 
 const socket = io("http://localhost:8080");
 function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
@@ -13,7 +14,7 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 
 	const handleFollower = async () => {
 		if (!currentUser.id) {
-			toast.error("Please login to follow a user.");
+			message.error("Please login to follow a user.");
 			return;
 		}
 		try {
@@ -22,7 +23,7 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 			});
 
 			if (response.data.success) {
-				toast.success(response.data.message);
+				message.success(response.data.message);
 				setIsFollowing(true);
 				socket.emit("notification", {
 					issuerId: currentUser.id,
@@ -44,7 +45,7 @@ function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 			);
 
 			if (response.data.success) {
-				toast.success(response.data.message);
+				message.success(response.data.message);
 				setIsFollowing(false);
 				dispatch(removeFollower(dataUser.id));
 			}

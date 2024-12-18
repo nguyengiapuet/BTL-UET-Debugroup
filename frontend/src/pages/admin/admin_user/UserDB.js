@@ -124,6 +124,7 @@ function UserDashboard() {
 		if (activeUser) {
 			deleteActive();
 		} else {
+			console.log("Delete forever");
 			deleteForever();
 		}
 	};

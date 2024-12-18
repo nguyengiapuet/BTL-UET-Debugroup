@@ -52,7 +52,7 @@ function StartPage() {
 						Login
 					</Link>
 					<Link
-						to={"/login"}
+						to={"/signup"}
 						className="border min-h-[46px] w-1/2 rounded-3xl bg-[#1c4ed8] text-white text-center flex justify-center items-center"
 					>
 						Signup

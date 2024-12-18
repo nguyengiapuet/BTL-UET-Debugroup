@@ -3,7 +3,7 @@ const db = require("../../config/db");
 async function deletedUser(req, res) {
 	try {
 		db.query(
-			"UPDATE account SET deleted = 1 WHERE id = ?",
+			"DELETE FROM account WHERE id = ?",
 			[req.params.id],
 			function (err, result) {
 				if (err) {

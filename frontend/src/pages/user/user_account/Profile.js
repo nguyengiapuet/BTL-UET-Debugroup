@@ -39,7 +39,7 @@ function ProfileModal({ isOpen, onClose }) {
 	const handleDeleteUser = async () => {
 		try {
 			const response = await axios.post(
-				`${SummaryApi.deletedUser.url}/${userData.id}`
+				`${SummaryApi.deleteUserSoft.url}/${userData.id}`
 			);
 
 			if (response.data.success) {
