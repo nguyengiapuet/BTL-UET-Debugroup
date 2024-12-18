@@ -9,7 +9,6 @@ function SidebarTreeView() {
 	const [active, setActive] = useState("");
 	const { setTitle, userData } = useContext(AuthContext);
 	const params = useParams();
-	console.log("params", params);
 
 	const handleClickItem = (e) => {
 		setActive(e.target.textContent.toLowerCase());

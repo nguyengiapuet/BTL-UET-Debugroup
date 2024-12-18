@@ -1,15 +1,14 @@
 function ReviewCard({ data }) {
-	console.log("trst", data);
 	return (
-		<div class="bg-white rounded-lg shadow-md p-6">
-			<div class="flex items-center gap-4">
+		<div className="bg-white rounded-lg shadow-md p-6">
+			<div className="flex items-center gap-4">
 				<img
 					src={data.avatar || "https://via.placeholder.com/64"}
 					alt="User Avatar"
-					class="w-16 h-16 rounded-full border"
+					className="w-16 h-16 rounded-full border"
 				/>
 				<div>
-					<h3 class="text-lg font-semibold">{data.username}</h3>
+					<h3 className="text-lg font-semibold">{data.username}</h3>
 					<div className="flex items-center gap-1">
 						{[...Array(5)].map((_, index) => (
 							<span
@@ -26,7 +25,7 @@ function ReviewCard({ data }) {
 					</div>
 				</div>
 			</div>
-			<p class="mt-4 text-gray-600">{data.content} </p>
+			<p className="mt-4 text-gray-600">{data.content} </p>
 		</div>
 	);
 }

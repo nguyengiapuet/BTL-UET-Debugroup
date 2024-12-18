@@ -18,6 +18,10 @@ function SignUp() {
 	});
 	const [error, setError] = useState(null);
 
+	useEffect(() => {
+		document.title = "Sign up";
+	}, []);
+
 	if (userData?.id) {
 		navigate("/popular");
 	}

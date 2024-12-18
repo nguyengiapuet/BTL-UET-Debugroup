@@ -7,8 +7,6 @@ import { toast } from "react-toastify";
 import DeleteModal from "../admin_component/modal/DeleteModal";
 import RestoreModal from "../admin_component/modal/RestoreModal";
 import { AuthContext } from "../../../context/AuthContext";
-import { MdArrowBack, MdError } from "react-icons/md";
-import { Link } from "react-router-dom";
 import PageNotFound from "../../../components/template/404page";
 
 let PageSize = 10;
@@ -32,7 +30,6 @@ function UserDashboard() {
 			const response = await axios.get(SummaryApi.getAllUsers.url);
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				setGetAllUsers([...response.data.data]);
 			}
 		} catch (err) {
@@ -46,7 +43,6 @@ function UserDashboard() {
 			const response = await axios.get(SummaryApi.trashAllUsers.url);
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				setGetAllUsers(response.data.data);
 			}
 		} catch (err) {
@@ -120,11 +116,9 @@ function UserDashboard() {
 	};
 	const handleConfirmDeleteUser = async () => {
 		setOpenModal(false);
-		console.log(activeUser);
 		if (activeUser) {
 			deleteActive();
 		} else {
-			console.log("Delete forever");
 			deleteForever();
 		}
 	};
@@ -193,7 +187,6 @@ function UserDashboard() {
 	const [query, setSearchQuery] = useState("");
 
 	const handleSearchUser = (query) => {
-		console.log(query);
 		setSearchQuery(query);
 		if (query === "" && stateOfInfo === "1") {
 			fetchGetAllUsers();
@@ -216,7 +209,6 @@ function UserDashboard() {
 			);
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				setGetAllUsers(response.data.data);
 			}
 		} catch (err) {
@@ -231,7 +223,6 @@ function UserDashboard() {
 			);
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				setGetAllUsers(response.data.data);
 			}
 		} catch (err) {

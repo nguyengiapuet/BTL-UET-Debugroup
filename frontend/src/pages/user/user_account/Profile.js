@@ -30,9 +30,6 @@ function ProfileModal({ isOpen, onClose }) {
 
 			reader.onerror = (error) => reject(error);
 		});
-
-		console.log("dataImg", dataImg);
-
 		setData({ ...data, avatar: dataImg });
 	};
 

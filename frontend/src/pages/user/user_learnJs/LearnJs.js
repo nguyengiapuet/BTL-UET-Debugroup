@@ -1,7 +1,11 @@
+import { useEffect } from "react";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const LearnJs = () => {
+	useEffect(() => {
+		document.title = "Learn JS";
+	}, []);
 	return (
 		<div className="px-5 min-h-screen flex justify-center items-center py-10">
 			<div className="flex flex-col gap-5 md:flex-row justify-between w-full max-w-6xl overflow-hidden">

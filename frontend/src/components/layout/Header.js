@@ -256,10 +256,6 @@ const AuthSection = ({
 						)}
 					</div>
 					<div className="h-6 w-[2px] bg-gray-400" />
-					{/* <<<<<<< HEAD
-				<div className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative">
-					<UserAvatar avatar={userData.avatar} size="size-10" />
-======= */}
 					<div
 						className="h-full min-w-[250px] flex flex-row items-center justify-start gap-3 relative"
 						onClick={() => setOpenPop(!openPop)}

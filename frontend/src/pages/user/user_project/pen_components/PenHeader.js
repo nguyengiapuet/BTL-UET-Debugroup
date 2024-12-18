@@ -31,7 +31,7 @@ function ProjectHeader({
 	const [isOpenSave, setIsOpenSave] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
 	// Handle to toggle status of project.
-	const [isPublic, setIsPublic] = useState(false);
+	const [isPublic, setIsPublic] = useState(true);
 	const navigate = useNavigate();
 
 	const handleCancel = () => {
@@ -50,7 +50,6 @@ function ProjectHeader({
 			});
 
 			if (response.data.success) {
-				console.log("Test data", response.data.data);
 				setIsOwner(response.data.data);
 				return response.data.data;
 			}
@@ -63,14 +62,10 @@ function ProjectHeader({
 			message.error("Save this project to share for everyone!");
 			return;
 		}
-		console.log("Test id pen: ", dataPen.id);
 		await checkOwnerProject(userData.email, dataPen.id);
 
 		setIsModalOpen(true);
 	};
-	useEffect(() => {
-		console.log("Test owner1", isOwner);
-	}, [isOwner]);
 	const handleToogleStatus = () => {
 		setIsPublic(!isPublic);
 	};
@@ -143,10 +138,6 @@ function ProjectHeader({
 						<>
 							<div
 								onClick={() => {
-									console.log(
-										"Test:",
-										dataPen.email === userData.email
-									);
 									setIsOpenSave(true);
 								}}
 								className="text-sm flex gap-1 items-center bg-[#9C6317] px-4 py-[3px] rounded text-white hover:bg-opacity-75"

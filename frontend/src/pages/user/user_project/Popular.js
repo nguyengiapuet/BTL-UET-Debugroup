@@ -16,7 +16,6 @@ function Popular() {
 			const response = await axios.get(SummaryApi.allPensPublic.url);
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				if (sortLike) setGetAllPens(sortLike(response.data.data));
 				else setGetAllPens(response.data.data);
 			}
@@ -33,7 +32,6 @@ function Popular() {
 			});
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				if (sortLike) setGetAllPens(sortLike(response.data.data));
 				else setGetAllPens(response.data.data);
 			}
@@ -46,13 +44,14 @@ function Popular() {
 	useEffect(() => {
 		const queryParams = new URLSearchParams(location.search);
 		const query = queryParams.get("query");
-		console.log("Test query", query);
 		if (query) {
 			searchPenByName(query);
 		} else fetchGetAllPens();
 	}, [sortLike, location.search]);
 
-	console.log("getAllPens", getAllPens);
+	useEffect(() => {
+		document.title = "Popular";
+	}, []);
 
 	return (
 		<div className=" h-fit py-4 pb-44">

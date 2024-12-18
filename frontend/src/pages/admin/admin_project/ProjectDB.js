@@ -31,7 +31,6 @@ function ProjectDashboard() {
 			const response = await axios.get(SummaryApi.allPens.url);
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				setGetAllPens([...response.data.data]);
 			}
 		} catch (err) {
@@ -44,7 +43,6 @@ function ProjectDashboard() {
 			const response = await axios.get(SummaryApi.deletedPens.url);
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				setGetAllPens(response.data.data);
 			}
 		} catch (err) {
@@ -59,7 +57,6 @@ function ProjectDashboard() {
 			);
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				setGetAllPens(response.data.data);
 			}
 		} catch (err) {
@@ -74,7 +71,6 @@ function ProjectDashboard() {
 			);
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				setGetAllPens(response.data.data);
 			}
 		} catch (err) {
@@ -93,7 +89,6 @@ function ProjectDashboard() {
 
 	// search project by name
 	const handleSearchByName = (query) => {
-		console.log(query);
 		setSearchQuery(query);
 		if (query === "" && stateOfInfo === "1") {
 			fetchGetAllPens();

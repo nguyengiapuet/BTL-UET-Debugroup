@@ -1,6 +1,6 @@
 import { AiFillAppstore, AiFillStar } from "react-icons/ai";
 import jsLogo from "../../asset/image.png";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SidebarTreeView from "./LayerTree";
 import { AiFillGithub } from "react-icons/ai";
 import ListFollower from "../followers/ListFollower";
@@ -87,6 +87,12 @@ function Sidebar({ isSidebarOpen }) {
 			setRating(star);
 		}
 	};
+
+	useEffect(() => {
+		if (activeButton === "Category") {
+			document.title = "Debug App";
+		} else document.title = "Follow";
+	}, [activeButton]);
 
 	return (
 		<div>

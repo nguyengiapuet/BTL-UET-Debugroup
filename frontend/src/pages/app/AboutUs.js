@@ -5,6 +5,7 @@ import SummaryApi from "../../common";
 import ReviewCard from "./components/ReviewCard";
 import { message } from "antd";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 function AboutUs() {
 	const [reviews, setReviews] = useState([]);
 
@@ -23,6 +24,11 @@ function AboutUs() {
 	useEffect(() => {
 		getAllReview();
 	}, []);
+
+	useEffect(() => {
+		document.title = "About us";
+	}, []);
+
 	return (
 		<div className="h-screen overflow-y-auto">
 			{/* Top section */}
@@ -43,12 +49,18 @@ function AboutUs() {
 					javascript playground project using ready to use templates.
 				</div>
 				<div className="flex flex-row gap-8">
-					<button className="w-fit h-fit min-h-[44px] mt-5 bg-[#58a51b] rounded-md px-10 py-2 text-sm text-white font-bold hover:bg-[#58a51b]/80">
+					<Link
+						to={"/pen"}
+						className="w-fit h-fit min-h-[44px] flex items-center mt-5 bg-[#58a51b] rounded-md px-10 py-2 text-sm text-white font-bold hover:bg-[#58a51b]/80"
+					>
 						START CODING
-					</button>
-					<button className="w-fit h-fit min-h-[44px] mt-5 bg-white border-2 border-[#7e3b41] rounded-md px-10 py-2 text-sm text-[#eb5757] font-bold hover:text-white hover:bg-[#7e3b41]">
+					</Link>
+					<Link
+						to={"/learn"}
+						className="w-fit h-fit min-h-[44px] flex items-center mt-5 bg-white border-2 border-[#7e3b41] rounded-md px-10 py-2 text-sm text-[#eb5757] font-bold hover:text-white hover:bg-[#7e3b41]"
+					>
 						START LEARNING
-					</button>
+					</Link>
 				</div>
 				<div>
 					<video

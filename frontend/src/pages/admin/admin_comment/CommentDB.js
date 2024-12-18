@@ -246,8 +246,6 @@ function CommentDashboard() {
 	const handleShowCommentModal = (content) => {
 		setCommentContent(content);
 		setOpenViewComment(true);
-		console.log(openViewComment);
-		console.log("click");
 	};
 
 	if (userData.role !== "admin") {

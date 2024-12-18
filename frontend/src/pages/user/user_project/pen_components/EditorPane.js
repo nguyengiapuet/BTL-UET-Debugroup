@@ -24,20 +24,17 @@ function EditorPane({
 					indent_size: 2,
 					indent_char: " ",
 				});
-				console.log("Formatted HTML code:", formattedCode);
 			} else if (language === "CSS") {
 				formattedCode = beautify.css(value, {
 					indent: "  ",
 					openbrace: "separate",
 					autosemicolon: true,
 				});
-				console.log("Formatted CSS code:", formattedCode);
 			} else if (language === "JS") {
 				formattedCode = beautify.js(value, {
 					indent_size: 2,
 					space_in_empty_paren: true,
 				});
-				console.log("Formatted JavaScript code:", formattedCode);
 			}
 
 			onChange(formattedCode, language.toLowerCase());

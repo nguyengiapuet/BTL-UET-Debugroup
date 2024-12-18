@@ -21,6 +21,10 @@ function Pen() {
 	var savedData = null;
 
 	useEffect(() => {
+		document.title = "Code editor";
+	}, []);
+
+	useEffect(() => {
 		if (!userData.id) {
 			setRedirectPath(location.pathname);
 		}
@@ -34,7 +38,6 @@ function Pen() {
 		});
 	}, []);
 
-	console.log(!userData.id);
 	if (
 		dataPen.status === "private" &&
 		(userData.email !== dataPen.email || !userData.id)

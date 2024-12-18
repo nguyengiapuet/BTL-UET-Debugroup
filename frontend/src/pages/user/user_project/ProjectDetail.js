@@ -15,6 +15,10 @@ function ProjectDetail() {
 	const [refreshComment, setRefreshComment] = useState(false);
 	const { userData } = useContext(AuthContext);
 
+	useEffect(() => {
+		document.title = "Project detail";
+	});
+
 	const handleLoadPens = async () => {
 		try {
 			const response = await axios.get(
@@ -22,8 +26,6 @@ function ProjectDetail() {
 			);
 			if (response.data.success) {
 				setDataPen(response.data.data);
-			} else {
-				console.log("response.data.message", response.data.message);
 			}
 		} catch (err) {
 			console.log(err.message);

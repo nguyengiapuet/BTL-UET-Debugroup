@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SummaryApi from "../../../common";
@@ -17,6 +17,10 @@ function LoginPage() {
 	});
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
+		document.title = "Login";
+	}, []);
 
 	const { loadUser, userData, redirectPath } = useContext(AuthContext);
 	if (userData?.id) {

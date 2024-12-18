@@ -14,6 +14,10 @@ import { Link } from "react-router-dom";
 import "../contact-us/styles.css";
 const Contact = () => {
 	const { infoForm, setInfoForm } = useContext(AuthContext);
+
+	useEffect(() => {
+		document.title = "Contact us";
+	}, []);
 	useEffect(() => {
 		const savedData = localStorage.getItem("formData");
 		if (savedData) {
@@ -26,7 +30,6 @@ const Contact = () => {
 	}, [infoForm]);
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(infoForm);
 		toast.success(
 			"Gửi liên hệ thành công! Chúng mình sẽ phản hồi bạn trong thời gian sớm nhất."
 		);

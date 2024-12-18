@@ -22,10 +22,7 @@ export function usePenData() {
 
 	const handleOnchanePen = (value, type) => {
 		setDataPen({ ...dataPen, [type]: value });
-		console.log("dataPen>>>>>>>>", dataPen);
 	};
-
-	// console.log("dataPen", dataPen);
 
 	const editCode = () => {
 		const content = `
@@ -92,7 +89,6 @@ export function usePenData() {
 				}
 			);
 			const temp = await response.data;
-			console.log(temp.message);
 			return temp.message;
 		} catch (err) {
 			console.log(err.message);
@@ -108,7 +104,6 @@ export function usePenData() {
 			if (params.id === undefined) {
 				// if duplicate isDuplicate = "Duplicated" else  = "Non duplicate"
 				const isDuplcicate = await handleCheckDuplicatePen();
-				console.log("Test duplicate:", isDuplcicate);
 				if (isDuplcicate !== "Non Duplicated") {
 					return isDuplcicate;
 				}
@@ -141,12 +136,7 @@ export function usePenData() {
 				`${SummaryApi.getPens.url}/${params.id}`
 			);
 			if (response.data.success) {
-				console.log("response.data.data", response.data.data);
 				setDataPen(response.data.data);
-
-				console.log("response.data.message", response.data.message);
-			} else {
-				console.log("response.data.message", response.data.message);
 			}
 		} catch (err) {
 			console.log(err.message);

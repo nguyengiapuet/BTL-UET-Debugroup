@@ -22,8 +22,6 @@ const Game1 = () => {
 				);
 				if (response.data.success) {
 					setData(response.data.data);
-				} else {
-					console.log("response.data.message", response.data.message);
 				}
 			} catch (err) {
 				console.log(err.message);
@@ -40,7 +38,6 @@ const Game1 = () => {
 			const options = document.querySelectorAll("p");
 			e.target.classList.add("incorrect");
 			options.forEach((items) => {
-				console.log();
 				if (items.textContent === item.result) {
 					items.classList.add("correct");
 				}
@@ -51,7 +48,6 @@ const Game1 = () => {
 		setStatus(true);
 	};
 	const handleNext = () => {
-		console.log(score);
 		setStatus(false);
 		const next = document.querySelectorAll("p");
 		next.forEach((item) => item.classList.remove("incorrect"));

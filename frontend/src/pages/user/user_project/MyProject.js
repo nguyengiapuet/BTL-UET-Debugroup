@@ -5,6 +5,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
 import ProjectCard from "./project_components/ProjectCard";
+import { FaInfoCircle } from "react-icons/fa";
 
 function MyProject() {
 	const { sortLike } = useOutletContext();
@@ -13,6 +14,10 @@ function MyProject() {
 	const [getAllPens, setGetAllPens] = useState([]);
 	const { userData } = useContext(AuthContext);
 
+	useEffect(() => {
+		document.title = "My projects";
+	}, []);
+
 	const fetchGetAllPens = async () => {
 		try {
 			const response = await axios.post(SummaryApi.getAllPensUser.url, {
@@ -20,7 +25,6 @@ function MyProject() {
 			});
 
 			if (response.data.success) {
-				console.log(response.data.data);
 				if (sortLike) {
 					setGetAllPens(sortLike(response.data.data));
 				} else {
@@ -58,7 +62,8 @@ function MyProject() {
 	return (
 		<div className="w-full flex flex-wrap gap-x-[30px] gap-y-10 h-fit py-4 pb-32">
 			{getAllPens.length === 0 ? (
-				<div className="text-3xl text-gray-500 text-center w-full mt-4">
+				<div className="text-md justify-center flex flex-row items-center gap-2 w-full mt-4">
+					<FaInfoCircle className="text-yellow-600" />
 					You don't have any projects yet!
 				</div>
 			) : (

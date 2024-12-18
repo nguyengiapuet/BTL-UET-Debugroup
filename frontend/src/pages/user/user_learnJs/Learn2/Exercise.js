@@ -38,7 +38,6 @@ function Exercise({ dataPen, handleOnChangePen, javascript, setDataPen }) {
 	};
 
 	const handleSubmit = () => {
-		console.log(result);
 		if (result === item.result) {
 			showCorrectModal();
 		} else {
@@ -68,8 +67,6 @@ function Exercise({ dataPen, handleOnChangePen, javascript, setDataPen }) {
 				if (response.data.success) {
 					setData(remp.data);
 					setItem(response.data.data[count]);
-				} else {
-					console.log("response.data.message", response.data.message);
 				}
 			} catch (err) {
 				console.log(err.message);
