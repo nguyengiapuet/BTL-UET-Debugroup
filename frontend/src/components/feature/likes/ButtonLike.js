@@ -6,7 +6,7 @@ import SummaryApi from "../../../common";
 import { AuthContext } from "../../../context/AuthContext";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:8080");
+const socket = io("http://fall2024c8g3.int3306.freeddns.org");
 
 function ButtonLike({ pen, sortLike }) {
 	const [allLike, setAllLike] = useState([]);

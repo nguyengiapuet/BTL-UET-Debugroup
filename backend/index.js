@@ -11,7 +11,7 @@ const path = require('path');
 const server = createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: "http://localhost:3000",
+		origin: "http://fall2024c8g3.int3306.freeddns.org",
 		methods: ["GET", "POST"],
 	},
 });

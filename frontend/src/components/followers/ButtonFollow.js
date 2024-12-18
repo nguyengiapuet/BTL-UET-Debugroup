@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { addFollower, removeFollower } from "../../actions/followersActions";
 import { message } from "antd";
 
-const socket = io("http://localhost:8080");
+const socket = io("http://fall2024c8g3.int3306.freeddns.org");
 function ButtonFollow({ currentUser, dataUser, setIsFollowing, isFollowing }) {
 	const dispatch = useDispatch();
 

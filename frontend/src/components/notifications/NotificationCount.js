@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 
-const socket = io("http://localhost:8080");
+const socket = io("http://fall2024c8g3.int3306.freeddns.org");
 
 function NotificationCount({ markRead }) {
 	const [countNotification, setCountNotification] = useState();
