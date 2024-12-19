@@ -167,7 +167,7 @@ function ProfileModal({ isOpen, onClose }) {
 							name="email"
 							type="text"
 							disabled
-							placeholder={userData.email}
+							placeholder={userData?.email ? userData.email : ""}
 							className="rounded-lg py-4 px-3 h-5 w-full bg-white drop-shadow-sm border border-gray-300 focus:border-[#2070ff] focus:outline-none focus:ring-0"
 						/>
 					</div>
