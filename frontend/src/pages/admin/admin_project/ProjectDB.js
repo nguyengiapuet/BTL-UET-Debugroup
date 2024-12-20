@@ -118,6 +118,7 @@ function ProjectDashboard() {
 	// change state of project: delete or active.
 	const handleOnchangeType = (e) => {
 		setStateOfInfo(e.target.value);
+		setCurrentPage(1);
 	};
 
 	// function implement sort.

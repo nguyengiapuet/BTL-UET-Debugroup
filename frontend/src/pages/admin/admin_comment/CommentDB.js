@@ -36,6 +36,7 @@ function CommentDashboard() {
 	const handleOnchangeType = () => {
 		var e = document.getElementById("status");
 		setStateOfInfo(e.value);
+		setCurrentPage(1);
 	};
 
 	const getAllComments = async () => {
