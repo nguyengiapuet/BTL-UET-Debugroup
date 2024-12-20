@@ -4,16 +4,18 @@ import SummaryApi from "../../../common";
 import axios from "axios";
 import ProjectCard from "./project_components/ProjectCard";
 import { AuthContext } from "../../../context/AuthContext";
-import { message } from "antd";
 import { FaInfoCircle } from "react-icons/fa";
+import Loading from "../../../components/animations/Loading";
 
 function Upvoted() {
 	const { sortLike } = useOutletContext();
 
 	const { userData } = useContext(AuthContext);
 	const [allUpvotePen, setUpvotePen] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const fetchAllUpvotePens = async () => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(SummaryApi.allUpvotePen.url);
 			if (response.data.success) {
@@ -21,9 +23,10 @@ function Upvoted() {
 				else setUpvotePen(response.data.data);
 			}
 		} catch (err) {
-			message.info("Login to upvote and store your interest project!");
+			console.log("Login to upvote and store your interest project!");
 			return;
 		}
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
@@ -45,6 +48,7 @@ function Upvoted() {
 
 	return (
 		<div className=" h-fit py-4 pb-44">
+			{isLoading && <Loading/>}
 			<div className="flex flex-wrap gap-x-[30px] gap-y-10 h-fit">
 				{allUpvotePen.length !== 0 &&
 					allUpvotePen.map((pen, index) => (

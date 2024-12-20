@@ -9,6 +9,7 @@ import RestoreModal from "../admin_component/modal/RestoreModal";
 import { Modal } from "antd";
 import { AuthContext } from "../../../context/AuthContext";
 import PageNotFound from "../../../components/template/404page";
+import Loading from "../../../components/animations/Loading";
 
 let PageSize = 10;
 
@@ -20,6 +21,7 @@ function CommentDashboard() {
 	const [openModal, setOpenModal] = useState(false);
 	const [openRestoreModal, setOpenRestoreModal] = useState(false);
 	const { userData } = useContext(AuthContext);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		document.title = "Comment Dashboard";
@@ -37,6 +39,7 @@ function CommentDashboard() {
 	};
 
 	const getAllComments = async () => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(
 				SummaryApi.getAllCommentsByAdmin.url
@@ -49,8 +52,10 @@ function CommentDashboard() {
 		} catch (error) {
 			console.log(error.message);
 		}
+		setIsLoading(false);
 	};
 	const fetchDeletedComments = async () => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(SummaryApi.getDeletedComments.url);
 
@@ -60,6 +65,7 @@ function CommentDashboard() {
 		} catch (error) {
 			console.log(error.message);
 		}
+		setIsLoading(false);
 	};
 
 	// function implement sort.
@@ -207,6 +213,7 @@ function CommentDashboard() {
 		}
 	};
 	const fetchSearchCommentsInActive = async (query) => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(
 				`${SummaryApi.searchComment.url}/${query}`
@@ -220,8 +227,10 @@ function CommentDashboard() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 	const fetchSearchCommentsInDelete = async (query) => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(
 				`${SummaryApi.searchDeleteComment.url}/${query}`
@@ -235,6 +244,7 @@ function CommentDashboard() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 
 	// Modal to view entire comment content
@@ -278,6 +288,7 @@ function CommentDashboard() {
 					{commentContent}
 				</div>
 			</Modal>
+			{isLoading && <Loading/>}
 
 			<div className="request-container">
 				<div className="request-content">

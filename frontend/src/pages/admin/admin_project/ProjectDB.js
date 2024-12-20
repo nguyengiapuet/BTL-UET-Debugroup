@@ -8,6 +8,7 @@ import DeleteModal from "../admin_component/modal/DeleteModal";
 import RestoreModal from "../admin_component/modal/RestoreModal";
 import { AuthContext } from "../../../context/AuthContext";
 import PageNotFound from "../../../components/template/404page";
+import Loading from "../../../components/animations/Loading";
 
 let PageSize = 10;
 
@@ -21,12 +22,14 @@ function ProjectDashboard() {
 	const [selectedIdProject, setSelectedIdProject] = useState(-1);
 	const [searchQuery, setSearchQuery] = useState("");
 	const { userData } = useContext(AuthContext);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		document.title = "Project Dashboard";
 	}, []);
 
 	const fetchGetAllPens = async () => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(SummaryApi.allPens.url);
 
@@ -37,8 +40,10 @@ function ProjectDashboard() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 	const fetchDeletedPens = async () => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(SummaryApi.deletedPens.url);
 
@@ -49,8 +54,10 @@ function ProjectDashboard() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 	const fetchSearchPens = async (query) => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(
 				`${SummaryApi.searchProjectByName.url}/${query}`
@@ -63,8 +70,10 @@ function ProjectDashboard() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 	const fetchSearchDeletedPens = async (query) => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(
 				`${SummaryApi.searchDeletedProjectByName.url}/${query}`
@@ -77,6 +86,7 @@ function ProjectDashboard() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 
 	const currentTableData = useMemo(() => {
@@ -244,7 +254,7 @@ function ProjectDashboard() {
 				fieldOfDelete="project"
 				onCancel={onRestoreCancel}
 			/>
-
+			{isLoading && <Loading/>}
 			<div className="request-container">
 				<div className="request-content">
 					<div className="request-title">List of projects</div>

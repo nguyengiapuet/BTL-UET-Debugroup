@@ -4,14 +4,17 @@ import SummaryApi from "../../../common";
 import axios from "axios";
 import ProjectCard from "./project_components/ProjectCard";
 import { AuthContext } from "../../../context/AuthContext";
+import Loading from "../../../components/animations/Loading";
 
 function Popular() {
 	const { sortLike } = useOutletContext();
 	const { userData } = useContext(AuthContext);
 	const [getAllPens, setGetAllPens] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 	const location = useLocation();
 
 	const fetchGetAllPens = async () => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(SummaryApi.allPensPublic.url);
 
@@ -23,9 +26,11 @@ function Popular() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 
 	const searchPenByName = async (query) => {
+		setIsLoading(true);
 		try {
 			const response = await axios.post(SummaryApi.searchPenPublic.url, {
 				query: query,
@@ -39,6 +44,7 @@ function Popular() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
@@ -55,6 +61,7 @@ function Popular() {
 
 	return (
 		<div className=" h-fit py-4 pb-44">
+			{isLoading && <Loading/>}
 			<div className="flex flex-wrap gap-x-[30px] gap-y-10 h-fit">
 				{getAllPens.length !== 0 &&
 					getAllPens.map((pen, index) => (

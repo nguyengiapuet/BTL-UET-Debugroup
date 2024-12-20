@@ -4,7 +4,7 @@ async function checkDuplicatePen(req, res) {
 	try {
 		const { title } = req.body;
 		db.query(
-			"SELECT p.title, p.is_delete FROM pens P WHERE p.title = ? AND p.email = ?",
+			"SELECT p.title, p.is_delete FROM pens p WHERE p.title = ? AND p.email = ?",
 			[title, req.email],
 			function (err, result) {
 				if (err) {

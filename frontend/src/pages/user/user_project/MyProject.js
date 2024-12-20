@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
 import ProjectCard from "./project_components/ProjectCard";
 import { FaInfoCircle } from "react-icons/fa";
+import Loading from "../../../components/animations/Loading";
 
 function MyProject() {
 	const { sortLike } = useOutletContext();
@@ -13,12 +14,14 @@ function MyProject() {
 
 	const [getAllPens, setGetAllPens] = useState([]);
 	const { userData } = useContext(AuthContext);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		document.title = "My projects";
 	}, []);
 
 	const fetchGetAllPens = async () => {
+		setIsLoading(true);
 		try {
 			const response = await axios.post(SummaryApi.getAllPensUser.url, {
 				username: userData.username,
@@ -35,6 +38,7 @@ function MyProject() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 	const handleClickPens = (pen) => {
 		navigate(`/pen/${pen.id}`);
@@ -61,6 +65,7 @@ function MyProject() {
 
 	return (
 		<div className="w-full flex flex-wrap gap-x-[30px] gap-y-10 h-fit py-4 pb-32">
+			{isLoading && <Loading/>}
 			{getAllPens.length === 0 ? (
 				<div className="text-md justify-center flex flex-row items-center gap-2 w-full mt-4">
 					<FaInfoCircle className="text-yellow-600" />

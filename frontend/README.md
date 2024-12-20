@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+## - Bài tập lớn Phát triển ứng dụng Web INT3306 -
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Đề tài: _Javascript Playground_
 
-## Available Scripts
+![javascript_demo](https://github.com/user-attachments/assets/b8de2b74-228b-44d8-9f69-a658c36463a6)
 
-In the project directory, you can run:
+### Hướng dẫn Deploy (_Trên hệ thống fall2024c8g3_)
 
-### `npm start`
+#### Tiền xử lý Dự án: Tạo cơ sở dữ liệu
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Yêu cầu cần tải file `fall2024c8g3_btlweb.sql` trong _root folder project._
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Cách 1:** Sử dụng commandline
 
-### `npm test`
+- Bước 1: Truy cập _mysql_ trên hệ thống (yêu cầu mật khẩu truy cập)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+mysql -u fall2024c8g3 -h $MYSQL_SERVICE_HOST --port $MYSQL_SERVICE_PORT -p
+```
 
-### `npm run build`
+- Bước 2: `use fall2024c8g3;`
+- Bước 3: `source fall2024c8g3_btlweb.sql;`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Cách 2:** Sử dụng giao diện ứng dụng
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Bước 1: Truy cập PHPMyAdmin tại [liên kết cơ sở dữ liệu](https://pma.int3306.freeddns.org/)
+- Bước 2: Vào trang `Import` sau đó upload file (.zip) `fall2024c8g3_btlweb.zip`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Thực hiện Deploy
 
-### `npm run eject`
+(File `build` và các url của ứng dụng đã được thiết lập sẵn ở nhánh `deploy`)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Bước 1: Clone repository từ nhánh **deploy**:
+  ```
+  git clone -b deploy https://github.com/nguyengiapuet/BTL-UET-Debugroup.git
+  ```
+- Bước 2: Từ root: `cd BTL-UET-Debugroup/backend`
+- Bước 3: `/etc/jupyter/bin/expose 3000`
+- Bước 4: `npm start`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  **_Note_**: Kiểm tra kết quả tại _Terminal_,
+  nếu server in ra là "_Server is running on port 3000_", quá trình deploy hoàn tất.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Bước 5: Truy cập ứng dụng tại `http://fall2024c8g3.int3306.freeddns.org/`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Hướng dẫn Deploy (_Trên localhost_)
 
-## Learn More
+- Bước 1: Mở terminal, chạy câu lệnh: `git clone https://github.com/nguyengiapuet/BTL-UET-Debugroup.git`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Bước 2: Tạo Cơ sở dữ liệu MySQL với tên Database là `fall2024c8g3_btlweb`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Bước 3: Thực hiện các câu lệnh trong file Cơ sở dữ liệu`fall2024c8g3_btlweb` được lưu ở thư mục gốc sau khi clone.
 
-### Code Splitting
+- Bước 3: Quay trở lại terminal, `cd backend`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Bước 4: `npm start`
 
-### Analyzing the Bundle Size
+- Bước 5: `cd ..`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Bước 6: `cd frontend`
 
-### Making a Progressive Web App
+- Bước 7: `npm start`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Bước 8: Truy cập `http://localhost:3000/`
 
-### Advanced Configuration
+#### Liên hệ: Debug members
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Nguyễn Đăng Giáp - 22022151
+- Trịnh Văn Khánh - 21020343
+- Phan Đăng Danh - 22022201
+- Kiều Minh Tuấn - 21020394
