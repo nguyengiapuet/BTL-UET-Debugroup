@@ -4,11 +4,14 @@ import SummaryApi from "../../../common";
 import axios from "axios";
 import ProjectCard from "./project_components/ProjectCard";
 import { AuthContext } from "../../../context/AuthContext";
+import Loading from "../../../components/animations/Loading";
 
 function Popular() {
 	const { sortLike } = useOutletContext();
 	const { userData } = useContext(AuthContext);
 	const [getAllPens, setGetAllPens] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+
 	const location = useLocation();
 
 	const fetchGetAllPens = async () => {
@@ -45,8 +48,14 @@ function Popular() {
 		const queryParams = new URLSearchParams(location.search);
 		const query = queryParams.get("query");
 		if (query) {
+			setIsLoading(true);
 			searchPenByName(query);
-		} else fetchGetAllPens();
+			setIsLoading(false);
+		} else {
+			setIsLoading(true);
+			fetchGetAllPens();
+			setIsLoading(false);
+		}
 	}, [sortLike, location.search]);
 
 	useEffect(() => {
@@ -55,6 +64,8 @@ function Popular() {
 
 	return (
 		<div className=" h-fit py-4 pb-44">
+			{isLoading && <Loading />}
+
 			<div className="flex flex-wrap gap-x-[30px] gap-y-10 h-fit">
 				{getAllPens.length !== 0 &&
 					getAllPens.map((pen, index) => (

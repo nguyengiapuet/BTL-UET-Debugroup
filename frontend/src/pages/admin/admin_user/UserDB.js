@@ -8,6 +8,7 @@ import DeleteModal from "../admin_component/modal/DeleteModal";
 import RestoreModal from "../admin_component/modal/RestoreModal";
 import { AuthContext } from "../../../context/AuthContext";
 import PageNotFound from "../../../components/template/404page";
+import Loading from "../../../components/animations/Loading";
 
 let PageSize = 10;
 
@@ -20,6 +21,7 @@ function UserDashboard() {
 	const [selectedUser, setSelectedUser] = useState("");
 	const [openRestoreModal, setOpenRestoreModal] = useState(false);
 	const { userData } = useContext(AuthContext);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		document.title = "User Dashboard";
@@ -27,8 +29,8 @@ function UserDashboard() {
 
 	const fetchGetAllUsers = async () => {
 		try {
+			setIsLoading(true);
 			const response = await axios.get(SummaryApi.getAllUsers.url);
-
 			if (response.data.success) {
 				setGetAllUsers([...response.data.data]);
 			}
@@ -36,9 +38,11 @@ function UserDashboard() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 
 	const fetchGetAllUsersDeleted = async () => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(SummaryApi.trashAllUsers.url);
 
@@ -49,6 +53,7 @@ function UserDashboard() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 
 	const currentTableData = useMemo(() => {
@@ -115,12 +120,12 @@ function UserDashboard() {
 		setOpenModal(false);
 	};
 	const handleConfirmDeleteUser = async () => {
-		setOpenModal(false);
 		if (activeUser) {
 			deleteActive();
 		} else {
 			deleteForever();
 		}
+		setOpenModal(false);
 	};
 	const deleteActive = async () => {
 		try {
@@ -203,6 +208,7 @@ function UserDashboard() {
 		}
 	};
 	const fetchSearchUsersInActive = async (query) => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(
 				`${SummaryApi.searchUserByName.url}/${query}`
@@ -215,8 +221,10 @@ function UserDashboard() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 	const fetchSearchUsersInDelete = async (query) => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(
 				`${SummaryApi.searchDeletedUserByName.url}/${query}`
@@ -229,6 +237,7 @@ function UserDashboard() {
 			console.log(err.message);
 			return;
 		}
+		setIsLoading(false);
 	};
 
 	if (userData.role !== "admin") {
@@ -251,6 +260,7 @@ function UserDashboard() {
 				fieldOfDelete="user"
 				onCancel={onRestoreCancel}
 			/>
+			{isLoading && <Loading />}
 
 			<div className="request-container">
 				<div className="request-content">

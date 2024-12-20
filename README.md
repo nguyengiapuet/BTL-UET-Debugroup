@@ -8,7 +8,7 @@
 
 #### Tiền xử lý Dự án: Tạo cơ sở dữ liệu
 
-Yêu cầu cần tải file `fall2024c8g3-btlweb.sql` trong _root folder project._
+Yêu cầu cần tải file `fall2024c8g3_btlweb.sql` trong _root folder project._
 
 **Cách 1:** Sử dụng commandline
 
@@ -19,12 +19,12 @@ mysql -u fall2024c8g3 -h $MYSQL_SERVICE_HOST --port $MYSQL_SERVICE_PORT -p
 ```
 
 -   Bước 2: `use fall2024c8g3;`
--   Bước 3: `source fall2024c8g3-btlweb.sql;`
+-   Bước 3: `source fall2024c8g3_btlweb.sql;`
 
 **Cách 2:** Sử dụng giao diện ứng dụng
 
 -   Bước 1: Truy cập PHPMyAdmin tại [liên kết cơ sở dữ liệu](https://pma.int3306.freeddns.org/)
--   Bước 2: Vào trang `Import` sau đó upload file (.zip) `fall2024c8g3-btlweb.zip`
+-   Bước 2: Vào trang `Import` sau đó upload file (.zip) `fall2024c8g3_btlweb.zip`
 
 #### Thực hiện Deploy
 
@@ -37,17 +37,19 @@ mysql -u fall2024c8g3 -h $MYSQL_SERVICE_HOST --port $MYSQL_SERVICE_PORT -p
 -   Bước 2: Từ root: `cd BTL-UET-Debugroup/backend`
 -   Bước 3: `/etc/jupyter/bin/expose 3000`
 -   Bước 4: `npm start`
+
     **_Note_**: Kiểm tra kết quả tại _Terminal_,
     nếu server in ra là "_Server is running on port 3000_", quá trình deploy hoàn tất.
+
 -   Bước 5: Truy cập ứng dụng tại `http://fall2024c8g3.int3306.freeddns.org/`
 
 ### Hướng dẫn Deploy (_Trên localhost_)
 
 -   Bước 1: Mở terminal, chạy câu lệnh: `git clone https://github.com/nguyengiapuet/BTL-UET-Debugroup.git`
 
--   Bước 2: Tạo Cơ sở dữ liệu MySQL với tên Database là `fall2024c8g3-btlweb`
+-   Bước 2: Tạo Cơ sở dữ liệu MySQL với tên Database là `fall2024c8g3_btlweb`
 
--   Bước 3: Thực hiện các câu lệnh trong file Cơ sở dữ liệu`fall2024c8g3-btlweb` được lưu ở thư mục gốc sau khi clone.
+-   Bước 3: Thực hiện các câu lệnh trong file Cơ sở dữ liệu`fall2024c8g3_btlweb` được lưu ở thư mục gốc sau khi clone.
 
 -   Bước 3: Quay trở lại terminal, `cd backend`
 
